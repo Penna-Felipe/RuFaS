@@ -268,3 +268,37 @@ Use Python 3.12 e instale `.[linear_ration_highs]`. As execuções mais recentes
 | Trajetória de 30 dias | [Cópias dos roteiros de execução e análise](helpful_scripts/nrc_ration_comparison/reproduction/README.md). A tabela de apresentação e as séries diárias foram copiadas sem alterações. |
 
 Os comandos são registrados para retomada futura. A implementação e os experimentos ficam pausados para a apresentação.
+
+## Relatório comparativo independente de 30 dias
+
+O [gerador comparativo](helpful_scripts/nrc_ration_comparison/comparison_report.py) lê exportações explícitas e os metadados dos cadastros. A [documentação](helpful_scripts/nrc_ration_comparison/comparison_report.md) registra o comando, a estrutura dos CSVs, as regras de agregação e a auditoria nutricional. O [relatório local](output/nrc_comparison_report_30day_final/index.html) reúne HTML autocontido, 12 CSVs, 22 PNGs e o manifesto de proveniência. As simulações e os artefatos históricos foram preservados.
+
+| Execução | Custo acumulado fornecido (US$) | MS fornecida (kg) | Leite (kg) | US$/kg de leite |
+|---|---:|---:|---:|---:|
+| SLSQP | 1.226,76 | 104.501,78 | 98.923,12 | 0,012401 |
+| HiGHS, três referências | 1.256,07 | 105.120,64 | 99.814,17 | 0,012584 |
+| HiGHS, cinco referências, manual | 1.248,65 | 105.120,64 | 99.814,17 | 0,012510 |
+
+Aos preços ilustrativos efetivamente usados, os custos do HiGHS ficaram 2,39% e 1,78% acima do SLSQP. O braço de cinco referências ficou 0,59% abaixo do de três. Houve 30 tentativas bem-sucedidas de lactação por execução, com aprovação NRC linear em 30/30 em cada braço HiGHS. Os gaps medianos foram 24,18% e 24,19%. São trajetórias descritivas com uma semente e diferenças nas exigências e no leite.
+
+A execução manual das 15h56 contém todos os dias de simulação de 0 a 29, inclusive 8 e 15. A primeira dieta de lactação oferece 33,637059 kg MS/animal/dia para a meta de 25,87466075 kg. O limite NRC superior é 33,63705898 kg, com tolerância linear absoluta de 10⁻⁷ kg. O excedente de arredondamento de aproximadamente 2,04 × 10⁻⁸ kg fica dentro dessa tolerância. O relatório mostra os resíduos das 14 restrições para essa dieta e os indicadores originais do reporter em colunas distintas.
+
+Custos de aquisição efetiva estão indisponíveis nos JSONs comparados. Os logs e rastreamentos instrumentados de cinco referências pertencem à execução anterior e ficaram fora da auditoria da exportação manual. Os cinco testes do gerador passaram. Foram verificados os 270 registros de tentativa exportados, as 90 linhas diárias do rebanho, as 360 linhas de lote e a identidade dos 22 PNGs incorporados no HTML com os arquivos individuais.
+
+### Versão resumida para consulta
+
+A [página resumida](output/nrc_comparison_report_30day_summary/index.html) usa os mesmos resultados e apresenta cinco gráficos, uma tabela executiva e seleção local de dia e lote. A [página técnica](output/nrc_comparison_report_30day_summary/detailed_report.html) contém a auditoria integral. Os links da página resumida dão acesso aos 12 CSVs e aos 22 PNGs independentes. A geração foi feita em um diretório novo, a partir das exportações existentes.
+
+## CLI experimental instalada
+
+`rufas-linear` e `rufas-compare` compartilham os preparadores versionados do piloto NRC e invocam `RUFAS.main` em subprocesso por braço. O ponto de entrada original `rufas = "RUFAS.main:main"` permanece registrado. O padrão usa três dias, semente 42, cinco referências, Midwest habilitada e HiGHS nas três etapas. Cada execução grava entradas e diagnósticos em um diretório novo. O README documenta opções, instalação e escopo experimental.
+
+A validação do resumo em terminal sobre os resultados arquivados de 30 dias reproduziu os custos de US$ 1.226,76, US$ 1.256,07 e US$ 1.248,65. As únicas novas simulações cobriram três dias por braço.
+
+| Comando de validação | Custo fornecido | Leite | Tentativas com sucesso | Aprovação nutricional em lactação |
+|---|---:|---:|---:|---|
+| `rufas-compare --days 3 --html` · SLSQP | US$ 121,43 | 9.659,51 kg | 9/9 | 0/3 no avaliador legado |
+| `rufas-compare --days 3 --html` · HiGHS, cinco referências | US$ 122,66 | 9.659,51 kg | 9/9 | 3/3 pela validação NRC linear |
+| `rufas-linear --days 3 --references 3` | US$ 124,50 | 9.659,51 kg | 9/9 | 3/3 pela validação NRC linear |
+
+A [comparação integrada](output/ration_cli_short_validation/compare-20261124-173606-d554466d8788/report/index.html) gerou as duas páginas HTML. A [execução linear com três referências](output/ration_cli_short_validation/linear-20261124-173848-475fd9bbfdc6/terminal_summary.json) gerou resumo e CSVs. Os artefatos históricos de 30 dias foram preservados.

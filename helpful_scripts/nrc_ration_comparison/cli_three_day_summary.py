@@ -6,7 +6,10 @@ import re
 from collections import Counter
 from pathlib import Path
 
-from cli_three_day import BASE, METHODS, ROOT, read, write
+if __package__:
+    from .cli_three_day import BASE, METHODS, ROOT, read, write
+else:
+    from cli_three_day import BASE, METHODS, ROOT, read, write
 
 PEN_DATA = {
     "ration": "report_ration_per_animal.ration_per_animal_for_{group}_PEN_{pen}",

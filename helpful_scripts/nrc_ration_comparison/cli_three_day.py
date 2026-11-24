@@ -30,7 +30,8 @@ def write(path, value):
     path.write_text(json.dumps(value, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
-def prepare(base):
+def default_scenario():
+    """Construct the validated experimental inputs from versioned templates."""
     meta_template = read("input/metadata/example_animals_only_metadata.json")
     files = meta_template["files"]
     with (ROOT / files["NRC_Comp"]["path"]).open(newline="", encoding="utf-8-sig") as source:
@@ -62,26 +63,58 @@ def prepare(base):
         nutrition = nrc[item["feed_type"]]
         assert nutrition["units"] == "kg" and float(nutrition["DM"]) > 0
         assert 0 <= float(nutrition["lower_limit"]) <= float(nutrition["limit"]) <= 100
-    write(base / "inputs/config.json", config)
-    write(base / "inputs/feed.json", feed)
-    write(
-        base / "inputs/preflight.json",
-        {
-            "seed": SEED,
-            "dates": [config["start_date"], config["end_date"]],
-            "population": files["animal_population"]["path"],
-            "excluded_feed_ids": excluded,
-            "added_feed_prices": EXTRA_FEEDS,
-            "nutritional_composition": {feed_id: nrc[feed_id] for feed_id in prices},
-            "groups": {
-                recipe["animal_combination"]: [item["feed_type"] for item in recipe["feeds"]]
-                for recipe in feed["rations"]
-            },
+    preflight = {
+        "seed": SEED,
+        "dates": [config["start_date"], config["end_date"]],
+        "population": files["animal_population"]["path"],
+        "excluded_feed_ids": excluded,
+        "added_feed_prices": EXTRA_FEEDS,
+        "nutritional_composition": {feed_id: nrc[feed_id] for feed_id in prices},
+        "groups": {
+            recipe["animal_combination"]: [item["feed_type"] for item in recipe["feeds"]] for recipe in feed["rations"]
         },
-    )
+    }
+    return meta_template, config, feed, preflight
+
+
+def write_json_filter(base):
     filters = ROOT / base / "filters"
     filters.mkdir(parents=True, exist_ok=True)
     (filters / "json_cli_feeding.txt").write_text(".*\n", encoding="utf-8")
+
+
+def write_task_inputs(inputs, metadata, filters, output, name, seed, verbosity):
+    """Write a single-run task and its manager using the checked-in templates."""
+    write(inputs / "metadata.json", metadata)
+    task = read("input/data/tasks/example_animals_only_task.json")
+    task["parallel_workers"] = 1
+    task["tasks"][0].update(
+        metadata_file_path=(inputs / "metadata.json").as_posix(),
+        filters_directory=filters.as_posix(),
+        output_prefix=name,
+        log_verbosity=verbosity,
+        random_seeds=[seed],
+        json_output_directory=(output / "JSONs").as_posix(),
+        csv_output_directory=(output / "CSVs").as_posix(),
+        logs_directory=(output / "logs").as_posix(),
+        report_directory=(output / "reports").as_posix(),
+        graphics_directory=(output / "graphics").as_posix(),
+        save_animals_directory=(output / "animals").as_posix(),
+    )
+    write(inputs / "task.json", task)
+    task_manager = read("input/task_manager_metadata.json")
+    task_manager["files"]["tasks"]["path"] = (inputs / "task.json").as_posix()
+    write(inputs / "task_manager.json", task_manager)
+    return inputs / "task_manager.json"
+
+
+def prepare(base):
+    metadata, config, feed, preflight = default_scenario()
+    files = metadata["files"]
+    write(base / "inputs/config.json", config)
+    write(base / "inputs/feed.json", feed)
+    write(base / "inputs/preflight.json", preflight)
+    write_json_filter(base)
     for name, (backend, strategy) in METHODS.items():
         inputs = base / "inputs" / name
         animal = read(files["animal"]["path"])
@@ -101,22 +134,7 @@ def prepare(base):
             "config": base / "inputs/config.json",
         }.items():
             metadata["files"][key]["path"] = path.as_posix()
-        write(inputs / "metadata.json", metadata)
-        task = read("input/data/tasks/example_animals_only_task.json")
-        task["parallel_workers"] = 1
-        task["tasks"][0].update(
-            metadata_file_path=(inputs / "metadata.json").as_posix(),
-            filters_directory=(base / "filters").as_posix(),
-            output_prefix=name,
-            log_verbosity="logs",
-            random_seeds=[SEED],
-            json_output_directory=(base / "runs" / name / "JSONs").as_posix(),
-            csv_output_directory=(base / "runs" / name / "CSVs").as_posix(),
-        )
-        write(inputs / "task.json", task)
-        task_manager = read("input/task_manager_metadata.json")
-        task_manager["files"]["tasks"]["path"] = (inputs / "task.json").as_posix()
-        write(inputs / "task_manager.json", task_manager)
+        write_task_inputs(inputs, metadata, base / "filters", base / "runs" / name, name, SEED, "logs")
 
 
 def run(base, name):

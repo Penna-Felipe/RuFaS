@@ -56,6 +56,8 @@ dev = [
 
 [project.scripts]
 rufas = "RUFAS.main:main"
+rufas-linear = "helpful_scripts.nrc_ration_comparison.ration_cli:linear"
+rufas-compare = "helpful_scripts.nrc_ration_comparison.ration_cli:compare"
 
 [project.urls]
 Homepage = "https://rufas.org"
@@ -63,7 +65,7 @@ Repository = "https://github.com/RuminantFarmSystems/RuFaS"
 Documentation = "https://ruminantfarmsystems.github.io/RuFaS/"
 
 [tool.setuptools]
-packages = ["RUFAS"]
+packages = ["RUFAS", "helpful_scripts.nrc_ration_comparison"]
 
 [tool.black]
 target-version = ["py312"]
