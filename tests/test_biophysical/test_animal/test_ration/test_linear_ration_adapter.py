@@ -2,9 +2,11 @@
 
 from typing import Any
 
+from collections import Counter
+
 import pytest
 
-pytest.importorskip("pulp")
+pulp = pytest.importorskip("pulp")
 
 from helpful_scripts.nrc_ration_comparison.compare import build_experiment  # noqa: E402
 from RUFAS.biophysical.animal.data_types.animal_combination import AnimalCombination  # noqa: E402
@@ -206,3 +208,52 @@ def test_rejects_unsupported_modes_before_trying_solver(
     inputs, _ = scenario
     with pytest.raises(ValueError, match="automatic NRC formulation for lactating cows only"):
         LinearRationAdapter().attempt_optimization(**(inputs | unsupported))
+
+
+@pytest.mark.parametrize("solver_name", ["cbc", "highs"])
+def test_only_nutritional_cases_use_configured_solver(scenario, monkeypatch, solver_name):
+    if solver_name == "highs":
+        pytest.importorskip("highspy")
+    calls = Counter()
+
+    def record(actual_solve):
+        def solve(solver, problem, **kwargs):
+            stage = "nutrition" if "minimum_total_energy" in problem.constraints else "basic"
+            calls[stage, solver.name] += 1
+            return actual_solve(solver, problem, **kwargs)
+
+        return solve
+
+    monkeypatch.setattr(pulp.PULP_CBC_CMD, "actualSolve", record(pulp.PULP_CBC_CMD.actualSolve))
+    if solver_name == "highs":
+        monkeypatch.setattr(pulp.HiGHS, "actualSolve", record(pulp.HiGHS.actualSolve))
+    inputs, _ = scenario
+    adapter = LinearRationAdapter("single", nutritional_solver=solver_name)
+    solution, _ = adapter.attempt_optimization(**inputs)
+    assert solution.success
+    assert solution.lower_bound is not None
+    (reference,) = solution.references
+    assert reference.generation_calls > 0
+    assert solution.nutritional_solver == ("HiGHS" if solver_name == "highs" else "PULP_CBC_CMD")
+    assert calls == {
+        ("basic", "PULP_CBC_CMD"): reference.generation_calls + 1,
+        ("nutrition", solution.nutritional_solver): 6,
+    }
+
+
+def test_unavailable_highs_raises_explicitly(monkeypatch):
+    monkeypatch.setattr(pulp.HiGHS, "available", lambda self: False)
+    with pytest.raises(RuntimeError, match=r"PuLP/HiGHS.*highspy"):
+        LinearRationAdapter(nutritional_solver="highs")
+
+
+def test_unavailable_highs_reference_solver_raises_explicitly(monkeypatch):
+    monkeypatch.setattr(pulp.HiGHS, "available", lambda self: False)
+    with pytest.raises(RuntimeError, match=r"PuLP/HiGHS.*reference generation.*highspy"):
+        LinearRationAdapter(reference_solver="highs")
+
+
+def test_unavailable_highs_bound_solver_raises_explicitly(monkeypatch):
+    monkeypatch.setattr(pulp.HiGHS, "available", lambda self: False)
+    with pytest.raises(RuntimeError, match=r"PuLP/HiGHS.*cost lower bound.*highspy"):
+        LinearRationAdapter(bound_solver="highs")

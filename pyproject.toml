@@ -29,6 +29,10 @@ dependencies = [
 linear_ration = [
     "PuLP>=3.0,<4",
 ]
+linear_ration_highs = [
+    "PuLP>=3.0,<4",
+    "highspy>=1.16,<2",
+]
 
 build_docs = [
     "sphinx==9.1.0",

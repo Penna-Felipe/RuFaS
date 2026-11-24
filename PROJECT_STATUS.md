@@ -1,12 +1,39 @@
 # Estado do projeto RuFaS — formulação linear NRC
 
-**Atualizado em 24 de novembro de 2026.** Use este documento para retomar o desenvolvimento. Os resultados arquivados já permitem iniciar o próximo piloto. Os comandos abaixo servem para reprodução seletiva.
+**Atualizado em 24 de novembro de 2026.** Implementação e experimentos pausados para a apresentação acadêmica. Este documento consolida o método, os resultados e o material de reprodução.
 
 ## Objetivo e decisão vigente
 
 O projeto acadêmico investiga a qualidade econômica, a viabilidade nutricional, a estabilidade e o desempenho de dietas para vacas em lactação formuladas por programação linear no RuFaS. O comparador é o `RationOptimizer` original, com SciPy/SLSQP. A comparação controla exigências, ingredientes, preços, limites e critérios de aprovação. Deve separar o efeito do solver, da referência e da trajetória do rebanho.
 
 **Decisão explícita:** manter a abordagem de **coeficientes nutricionais fixos**, preservar as equações NRC originais e suas tolerâncias e **não implementar Taylor ou programação linear sequencial neste momento**. A abordagem reaproveita as equações de oferta, é simples de manter e permite certificar as candidatas com o NRC. SLSQP permanece como padrão e comparador. Falhas do PuLP em grupos elegíveis são registradas e seguem o tratamento existente da Pen, sem fallback automático para SLSQP.
+
+## Síntese para a apresentação acadêmica
+
+**Pergunta.** É possível reduzir o custo computacional da formulação diária de dietas no RuFaS usando programação linear e mantendo a avaliação nutricional original do NRC?
+
+**Método.** O RuFaS fornece cardápio, preços, limites e exigências da baia. A busca fixa, em cada dieta de referência, os fatores nutricionais dependentes da composição da dieta. Resolve seis LPs por referência, combinando três condições de energia total com dois regimes de proteína microbiana. A dieta de menor custo entre as candidatas certificadas é aplicada por ID. A certificação reavalia as 14 funções NRC, com tolerâncias originais, arredondamento e reparo local. Uma relaxação das oito restrições básicas fornece um limite inferior certificado. O gap compara a dieta aprovada com esse limite.
+
+**Evidência experimental.** A comparação em matrizes congeladas valoriza o controle experimental. Nas 552 matrizes, HiGHS aumentou as aprovações finais de 168 para 223 frente à interface textual de CBC. No piloto de referências, a mediana de geração caiu de 818 para 49 ms. Nas 35 execuções replicadas de três dias, HiGHS integral reduziu a mediana de otimização de lactação em `full` de 7,467 s com CBC e 4,376 s com HiGHS apenas nos casos nutricionais para 0,608 s. Os dois modos HiGHS selecionaram as mesmas dietas nesse ensaio. As 27 formulações arquivadas aprovaram com Midwest ligada e desligada, e a inclusão melhorou o custo de duas ou três formulações conforme o orçamento. A suíte mais recente teve **713 testes aprovados**.
+
+| Exploração de 30 dias | SLSQP | HiGHS full 3 + Midwest | HiGHS full 5 + Midwest |
+|---|---:|---:|---:|
+| Dias completos | 30 | 30 | 30 |
+| Reformulações bem-sucedidas na lactação | 30/30 | 30/30 | 30/30 |
+| Custo total de alimento aplicado, US$ | 1.226,76 | 1.256,07 | 1.248,65 |
+| Leite acumulado, kg | 98.923,12 | 99.814,17 | 99.814,17 |
+| Matéria seca aplicada, kg | 104.501,78 | 105.120,64 | 105.120,64 |
+| Custo alimentar por kg de leite, US$ | 0,012401 | 0,012584 | 0,012510 |
+| Otimização de lactação, s | 3,26 | 5,33 | 10,38 |
+| Tempo total da CLI, s | 65,66 | 68,24 | 73,21 |
+| Midwest avaliada / vencedora | — | 30 / 0 | 1 / 0 |
+| Gap mediano | — | 24,18% | 24,19% |
+
+**Conclusão preliminar.** As duas configurações lineares completaram a janela de 30 dias com dietas certificadas e aplicadas exatamente por ID. O orçamento cinco custou US$ 7,42 a menos que o três, com a mesma produção de leite e mais que o dobro das chamadas nutricionais e auxiliares na lactação. As economias observadas nos casos estáticos com Midwest não reapareceram como vitórias da referência nessa trajetória. O resultado ilustra o compromisso entre ampliar a busca e limitar o trabalho por reformulação.
+
+**Limites da interpretação.** Coeficientes fixos aproximam as ofertas de energia e proteína. Por isso, ótimos de LP podem ser rejeitados pelo NRC. O limite omite energia e proteína e nenhum gap de 30 dias atingiu 5%. Nas trajetórias, as dietas alteraram exigências futuras. Houve uma semente, preços ilustrativos, uma repetição por configuração e processos concorrentes na rodada de 30 dias. A verificação estrita das dietas SLSQP foi diagnóstica. O ensaio longitudinal carece de braço com Midwest desabilitada para atribuir efeito à receita.
+
+**Próximas perguntas.** Generalizar referências externas, estudar a geração dinâmica de referências preservando coeficientes fixos por LP e medir sensibilidade a preços. Um ensaio longitudinal com Midwest ligada e desligada no mesmo orçamento, mais populações e sementes permitiria medir robustez e efeito isolado.
 
 ## Fundamentação matemática
 
@@ -25,11 +52,12 @@ O projeto acadêmico investiga a qualidade econômica, a viabilidade nutricional
 | [nutrition_supply_calculator.py](RUFAS/biophysical/animal/nutrients/nutrition_supply_calculator.py) e [nrc_requirements_calculator.py](RUFAS/biophysical/animal/nutrients/nrc_requirements_calculator.py) | Ofertas e exigências NRC. `Animal.set_nutrition_requirements()` usa o estado corrente e informações da oferta anterior. |
 | [linear_ration_optimizer.py](RUFAS/biophysical/animal/ration/linear_ration_optimizer.py) | `_build_problem`, `calculate_nrc_energy_coefficients`, `calculate_nrc_protein_coefficients`, `solve_nrc_cases`, `validate_nrc_candidate` e `solve_and_validate_nrc_cases`. Monta o LP, calcula fatores, resolve, valida e repara. |
 | [linear_reference.py](RUFAS/biophysical/animal/ration/linear_reference.py) | `build_basic_reference` gera menor custo, máxima forragem, máximo concentrado ou menor desvio absoluto de MS da meta. Desempata lexicograficamente por custo quando pertinente e por ID. `reference_issue` verifica domínio e limites individuais. `grid_key` elimina repetições na malha de seis casas. Uma referência pode falhar no NRC vigente. |
+| [regional_reference.py](RUFAS/biophysical/animal/ration/regional_reference.py) | Lê a receita opcional Midwest, projeta sobre o cardápio NRC e registra a participação retida. |
 | [linear_cost_bound.py](RUFAS/biophysical/animal/ration/linear_cost_bound.py) | `primary_lower_bound`, `dual_bound`, `relative_gap` e `meets_target`. Relaxação, certificação conservadora do limite e critério de parada. |
 | [linear_ration_adapter.py](RUFAS/biophysical/animal/ration/linear_ration_adapter.py) | `LinearRationAdapter.attempt_optimization` implementa o contrato da Pen com `RationConfig` e `OptimizeResult`. Explora referências sob demanda, guarda a melhor aprovada e distingue inviabilidade de LP, falha do solver, ausência de referência e rejeição NRC. `make_ration_from_solution` usa o mapa aprovado por ID. |
 | [ration_backend_config.py](RUFAS/biophysical/animal/ration/ration_backend_config.py) | `RationBackendConfig` valida as opções e determina a elegibilidade. |
 | [herd_manager.py](RUFAS/biophysical/animal/herd_manager.py), [pen.py](RUFAS/biophysical/animal/pen.py) e [schema](RUFAS/input/metadata/properties/default.json) | Propagam configuração, despacham, tratam a tentativa, aplicam a dieta e registram as métricas. |
-| [pyproject.toml](pyproject.toml) | Extra opcional `linear_ration` com `PuLP>=3.0,<4`. `highspy` está somente no experimento isolado. |
+| [pyproject.toml](pyproject.toml) | Extra opcional `linear_ration` com `PuLP>=3.0,<4`. O extra opcional `linear_ration_highs` instala PuLP e `highspy` para o piloto. |
 
 Fluxo diário: `SimulationEngine._execute_ration_planning()` → `_formulate_ration()` → `HerdManager.formulate_rations()` → `_reformulate_ration_single_pen()` → `Pen.formulate_optimized_ration()` → `_attempt_formulation()`. A Pen fornece as exigências agregadas e `Pen.ration` por ID. `_apply_successful_solution()` usa o backend que resolveu a tentativa e calcula a oferta individual. `_record_ration_attempt()` grava `ration_optimizer_attempt_pen_{id}` com dia, baia, grupo, backend e motivo, custo, estratégia, referência escolhida, limite, meta e gap alcançado, tempo, chamadas e status. Os módulos de produção são independentes de `helpful_scripts`.
 
@@ -48,7 +76,7 @@ Exemplo de configuração em `animal.ration`:
 }
 ```
 
-O backend padrão é SLSQP. PuLP atende **NRC, LAC_COW e formulação automática**. Os demais grupos e modalidades mantêm o fluxo original, com dieta direta para CALF. A produção tenta a dieta anterior compatível primeiro e depois os quatro objetivos básicos na ordem listada. `single` usa a primeira referência utilizável, `full` explora até o orçamento e `adaptive_gap` pode parar ao atingir a meta. Ao esgotar o orçamento, retorna a melhor dieta aprovada disponível. Midwest ainda é experimental.
+O backend padrão é SLSQP. PuLP atende **NRC, LAC_COW e formulação automática**. Os demais grupos e modalidades mantêm o fluxo original, com dieta direta para CALF. A produção tenta a dieta anterior compatível primeiro e depois os quatro objetivos básicos na ordem listada. `single` usa a primeira referência utilizável, `full` explora até o orçamento e `adaptive_gap` pode parar ao atingir a meta. Ao esgotar o orçamento, retorna a melhor dieta aprovada disponível. A Midwest está disponível por configuração opcional, com ordem dependente do orçamento.
 
 ## Experimentos e principais resultados
 
@@ -90,13 +118,79 @@ No terceiro dia de full, a saída de maior precisão aprovou **0,369587** com re
 - **Gap pouco informativo nos dias da CLI.** O limite básico ficou próximo de 0,28. O salto de custo da dieta aprovada levou o gap a 95,15%. Mesmo a dieta aprovada de 0,369587 teria gap aproximado de 25,36%, acima da meta de 5%. O limite omite energia e PM.
 - **Generalização.** Uma população e uma semente em três dias de `animals_only`, preços ilustrativos e cardápios limitados. A comparação de matrizes congelou a geração das referências. Os tempos medem a resolução isolada e sua interface. A simulação recalcula as exigências a partir do estado animal e da oferta anterior. O indicador legado de gordura da Pen deve ser interpretado separadamente dos resíduos NRC do otimizador.
 
+## Piloto HiGHS na CLI concluído
+
+HiGHS é o solver nutricional priorizado para o método linear em avaliação, selecionado por `animal.ration.linear_nutritional_solver = "highs"` com o extra `linear_ration_highs`. A configuração padrão do backend linear é CBC, e o padrão do motor é SLSQP. CBC continua nas referências e no limite inferior neste piloto. A regressão das 552 matrizes reproduziu 168 aprovações finais em CBC e 223 em HiGHS. As suítes relacionadas tiveram 663 testes aprovados.
+
+Na CLI de três dias com as entradas arquivadas, HiGHS full e adaptive_gap concluíram os dias 150–152 com US$ 88,86 de alimento aplicado na lactação, frente a US$ 504,56 com CBC e US$ 88,23 com SLSQP. No último dia, o custo formulado foi US$ 0,369657/vaca no HiGHS frente a US$ 5,691552 no CBC. Os cenários completos produziram 9.659,51 kg de leite. Single manteve as dietas de CBC e encerrou após dois dias completos por exceder o teto de PM no terceiro. As oito dietas aprovadas no HiGHS foram aplicadas exatamente por ID. Nenhum gap atingiu 5%.
+
+Nos 132 casos pareados por hash de matriz, as aprovações subiram de 19 para 29 e as rejeições brutas com causa numérica caíram de 33 para zero. Permaneceram 72 casos com rejeição bruta por aproximação. Nas trajetórias full e adaptive_gap, as exigências já divergiam no terceiro dia. O benchmark arquivado, com matrizes fixas do CBC, aprovou US$ 0,369587/vaca nesse mesmo dia. A fase nutricional ficou mais rápida nas três estratégias, e a duração total da CLI teve resultados mistos. A geração de referências consumiu cerca de 86% a 87% do tempo de otimização em full e adaptive_gap no HiGHS.
+
+[Relatório da CLI com HiGHS](helpful_scripts/nrc_ration_comparison/cli_highs_three_day_report.md) e [comparação detalhada](output/nrc_cli_three_day_highs/comparison.json). O diretório novo preserva insumos, manifesto, logs e capturas por fase. Os cenários anteriores permanecem nos diretórios históricos.
+
+## Piloto isolado de HiGHS nas referências concluído
+
+Foram comparados CBC e HiGHS na geração dos quatro objetivos em 12 cenários estáticos e 15 tentativas reconstruídas, com cinco repetições e HiGHS nos casos nutricionais em ambos os braços. CBC calculou o limite. A mediana por formulação caiu de **818 para 49 ms** na geração e de **966 para 179 ms** no adaptador completo. Ambos aprovaram **27/27 formulações**. As aprovações finais por regime passaram de **261 para 268** e 3/27 para 4/27 atingiram gap de 5%. Os custos nas 15 tentativas da CLI coincidiram a US$ 1e-9.
+
+HiGHS gerou 107 referências compatíveis, todas dentro das oito tolerâncias básicas, e encontrou uma inviabilidade no sexto estágio da meta de MS. CBC gerou 108 referências, das quais duas foram rejeitadas por limites individuais. Ambos descartaram duas duplicatas. Entre os cenários estáticos, o maior ganho de custo foi US$ 0,212580/vaca/dia. A perda da referência no desempate elevou o melhor custo de outro cenário em US$ 0,003197/vaca/dia. O ponto deve entrar na regressão de uma eventual promoção do gerador.
+
+O diagnóstico isolado dos duais HiGHS encontrou 216 multiplicadores presentes e com sinal admissível. Os certificados tolerantes ficaram a até 7,11e-15 US$/vaca/dia do ótimo da relaxação tolerante explícita. A configuração de produção e o limite usado para os gaps continuam com CBC nas etapas auxiliares. [Relatório do piloto](helpful_scripts/nrc_ration_comparison/reference_solver_pilot_report.md) e [resultados detalhados](output/nrc_reference_solver_pilot/results.json).
+
+## Seleção do gerador HiGHS no fluxo de produção
+
+A configuração `animal.ration.linear_reference_solver` aceita `cbc` (padrão) ou `highs`, independentemente do solver dos LPs nutricionais. O extra `linear_ration_highs` fornece a dependência. A Pen registra o solver em `reference_solver`. Com HiGHS indisponível, a inicialização gera erro explícito. CBC é utilizado no cálculo do limite inferior em produção.
+
+A [regressão do sexto desempate](tests/test_biophysical/test_animal/test_ration/test_lexicographic_highs_regression.py) reproduz os coeficientes, limites, RHS e objetivo arquivados. O certificado racional prova que a matriz congelada é inviável: a combinação do piso de fósforo com os bloqueios de custo e dos ingredientes 44 e 50 exige um valor acima do máximo sobre a caixa em 2,59e-9 na escala do certificado. O estágio anterior carregava um déficit de fósforo de 4,64e-8 g, aceito numericamente pelo solver. Com o bloqueio seguinte, essa imprecisão se tornou uma incompatibilidade efetiva. As tolerâncias NRC, a folga dos bloqueios e a política de falhas foram preservadas.
+
+Em busca `full` com orçamentos de 1, 2, 3 e 5 referências, ambos os geradores aprovaram 21, 27, 27 e 27 das mesmas 27 formulações arquivadas. No caso crítico, o estágio de meta de MS foi alcançado apenas com orçamento 5. A falha de geração foi registrada e a busca HiGHS manteve a dieta aprovada de US$ 3,904341/vaca/dia. O CBC aprovou US$ 3,901144 ao atingir a meta de MS. [Resultados por orçamento](output/nrc_reference_solver_budgets/results.json).
+
+A [regressão do limite](helpful_scripts/nrc_ration_comparison/test_cost_bound_solver_regression.py) comparou os ótimos primais, os sinais e complementaridade, e o resíduo de estacionariedade `c − Aᵀπ − dj` nas 27 relaxações. A maior diferença primal foi 9,45e-8 US$/vaca/dia. Os maiores resíduos absolutos de estacionariedade foram 4,46e-9 para CBC e 2,78e-17 para HiGHS. O ensaio sintético também verificou os dois sinais para desigualdades ativas.
+
+## HiGHS configurável nas três etapas e CLI replicada
+
+O método linear permite selecionar `cbc` ou `highs` de forma independente em `animal.ration.linear_reference_solver`, `linear_bound_solver` e `linear_nutritional_solver`. Os três usam CBC por padrão. SLSQP é o backend padrão do RuFaS. A Pen expõe os nomes dos três solvers usados. O certificado inferior continua usando duais válidos, minimização da estacionariedade na caixa e a relaxação induzida pelas tolerâncias NRC. O ótimo primal é apenas um teto adicional para o certificado. A suíte de regressão teve **686 testes aprovados**.
+
+Foram concluídas **35 simulações de três dias**, cinco por configuração, com os mesmos insumos e a mesma instrumentação. Em `full`, o tempo mediano de otimização da lactação passou de **7,467 s** com CBC e **4,376 s** com HiGHS nutricional para **0,608 s** com HiGHS integral. As medianas da CLI foram **40,80 s**, **31,62 s** e **29,67 s**. O custo de lactação aplicado com HiGHS integral foi US$ **88,86** em `full` e US$ **88,86** em `adaptive_gap`. Os gaps de adaptive_gap foram 23,82%, 32,11%, 25,37%. As dietas lineares aplicadas coincidiram por ID com as dietas aprovadas e reportadas.
+
+O próximo estudo recomendado é o de referências independentes, com o solver fixo e entradas comparáveis. A duração maior fica para a validação da estratégia após esse estudo. [Relatório replicado](helpful_scripts/nrc_ration_comparison/cli_solver_consolidation_report.md) e [dados de comparação](output/nrc_solver_consolidation/comparison.json).
+
+## Referências regionais independentes avaliadas
+
+O ensaio isolado usou HiGHS nas três etapas em 12 cenários estáticos e 15 tentativas reconstruídas. Nenhuma receita regional inteira coube nos cardápios. As projeções preservaram 71,52% de Midwest, 27,48% de Northeast, 19,71% de Southwest e 16,99% de Intermountain. Southwest e Intermountain se tornaram o mesmo vetor. Todas as políticas aprovaram 27/27 formulações. Em busca completa, A/B/C tiveram 268/337/387 casos aprovados e nenhuma rejeição bruta classificada como numérica. Midwest reduziu o melhor custo em dois cenários, em até US$ 0,379336/vaca/dia. As demais projeções não melhoraram o melhor custo completo.
+
+Para orçamento 2 ou 3, o resultado favorece Midwest após a dieta anterior quando disponível e após menor custo. Para orçamento 5, o resultado favorece a ordem atual e Midwest quando sobrar uma vaga. A promoção depende de autorização. [Relatório](helpful_scripts/nrc_ration_comparison/independent_reference_experiment_report.md) e [resultados detalhados](output/nrc_independent_references/results.json).
+
+## Midwest opcional no fluxo de produção
+
+A configuração `animal.ration.linear_midwest_reference_path` recebe um caminho relativo, a partir do diretório de execução, para um JSON de alimentação RuFaS com uma receita de lactação explícita. Omitir o campo ou deixá-lo vazio desabilita a opção. É possível usar `input/data/feed/example_Midwest_feed.json` ou um arquivo Midwest próprio. O adaptador carrega a receita configurada uma vez e calcula a projeção por tentativa com os IDs do cardápio NRC e a meta inicial de MS. A certificação final continua usando as 14 restrições originais. No exemplo arquivado, os IDs 301 e 302 foram removidos e a participação retida foi 71,52%.
+
+Com orçamento de duas ou três referências, a Midwest é inserida após menor custo, precedido da dieta anterior quando disponível. Com cinco, ela entra ao final da ordem anterior caso sobre vaga. Em `single`, a ordem das fontes atuais tem precedência e permanece o orçamento de uma referência distinta. `adaptive_gap` pode parar antes da Midwest. A Pen registra o caminho, o grupo, os ingredientes removidos, a participação retida, as proporções normalizadas, incompatibilidades e duplicatas, as referências tentadas e a vencedora.
+
+A regressão de produção reproduziu as 27 formulações em seis combinações de configuração e orçamento com HiGHS nas três etapas. Todos os braços aprovaram 27/27. As chamadas passaram de 675 para 549 com orçamento 2, de 1.062 para 837 com orçamento 3 e de 1.595 para 1.691 com orçamento 5. Midwest reduziu o melhor custo em três, três e duas formulações, respectivamente. As maiores economias foram US$ 0,647575, US$ 0,379336 e US$ 0,379336/vaca/dia, sem aumento observado nesses braços. Por formulação, foram verificados o limite, gap, referência vencedora, dietas, contagens e status dos regimes. O teste com `HerdManager` e Pen confirmou que a aplicação corresponde exatamente à dieta certificada.
+
+A suíte relacionada terminou com **713 testes aprovados**. [Regressão das 27 formulações](helpful_scripts/nrc_ration_comparison/test_midwest_reference_regression.py). Uma nova simulação longitudinal aguarda autorização.
+
+## Simulação exploratória de 30 dias concluída
+
+Uma repetição por cenário concluiu os dias 150–179 de 2013 no cenário NRC `animals_only`, com os insumos arquivados e semente 42. SLSQP, HiGHS full com 3 referências e HiGHS full com 5 referências completaram 30 reformulações de lactação cada, com zero rejeições de formulação. Os dois braços HiGHS usaram Midwest e HiGHS nas três etapas. Os custos totais aplicados foram US$ 1.226,76, US$ 1.256,07 e US$ 1.248,65. O leite acumulado foi 98.923,12, 99.814,17 e 99.814,17 kg. Os tempos de otimização da lactação foram 3,26, 5,33 e 10,38 s. Os três processos foram cronometrados em paralelo para atender ao prazo da apresentação.
+
+A Midwest foi explorada em 30 dias com orçamento 3 e em um dia com orçamento 5. Ela não venceu em nenhum. Os gaps medianos foram 24,18% e 24,19%, e nenhum gap atingiu 5%. As dietas aprovadas pelos braços lineares foram aplicadas por ID. As exigências diferiram após o dia inicial na comparação com SLSQP. Os acumulados são comparações descritivas entre trajetórias, com uma semente e preços ilustrativos.
+
+[Relatório para apresentação](helpful_scripts/nrc_ration_comparison/cli_midwest_30day_report.md), [séries diárias](output/nrc_midwest_30day/daily_metrics.csv) e [tabela de métricas](output/nrc_midwest_30day/summary.csv). Trabalhos futuros incluem generalização das referências externas, geração dinâmica de referências e sensibilidade às variações de preços.
+
+## Sensibilidade estática a preços e disponibilidade
+
+No cenário arquivado `114502_midwest_plus_soy_market`, foram comparadas 44 variantes estáticas de preço, retirada e teto de inclusão. SLSQP e HiGHS full com cinco referências aprovaram 44/44, enquanto HiGHS full com três aprovou 43/44. Todos os braços lineares usaram HiGHS nas três etapas e Midwest habilitada. A única ausência de candidata aprovada ocorreu ao retirar o milho em grão, com a relaxação básica viável e dietas certificadas pelos outros dois métodos. O teto da silagem de milho, ao cair 50% do máximo efetivo, elevou o custo encontrado pelo HiGHS em 6,37%. O cenário com corte e aumento de preço mostrou que uma dieta mais barata obtida em outra busca ainda era admissível. O resultado delimita o efeito da seleção de referências sobre a qualidade econômica.
+
+[Relatório de sensibilidade](helpful_scripts/nrc_ration_comparison/static_price_availability_report.md), [custos e gaps](output/nrc_price_availability_sensitivity/summary.csv) e [composição por ingrediente](output/nrc_price_availability_sensitivity/composition.csv). O ensaio usou apenas formulações estáticas e a implementação de produção existente.
+
 ## Próximas etapas, por prioridade
 
 1. **Preservar os arquivos e artefatos do workspace** antes de trocar de checkout. Registrar a revisão exata dos próximos experimentos. Usar os resultados arquivados para iniciar o trabalho.
-2. **Pilotar PuLP/HiGHS direto apenas nos seis casos nutricionais.** Manter inicialmente CBC na geração de referências e no cálculo do limite. Usar as matrizes congeladas como regressão, com validação por ID, vetor bruto, arredondado e reparado. SLSQP continua padrão. CBC binário é uma alternativa diagnóstica se for preciso conservar CBC. Uma troca também no gerador e no limite exige validação própria.
+2. **Retomar a investigação nutricional quando autorizado.** Avaliar generalização de referências externas, geração dinâmica e sensibilidade a preços. Para medir o efeito isolado da Midwest, manter um controle longitudinal com a opção desabilitada.
 3. **Adicionar uma opção de referência independente compatível.** Definir projeção da receita, orçamento e gatilho para explorar a alternativa. Usar Midwest como exemplo, manter ingredientes e preços fixos e testar o efeito com o mesmo solver. A solução SLSQP permanece exclusivamente diagnóstica.
 4. **Tratar separadamente a exceção da Pen e a possível reutilização.** Exercitar o limite de redução de leite e revalidar dieta anterior diante das exigências correntes. Distinguir falha computacional, ausência de candidata e dieta anterior fora das restrições.
-5. **Repetir uma simulação curta após o piloto e ampliar os cenários gradualmente.** Medir tempo integral, custo, leite, consumo, referências, gaps e falhas. Investigar preços mais representativos e relaxações comprovadas que fortaleçam o limite. Preservar os coeficientes fixos e a certificação original.
+5. **Ampliar os cenários gradualmente após os pilotos isolados.** Medir tempo integral, custo, leite, consumo, referências, gaps e falhas. Investigar preços mais representativos e relaxações comprovadas que fortaleçam o limite. Preservar os coeficientes fixos e a certificação original.
 
 ## Testes e reprodução
 
@@ -147,43 +241,30 @@ py -3.12 -m helpful_scripts.nrc_ration_comparison.solver_benchmark --mps-check -
 
 O benchmark lê `output/nrc_cli_three_day/isolated_audit.json` por padrão, além de `output/nrc_cli_three_day/inputs/feed.json` e `helpful_scripts/nrc_ration_comparison/adaptive_results.json`. Passe `--audit` para apontar a outro arquivo de auditoria. Se usar o relatório novo gerado acima, passe a mesma opção na execução principal e no controle MPS.
 
-## Estado do Git e artefatos locais
+## Estado do Git e preservação
 
-Antes de criar este documento, a branch era **`feature/pulp-optimizer`**, sem upstream, no **`HEAD e67d64e70`** (merge PR #3373, `ndf-fract-to-perc`). Havia **quatro arquivos versionados modificados, 31 arquivos novos não versionados e nenhum arquivo em stage**. Este documento é o 32º não versionado. O `HEAD` difere do commit `41e849aa4` citado no relatório da auditoria do fluxo legado da Pen. Há mudanças upstream entre essas revisões em `nrc_requirements_calculator.py`. Antes de exigir igualdade em uma nova execução, confirme a revisão e as exigências daquele experimento.
+No encerramento para a apresentação, a branch era `feature/pulp-optimizer` no commit `f025c79be`, com zero commits de diferença em relação à referência local `origin/feature/pulp-optimizer`. As alterações do projeto estão na árvore de trabalho. O índice Git estava vazio. A referência remota local foi consultada sem atualizar o remoto.
 
-**Versionados com mudanças locais**
+### O que versionar
 
-- `RUFAS/biophysical/animal/herd_manager.py`
-- `RUFAS/biophysical/animal/pen.py`
-- `RUFAS/input/metadata/properties/default.json`
-- `pyproject.toml`
+A lista nominal em [inventário de versionamento](helpful_scripts/nrc_ration_comparison/reproduction/version_files.tsv) reúne as alterações do ciclo após `f025c79be`. Inclui código de produção, schema e dependências declaradas, testes e a matriz de regressão do sexto desempate, roteiros e relatórios experimentais, e as duas tabelas compactas de 30 dias para a apresentação. Os scripts históricos já versionados e suas entradas de regressão permanecem no histórico.
 
-**Novos em `RUFAS/biophysical/animal/ration/`**
+### O que preservar fora do Git
 
-- `linear_cost_bound.py`, `linear_ration_adapter.py`, `linear_ration_optimizer.py`, `linear_reference.py` e `ration_backend_config.py`.
+O arquivo [manifesto dos artefatos](helpful_scripts/nrc_ration_comparison/reproduction/artifacts_local.tsv) registra tamanhos e SHA-256 para insumos congelados e resultados que permitem reproduzir e auditar os ensaios. Preserve esses arquivos sob os caminhos indicados em um arquivo externo ou no workspace. Os testes das 552 matrizes e das 27 formulações usam artefatos em `output/` e podem pular a verificação em um checkout limpo sem essas entradas. O manifesto é um inventário verificável do material local.
 
-**Novos em `tests/test_biophysical/test_animal/`**
+Mantenha `output/`, logs brutos por execução, bibliotecas instaladas em `output/nrc_solver_benchmark/deps/`, ambientes virtuais, caches e bytecode fora dos commits. A declaração da dependência fica em `pyproject.toml`. Os JSONs históricos já versionados em `f025c79be` não precisam ser adicionados novamente. `adaptive_results.json` é lido pelo carregador de cenários, portanto deve permanecer disponível.
 
-- `test_pen/test_ration_backend_integration.py`
-- `test_ration/test_linear_ration_adapter.py`
-- `test_ration/test_linear_ration_optimizer.py`
+### Reprodução dos ensaios consolidados
 
-**Novos em `helpful_scripts/nrc_ration_comparison/`**
+Use Python 3.12 e instale `.[linear_ration_highs]`. As execuções mais recentes usaram Python 3.12.10, PuLP 3.3.2, highspy 1.16.0 e CBC 2.10.3. No workspace do experimento, highspy estava em um diretório local no `PYTHONPATH`. Em outra máquina, o extra permite instalar a biblioteca no ambiente. Para comparação estrita, fixe as versões registradas.
 
-- `compare.py`, `results.json`, `results_repaired.json`.
-- `sensitivity.py`, `sensitivity_results.json`, `test_sensitivity.py`.
-- `multireference.py`, `multireference_results.json`, `test_multireference.py`.
-- `adaptive.py`, `adaptive_results.json`, `test_adaptive.py`.
-- `gap_experiment.py`, `gap_results.json`, `test_gap_experiment.py`.
-- `cli_three_day.py`, `cli_three_day_summary.py`, `cli_three_day_trace.py`, `cli_three_day_report.md`.
-- `cli_isolated_audit.py`, `cli_isolated_audit_report.md`.
-- `solver_benchmark.py`, `solver_benchmark_report.md`.
+| Etapa | Roteiro ou entrada |
+|---|---|
+| CLI e auditoria de três dias | `cli_three_day.py`, `cli_three_day_trace.py`, `cli_three_day_summary.py` e `cli_isolated_audit.py`. Os caminhos e comandos constam na seção de reprodução. |
+| Benchmark de 552 matrizes e limite | `solver_benchmark.py` e `reference_solver_pilot.py`, com as entradas arquivadas em `output/nrc_cli_three_day/`. |
+| Consolidação de sete cenários, cinco repetições | `py -3.12 -m helpful_scripts.nrc_ration_comparison.cli_solver_consolidation --runs 5 --output output/nrc_solver_consolidation_repro` |
+| Referências independentes | `py -3.12 -m helpful_scripts.nrc_ration_comparison.independent_reference_experiment --runs 3 --output output/nrc_independent_references_repro` |
+| Trajetória de 30 dias | [Cópias dos roteiros de execução e análise](helpful_scripts/nrc_ration_comparison/reproduction/README.md). A tabela de apresentação e as séries diárias foram copiadas sem alterações. |
 
-**Ignorados pelo Git e disponíveis neste workspace**
-
-- `output/nrc_cli_three_day/` contém cópias de entrada, saídas por configuração, `summary.json` e `isolated_audit.json`.
-- `output/nrc_cli_three_day_diagnostic/` contém `runs/*/attempts.jsonl` e o relatório parcial de single. Há capturas intermediárias em `output/nrc_cli_three_day_trace/` e `output/nrc_cli_three_day_diagnostic_partial/`.
-- `output/nrc_solver_benchmark/` contém `results.json`, com matrizes, vetores, resíduos e tempos, `mps_precision_control.json`, o manifesto de progresso e highspy em `deps/`.
-
-Para retomar no mesmo workspace, comece pelo relatório do benchmark e pelos JSONs arquivados. Para retomar em outro checkout ou computador, preserve as alterações locais e os artefatos ignorados listados. Esta etapa acrescentou somente o documento.
-
+Os comandos são registrados para retomada futura. A implementação e os experimentos ficam pausados para a apresentação.

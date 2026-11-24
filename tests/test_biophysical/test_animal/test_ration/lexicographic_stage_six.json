@@ -1,0 +1,195 @@
+{
+  "scenario": "historical/123802_midwest_five_market",
+  "objective_stage": 6,
+  "bounds": {
+    "dmi_above_target": [
+      0,
+      null
+    ],
+    "dmi_below_target": [
+      0,
+      null
+    ],
+    "feed_0": [
+      0,
+      100
+    ],
+    "feed_1": [
+      0,
+      100
+    ],
+    "feed_2": [
+      0,
+      100
+    ],
+    "feed_3": [
+      0,
+      100
+    ],
+    "feed_4": [
+      0,
+      100
+    ]
+  },
+  "objective": {
+    "feed_3": 1
+  },
+  "rows": {
+    "minimum_dmi": {
+      "sense": 1,
+      "rhs": 14.597070730265548,
+      "coefficients": {
+        "feed_0": 1,
+        "feed_1": 1,
+        "feed_2": 1,
+        "feed_3": 1,
+        "feed_4": 1
+      }
+    },
+    "maximum_dmi": {
+      "sense": -1,
+      "rhs": 27.108845641921736,
+      "coefficients": {
+        "feed_0": 1,
+        "feed_1": 1,
+        "feed_2": 1,
+        "feed_3": 1,
+        "feed_4": 1
+      }
+    },
+    "minimum_calcium": {
+      "sense": 1,
+      "rhs": 49.095486088534926,
+      "coefficients": {
+        "feed_0": 1.8,
+        "feed_1": 0.24000000000000002,
+        "feed_2": 0.87,
+        "feed_3": 3.42,
+        "feed_4": 4.08
+      }
+    },
+    "minimum_phosphorus": {
+      "sense": 1,
+      "rhs": 43.699215172793956,
+      "coefficients": {
+        "feed_0": 2.1,
+        "feed_1": 2.1,
+        "feed_2": 1.5359999999999998,
+        "feed_3": 2.1760000000000006,
+        "feed_4": 2.2399999999999998
+      }
+    },
+    "minimum_ndf": {
+      "sense": 1,
+      "rhs": -0.0,
+      "coefficients": {
+        "feed_1": -15.5,
+        "feed_2": 29.1,
+        "feed_3": 22.0,
+        "feed_4": 18.200000000000003,
+        "feed_0": -25.0
+      }
+    },
+    "maximum_ndf": {
+      "sense": -1,
+      "rhs": -0.0,
+      "coefficients": {
+        "feed_1": -35.5,
+        "feed_2": 9.100000000000001,
+        "feed_3": 2.0,
+        "feed_4": -1.7999999999999972,
+        "feed_0": -45.0
+      }
+    },
+    "minimum_forage_ndf": {
+      "sense": 1,
+      "rhs": -0.0,
+      "coefficients": {
+        "feed_2": 39.1,
+        "feed_3": 32.0,
+        "feed_4": 28.200000000000003,
+        "feed_0": -15.0,
+        "feed_1": -15.0
+      }
+    },
+    "maximum_fat": {
+      "sense": -1,
+      "rhs": -0.0,
+      "coefficients": {
+        "feed_0": -5.8,
+        "feed_1": -2.8,
+        "feed_2": -4.5,
+        "feed_3": -4.9,
+        "feed_4": -4.8
+      }
+    },
+    "_C1": {
+      "sense": 0,
+      "rhs": 20.85295818609364,
+      "coefficients": {
+        "feed_0": 1,
+        "feed_1": 1,
+        "feed_2": 1,
+        "feed_3": 1,
+        "feed_4": 1,
+        "dmi_above_target": -1,
+        "dmi_below_target": 1
+      }
+    },
+    "reference_objective_0": {
+      "sense": -1,
+      "rhs": 1e-06,
+      "coefficients": {
+        "dmi_above_target": 1,
+        "dmi_below_target": 1
+      }
+    },
+    "reference_objective_1": {
+      "sense": -1,
+      "rhs": 3.8821175541422464,
+      "coefficients": {
+        "feed_0": 1.1670812660008762,
+        "feed_1": 0.18309735637924113,
+        "feed_2": 0.1361511942036037,
+        "feed_3": 0.1947416649299752,
+        "feed_4": 0.20576477803921908
+      }
+    },
+    "reference_objective_2": {
+      "sense": -1,
+      "rhs": 1e-06,
+      "coefficients": {
+        "feed_0": 1
+      }
+    },
+    "reference_objective_3": {
+      "sense": -1,
+      "rhs": 5.401084436231237,
+      "coefficients": {
+        "feed_1": 1
+      }
+    },
+    "reference_objective_4": {
+      "sense": -1,
+      "rhs": 1.978653020880514,
+      "coefficients": {
+        "feed_2": 1
+      }
+    }
+  },
+  "preceding_vector": {
+    "dmi_above_target": 0.0,
+    "dmi_below_target": 1e-06,
+    "feed_0": 0.0,
+    "feed_1": 5.401084436231237,
+    "feed_2": 1.978652020880514,
+    "feed_3": 13.47322072898189,
+    "feed_4": 0.0
+  },
+  "infeasibility_certificate": {
+    "minimum_phosphorus": 0.08168222843904788,
+    "reference_objective_1": -0.9126990320601387,
+    "reference_objective_3": -0.004419899781896941,
+    "reference_objective_4": -0.0011988397189164612
+  }
+}

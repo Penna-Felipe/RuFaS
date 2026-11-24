@@ -929,6 +929,29 @@
         "pattern": "^(slsqp|pulp)$",
         "default": "slsqp"
       },
+      "linear_reference_solver": {
+        "description": "PuLP solver for generating automatic NRC reference diets.",
+        "type": "string",
+        "pattern": "^(cbc|highs)$",
+        "default": "cbc"
+      },
+      "linear_bound_solver": {
+        "description": "PuLP solver for the basic NRC cost lower bound.",
+        "type": "string",
+        "pattern": "^(cbc|highs)$",
+        "default": "cbc"
+      },
+      "linear_nutritional_solver": {
+        "description": "PuLP solver for the six NRC nutritional cases.",
+        "type": "string",
+        "pattern": "^(cbc|highs)$",
+        "default": "cbc"
+      },
+      "linear_midwest_reference_path": {
+        "description": "Optional relative path to a Midwest feed JSON with explicit lactating cow percentages for NRC reference generation.",
+        "type": "string",
+        "default": ""
+      },
       "linear_strategy": {
         "description": "PuLP reference search strategy.",
         "type": "string",

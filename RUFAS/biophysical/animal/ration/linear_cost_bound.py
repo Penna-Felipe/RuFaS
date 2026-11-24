@@ -2,6 +2,7 @@
 
 from fractions import Fraction
 from math import inf, isfinite, nextafter
+from numbers import Real
 
 import pulp
 
@@ -28,7 +29,7 @@ def dual_bound(problem: pulp.LpProblem, variables: list[pulp.LpVariable], *, tol
     """Bound the represented primary LP via a sign-corrected row dual.
 
     Minimize the remaining linear coefficients on the ingredient box, which
-    makes the bound valid even with rounded or nonstationary CBC multipliers.
+    makes the bound valid even with rounded or nonstationary solver multipliers.
     In tolerant mode use the relaxation implied by the NRC validator.
     """
     if set(problem.constraints) != set(ROWS):
@@ -39,8 +40,8 @@ def dual_bound(problem: pulp.LpProblem, variables: list[pulp.LpVariable], *, tol
         sense = row.sense
         if sense not in (pulp.LpConstraintGE, pulp.LpConstraintLE):
             raise ValueError("Expected an inequality.")
-        pi = row.pi if row.pi is not None else 0.0
-        y = Fraction(pi if isfinite(pi) and sense * pi > 0 else 0)
+        pi = row.pi
+        y = Fraction(pi if isinstance(pi, Real) and isfinite(pi) and sense * pi > 0 else 0)
         original, ratio = ROWS[name]
         tol = Fraction(_NRC_TOLERANCES[original]) if tolerant else Fraction(0)
         rhs = -Fraction(row.constant) - (0 if ratio else sense * tol)
@@ -81,7 +82,8 @@ def primary_lower_bound(config: RationConfig, solver: pulp.LpSolver | None = Non
             "status": pulp.LpStatus.get(status, str(status)),
         }
     variables = list(quantities.values())
-    primary = float(pulp.value(problem.objective))
+    # PuLP can add an unset dummy column to an identically zero objective.
+    primary = float(sum(coef * v.varValue for v, coef in problem.objective.items() if coef))
     return {
         "status": "Optimal",
         "primary_optimum_cbc": primary,

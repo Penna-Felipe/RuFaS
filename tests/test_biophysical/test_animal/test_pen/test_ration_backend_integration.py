@@ -1,6 +1,7 @@
 """Integration of the opt-in NRC backend with formulation and feed requests."""
 
 import json
+from dataclasses import replace
 from datetime import timedelta
 from pathlib import Path
 from types import SimpleNamespace
@@ -41,6 +42,10 @@ def test_existing_schema_accepts_old_and_new_ration_settings(opt_in: bool) -> No
             "linear_strategy": "single",
             "linear_gap_target": 0.03,
             "linear_max_references": 3.0,
+            "linear_nutritional_solver": "highs",
+            "linear_reference_solver": "highs",
+            "linear_bound_solver": "highs",
+            "linear_midwest_reference_path": "feed_inputs/custom_midwest.json",
         }
         if opt_in
         else {}
@@ -59,7 +64,9 @@ def test_existing_schema_accepts_old_and_new_ration_settings(opt_in: bool) -> No
     )
     settings = RationBackendConfig.from_mapping(ration)
     if opt_in:
-        assert settings == RationBackendConfig("pulp", "single", 0.03, 3)
+        assert settings == RationBackendConfig(
+            "pulp", "single", 0.03, 3, "highs", "highs", "highs", Path("feed_inputs/custom_midwest.json")
+        )
     else:
         assert settings == RationBackendConfig()
 
@@ -69,6 +76,12 @@ def test_existing_schema_accepts_old_and_new_ration_settings(opt_in: bool) -> No
     [
         {"optimizer_backend": "unknown"},
         {"linear_strategy": "unknown"},
+        {"linear_nutritional_solver": "unknown"},
+        {"linear_nutritional_solver": None},
+        {"linear_reference_solver": "unknown"},
+        {"linear_reference_solver": None},
+        {"linear_bound_solver": "unknown"},
+        {"linear_bound_solver": None},
         {"linear_gap_target": 1},
         {"linear_gap_target": float("nan")},
         {"linear_max_references": 1.5},
@@ -322,3 +335,85 @@ def test_pen_applies_adapter_repair_as_the_feed_request(
     report = pen.om.add_variable.call_args.args[1]
     assert report["reference"] == "previous_ration" and report["nutritional_validation"] == "approved"
     assert report["cost_usd_per_animal_day"] == pytest.approx(0.29038518)
+    assert report["nutritional_solver"] == "PULP_CBC_CMD"
+    assert report["reference_solver"] == "PULP_CBC_CMD"
+    assert report["bound_solver"] == "PULP_CBC_CMD"
+
+
+def test_pen_applies_highs_nrc_approved_quantities(
+    feeding: tuple[HerdManager, Pen, MagicMock, dict[str, Any]],
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    pytest.importorskip("highspy")
+    herd, pen, _, inputs = feeding
+    pen.ration_backend_config = replace(
+        pen.ration_backend_config, nutritional_solver="highs", reference_solver="highs", bound_solver="highs"
+    )
+    adapter = pen._get_linear_ration_optimizer()
+    original_attempt = adapter.attempt_optimization
+    results = []
+
+    def capture_attempt(**kwargs: Any) -> Any:
+        result = original_attempt(**kwargs)
+        results.append(result)
+        return result
+
+    monkeypatch.setattr(adapter, "attempt_optimization", capture_attempt)
+    requested = herd.formulate_rations(inputs["pen_available_feeds"], 15, 1, 1)
+    [(solution, _)] = results
+    assert solution.success
+    selection = next(ref.selection for ref in solution.references if ref.source == solution.selected_reference)
+    approved = selection.validations[solution.selected_case].final_quantities
+    assert approved == solution.quantities == pen.ration == requested.requested_feed
+    report = pen.om.add_variable.call_args.args[1]
+    assert report["nutritional_solver"] == "HiGHS"
+    assert report["reference_solver"] == "HiGHS"
+    assert report["bound_solver"] == "HiGHS"
+    assert report["nutritional_validation"] == "approved"
+    assert report["cost_usd_per_animal_day"] == pytest.approx(solution.fun)
+    assert report["solver_calls"] == solution.solver_calls
+
+
+def test_pen_applies_midwest_winner_certified_by_nrc(feeding, monkeypatch):
+    pytest.importorskip("highspy")
+    from helpful_scripts.nrc_ration_comparison.adaptive import scenario_grid
+
+    herd, pen, cow, _ = feeding
+    inputs = next(inputs for name, inputs, _, _ in scenario_grid() if name == "114502_midwest_plus_soy_market")
+    cow.body_weight = inputs["pen_average_body_weight"]
+    cow.nutrition_requirements = inputs["requirements"]
+    feeds = inputs["pen_available_feeds"]
+    monkeypatch.setattr(RationManager, "ration_feeds", {AnimalCombination.LAC_COW: [f.rufas_id for f in feeds]})
+    pen.ration_backend_config = RationBackendConfig.from_mapping(
+        {
+            "optimizer_backend": "pulp",
+            "linear_strategy": "full",
+            "linear_reference_solver": "highs",
+            "linear_bound_solver": "highs",
+            "linear_nutritional_solver": "highs",
+            "linear_midwest_reference_path": "input/data/feed/example_Midwest_feed.json",
+            "linear_max_references": 2,
+        }
+    )
+    adapter = pen._get_linear_ration_optimizer()
+    original_attempt = adapter.attempt_optimization
+    attempts = []
+
+    def capture_attempt(**kwargs):
+        result = original_attempt(**kwargs)
+        attempts.append(result[0])
+        return result
+
+    monkeypatch.setattr(adapter, "attempt_optimization", capture_attempt)
+    requested = herd.formulate_rations(feeds, 15, 1, 1)
+    [solution] = attempts
+    assert solution.selected_reference == "midwest"
+    winner = next(ref.selection for ref in solution.references if ref.source == "midwest")
+    approved = winner.validations[solution.selected_case].final_quantities
+    assert approved == solution.quantities == pen.ration == requested.requested_feed
+    report = pen.om.add_variable.call_args.args[1]
+    assert report["reference"] == "midwest"
+    assert report["nutritional_validation"] == "approved"
+    assert report["regional_reference"]["retained_original_percent"] == pytest.approx(71.52)
+    assert report["regional_reference"]["removed_ingredients"] == {301: 3.27, 302: 25.21}
+    assert report["cost_usd_per_animal_day"] == pytest.approx(solution.fun)

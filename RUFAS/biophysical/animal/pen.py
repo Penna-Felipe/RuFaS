@@ -1292,7 +1292,13 @@ class Pen:
 
             settings = self.ration_backend_config
             self._linear_ration_optimizer = LinearRationAdapter(
-                strategy=settings.strategy, gap_target=settings.gap_target, max_references=settings.max_references
+                strategy=settings.strategy,
+                gap_target=settings.gap_target,
+                max_references=settings.max_references,
+                nutritional_solver=settings.nutritional_solver,
+                reference_solver=settings.reference_solver,
+                bound_solver=settings.bound_solver,
+                midwest_reference_path=settings.midwest_reference_path,
             )
         return self._linear_ration_optimizer
 
@@ -1334,12 +1340,21 @@ class Pen:
             "gap_achieved": getattr(solution, "gap", None),
             "references_evaluated": getattr(solution, "references_resolved", 0),
             "solver_calls": getattr(solution, "solver_calls", 1),
+            "nutritional_solver": getattr(solution, "nutritional_solver", None),
+            "reference_solver": getattr(solution, "reference_solver", None),
+            "bound_solver": getattr(solution, "bound_solver", None),
             "optimization_seconds": solution.ration_optimization_seconds,
             "nutritional_validation": validation,
             "success": bool(solution.success),
             "stop_reason": getattr(solution, "stop_reason", "converged" if solution.success else "solver_failure"),
             "message": str(solution.message),
         }
+        if backend == "pulp" and self.ration_backend_config.midwest_reference_path is not None:
+            values["regional_reference"] = getattr(solution, "regional_reference", None)
+            values["reference_attempts"] = [
+                {"source": reference.source, "explored": reference.selection is not None, "message": reference.message}
+                for reference in getattr(solution, "references", [])
+            ]
         units = dict.fromkeys(values, MeasurementUnits.UNITLESS)
         units.update(
             {

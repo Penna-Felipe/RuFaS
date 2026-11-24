@@ -3,6 +3,7 @@
 from dataclasses import dataclass
 from enum import Enum, IntEnum
 from math import isfinite
+from pathlib import Path
 from time import perf_counter
 
 import numpy as np
@@ -25,6 +26,7 @@ from RUFAS.biophysical.animal.ration.linear_reference import (
     reference_issue,
 )
 from RUFAS.biophysical.animal.ration.ration_optimizer import RationConfig
+from RUFAS.biophysical.animal.ration.regional_reference import MidwestRecipe
 from RUFAS.data_structures.feed_storage_to_animal_connection import Feed, NutrientStandard, RUFAS_ID
 from RUFAS.output_manager import OutputManager
 
@@ -70,6 +72,10 @@ class LinearRationAdapter:
         max_references: int = 5,
         *,
         solver: pulp.LpSolver | None = None,
+        reference_solver: pulp.LpSolver | str | None = None,
+        bound_solver: pulp.LpSolver | str | None = None,
+        nutritional_solver: pulp.LpSolver | str | None = None,
+        midwest_reference_path: Path | None = None,
     ) -> None:
         if not isfinite(gap_target) or not 0 <= gap_target < 1:
             raise ValueError("Gap target must be a finite fraction in [0, 1).")
@@ -78,8 +84,33 @@ class LinearRationAdapter:
         self.strategy = LinearSearchStrategy(strategy)
         self.gap_target = gap_target
         self.max_references = max_references
-        self.solver = solver
+        # Preserve the shared default for callers injecting a solver.
+        self.reference_solver = self._resolve_solver(
+            reference_solver if reference_solver is not None else solver, "reference generation"
+        )
+        self.bound_solver = self._resolve_solver(
+            bound_solver if bound_solver is not None else solver, "cost lower bound"
+        )
+        self.nutritional_solver = self._resolve_solver(
+            nutritional_solver if nutritional_solver is not None else solver, "NRC nutritional cases"
+        )
         self.optimizer = LinearRationOptimizer()
+        self.midwest_recipe = MidwestRecipe.load(midwest_reference_path) if midwest_reference_path is not None else None
+
+    @staticmethod
+    def _resolve_solver(solver: pulp.LpSolver | str | None, stage: str) -> pulp.LpSolver | None:
+        if not isinstance(solver, str):
+            return solver
+        if solver == "cbc":
+            return pulp.PULP_CBC_CMD(msg=False)
+        if solver != "highs":
+            raise ValueError(f"The solver for {stage} must be cbc or highs.")
+        highs = pulp.HiGHS(msg=False, threads=1)
+        if not highs.available():
+            raise RuntimeError(
+                f"PuLP/HiGHS is unavailable for {stage}. " "Install RuFaS with the linear_ration_highs extra (highspy)."
+            )
+        return highs
 
     def attempt_optimization(
         self,
@@ -122,7 +153,7 @@ class LinearRationAdapter:
     ) -> OptimizeResult:
         start = perf_counter()
         bound_start = perf_counter()
-        bound = primary_lower_bound(config, self.solver) if config.feeds_used else {}
+        bound = primary_lower_bound(config, self.bound_solver) if config.feeds_used else {}
         bound_seconds = perf_counter() - bound_start if config.feeds_used else 0.0
         lower = bound.get("lower_bound")
         lower = float(lower) if isinstance(lower, (float, int)) else None
@@ -130,8 +161,12 @@ class LinearRationAdapter:
         feed_ids = [feed.rufas_id for feed in config.feeds_used]
         sources = ["previous_ration", *OBJECTIVES] if previous_ration else list(OBJECTIVES)
         budget = 1 if self.strategy is LinearSearchStrategy.SINGLE else self.max_references
+        if self.midwest_recipe is not None:
+            position = sources.index("minimum_cost") + 1 if budget in (2, 3) else len(sources)
+            sources.insert(position, "midwest")
+        regional_diagnostic = None
         attempts: list[ReferenceAttempt] = []
-        seen: set[tuple[int, ...]] = set()
+        seen: dict[tuple[int, ...], str] = {}
         best: dict[RUFAS_ID, float] | None = None
         best_cost: float | None = None
         best_source = None
@@ -144,8 +179,11 @@ class LinearRationAdapter:
             try:
                 if source == "previous_ration":
                     reference = self._previous_reference(previous_ration or {}, set(feed_ids))
+                elif source == "midwest":
+                    assert self.midwest_recipe is not None
+                    reference, regional_diagnostic = self.midwest_recipe.project(config)
                 else:
-                    reference, metrics = build_basic_reference(config, source, self.solver)
+                    reference, metrics = build_basic_reference(config, source, self.reference_solver)
                     count = int(metrics["lp_calls"])
             except ReferenceGenerationError as error:
                 attempts.append(
@@ -159,9 +197,19 @@ class LinearRationAdapter:
                 continue
 
             generation_seconds = perf_counter() - generation_start
-            issue = reference_issue(config, reference)
+            regional = regional_diagnostic if source == "midwest" else None
+            issue = (regional["issue"] if regional else None) or reference_issue(config, reference)
             key = grid_key(reference, feed_ids) if issue is None else None
-            if issue is not None or key in seen:
+            duplicate_of = seen.get(key) if key is not None else None
+            if regional is not None and issue is None and duplicate_of is None:
+                try:
+                    self.optimizer.calculate_nrc_energy_coefficients(config, reference)
+                    self.optimizer.calculate_nrc_protein_coefficients(config, reference)
+                except (ValueError, TypeError, ArithmeticError) as error:
+                    issue = f"Invalid NRC reference coefficients: {error}"
+            if regional is not None:
+                regional.update(issue=issue, duplicate_of=duplicate_of, explored=issue is None and duplicate_of is None)
+            if issue is not None or duplicate_of is not None:
                 attempts.append(
                     ReferenceAttempt(
                         source, reference, generation_seconds, count, message=issue or "Duplicate reference."
@@ -169,9 +217,9 @@ class LinearRationAdapter:
                 )
                 continue
             assert key is not None
-            seen.add(key)
+            seen[key] = source
             solve_start = perf_counter()
-            selection = self.optimizer.solve_and_validate_nrc_cases(config, reference, self.solver)
+            selection = self.optimizer.solve_and_validate_nrc_cases(config, reference, self.nutritional_solver)
             attempts.append(
                 ReferenceAttempt(
                     source,
@@ -199,6 +247,10 @@ class LinearRationAdapter:
             if len(seen) >= budget:
                 reason = "reference_limit"
                 break
+
+        if self.midwest_recipe is not None and regional_diagnostic is None:
+            regional_diagnostic = self.midwest_recipe.diagnostics()
+            regional_diagnostic["issue"] = regional_diagnostic["issue"] or f"Reference not reached: {reason}."
 
         gap, gap_status = relative_gap(best_cost, lower)
         statuses = {attempt.status for attempt in attempts if attempt.status is not None}
@@ -232,6 +284,13 @@ class LinearRationAdapter:
             fun=best_cost,
             quantities=best,
             strategy=self.strategy.value,
+            reference_solver=(
+                self.reference_solver.name if self.reference_solver is not None else pulp.PULP_CBC_CMD.name
+            ),
+            bound_solver=self.bound_solver.name if self.bound_solver is not None else pulp.PULP_CBC_CMD.name,
+            nutritional_solver=(
+                self.nutritional_solver.name if self.nutritional_solver is not None else pulp.PULP_CBC_CMD.name
+            ),
             nrc_validation=(
                 "approved"
                 if best is not None
@@ -248,6 +307,7 @@ class LinearRationAdapter:
             references_resolved=len(seen),
             max_references=budget,
             references=attempts,
+            regional_reference=regional_diagnostic,
             solver_calls=int(bool(bound))
             + sum(
                 ref.generation_calls + (len(ref.selection.cases) if ref.selection is not None else 0)

@@ -273,7 +273,7 @@ def benchmark(config, reference, methods, runs):
     return report
 
 
-def scenario_inputs(audit):
+def scenario_inputs(audit, *, generate_historical_references=True):
     rows = read(audit)["formulations"]
     feed_file = read(BASE / "inputs/feed.json")
     feeds = load_feeds(feed_file)
@@ -297,7 +297,7 @@ def scenario_inputs(audit):
         config = make_config(inputs)
         refs = {}
         seen = set()
-        for objective in OBJECTIVES:
+        for objective in OBJECTIVES if generate_historical_references else ():
             ref, _ = build_basic_reference(config, objective)
             key = grid_key(ref, [feed.rufas_id for feed in config.feeds_used])
             if reference_issue(config, ref) is None and key not in seen:
