@@ -1,5 +1,6 @@
 import math
-from typing import NamedTuple, Any
+from time import perf_counter
+from typing import TYPE_CHECKING, NamedTuple, Any
 from scipy.optimize import OptimizeResult
 from RUFAS.biophysical.animal.animal import Animal
 from RUFAS.biophysical.animal.animal_config import AnimalConfig
@@ -26,6 +27,7 @@ from RUFAS.data_structures.feed_storage_to_animal_connection import (
 from RUFAS.biophysical.animal.data_types.animal_types import AnimalType
 from RUFAS.biophysical.animal.nutrients.nutrition_evaluator import NutritionEvaluator
 from RUFAS.biophysical.animal.nutrients.nutrition_supply_calculator import NutritionSupplyCalculator
+from RUFAS.biophysical.animal.ration.ration_backend_config import RationBackendConfig
 from RUFAS.biophysical.animal.ration.ration_manager import RationManager
 from RUFAS.data_structures.feed_storage_to_animal_connection import RUFAS_ID, Feed
 from RUFAS.biophysical.animal.data_types.animal_combination import AnimalCombination
@@ -34,6 +36,10 @@ from RUFAS.input_manager import InputManager
 
 from RUFAS.biophysical.animal.ration.ration_optimizer import RationOptimizer, RationConfig
 from RUFAS.output_manager import OutputManager
+from RUFAS.units import MeasurementUnits
+
+if TYPE_CHECKING:
+    from RUFAS.biophysical.animal.ration.linear_ration_adapter import LinearRationAdapter
 
 om = OutputManager()
 
@@ -140,6 +146,7 @@ class Pen:
         first_parlor_processor: str | None,
         parlor_stream_name: str | None,
         manure_streams: list[dict[str, str | float]],
+        ration_backend_config: RationBackendConfig | None = None,
     ) -> None:
         self.id = pen_id
         self.pen_name = pen_name
@@ -165,6 +172,8 @@ class Pen:
         )
         self.allocated_feeds: set[Any] = set()
         self.ration_optimizer = RationOptimizer()
+        self.ration_backend_config = ration_backend_config or RationBackendConfig()
+        self._linear_ration_optimizer: LinearRationAdapter | None = None
         self.om = OutputManager()
 
     @property
@@ -1111,9 +1120,11 @@ class Pen:
                 initial_protein_requirement,
             )
             if solution.success:
+                solution.ration_attempt_context = (simulation_day, num_attempts)
                 return solution
 
-            constraints_failed_list = self.ration_optimizer.handle_failed_constraints(
+            self._record_ration_attempt(solution, simulation_day, num_attempts)
+            constraints_failed_list = self._optimizer_for_result(solution).handle_failed_constraints(
                 num_attempts=num_attempts,
                 solution=solution,
                 ration_config=ration_config,
@@ -1250,7 +1261,12 @@ class Pen:
             self._calculate_pen_nasem_averages() if nutrient_standard is NutrientStandard.NASEM else (None, None)
         )
 
-        return self.ration_optimizer.attempt_optimization(
+        backend, reason = self.ration_backend_config.select(
+            nutrient_standard, self.animal_combination, is_ration_defined_by_user
+        )
+        optimizer = self._get_linear_ration_optimizer() if backend == "pulp" else self.ration_optimizer
+        start = perf_counter()
+        solution, config = optimizer.attempt_optimization(
             nutrient_standard=nutrient_standard,
             pen_average_body_weight=self.average_body_weight,
             pen_average_enteric_methane=pen_average_enteric_methane,
@@ -1263,6 +1279,87 @@ class Pen:
             previous_ration=previous_ration,
             user_defined_ration_dictionary=user_defined_ration_dictionary,
             user_defined_ration_tolerance=tolerance,
+        )
+
+        solution.ration_backend = backend
+        solution.ration_backend_reason = reason
+        solution.ration_optimization_seconds = perf_counter() - start
+        return solution, config
+
+    def _get_linear_ration_optimizer(self) -> "LinearRationAdapter":
+        if self._linear_ration_optimizer is None:
+            from RUFAS.biophysical.animal.ration.linear_ration_adapter import LinearRationAdapter
+
+            settings = self.ration_backend_config
+            self._linear_ration_optimizer = LinearRationAdapter(
+                strategy=settings.strategy, gap_target=settings.gap_target, max_references=settings.max_references
+            )
+        return self._linear_ration_optimizer
+
+    def _optimizer_for_result(self, solution: OptimizeResult) -> "RationOptimizer | LinearRationAdapter":
+        if getattr(solution, "ration_backend", None) == "pulp":
+            return self._get_linear_ration_optimizer()
+        return self.ration_optimizer
+
+    def _record_ration_attempt(
+        self,
+        solution: OptimizeResult,
+        simulation_day: int,
+        attempt: int,
+        nutrition_adequate: bool | None = None,
+        applied_cost: float | None = None,
+    ) -> None:
+        backend = getattr(solution, "ration_backend", None)
+        if backend not in ("slsqp", "pulp"):
+            return
+
+        validation = "not_evaluated"
+        if backend == "pulp":
+            validation = solution.nrc_validation
+        elif nutrition_adequate is not None:
+            validation = "legacy_evaluator_passed" if nutrition_adequate else "legacy_evaluator_failed"
+
+        values = {
+            "simulation_day": simulation_day,
+            "pen_id": self.id,
+            "animal_group": self.animal_combination.value,
+            "attempt": attempt,
+            "backend": backend,
+            "backend_reason": solution.ration_backend_reason,
+            "strategy": getattr(solution, "strategy", None),
+            "reference": getattr(solution, "selected_reference", None),
+            "cost_usd_per_animal_day": applied_cost,
+            "lower_bound_usd_per_animal_day": getattr(solution, "lower_bound", None),
+            "gap_target": self.ration_backend_config.gap_target if backend == "pulp" else None,
+            "gap_achieved": getattr(solution, "gap", None),
+            "references_evaluated": getattr(solution, "references_resolved", 0),
+            "solver_calls": getattr(solution, "solver_calls", 1),
+            "optimization_seconds": solution.ration_optimization_seconds,
+            "nutritional_validation": validation,
+            "success": bool(solution.success),
+            "stop_reason": getattr(solution, "stop_reason", "converged" if solution.success else "solver_failure"),
+            "message": str(solution.message),
+        }
+        units = dict.fromkeys(values, MeasurementUnits.UNITLESS)
+        units.update(
+            {
+                "simulation_day": MeasurementUnits.SIMULATION_DAY,
+                "cost_usd_per_animal_day": MeasurementUnits.DOLLARS,
+                "lower_bound_usd_per_animal_day": MeasurementUnits.DOLLARS,
+                "optimization_seconds": MeasurementUnits.SECONDS,
+            }
+        )
+        self.om.add_variable(
+            f"ration_optimizer_attempt_pen_{self.id}",
+            values,
+            {
+                "class": type(self).__name__,
+                "function": self._record_ration_attempt.__name__,
+                "pen_id": self.id,
+                "animal_group": self.animal_combination.value,
+                "units": units,
+            },
+            simulation_day=simulation_day,
         )
 
     def _calculate_pen_nasem_averages(self) -> tuple[float, float]:
@@ -1290,9 +1387,13 @@ class Pen:
 
     def _apply_successful_solution(self, solution: OptimizeResult | None, pen_feeds: list[Feed]) -> None:
         """Applies the optimizer solution to the pen."""
-        self.ration = self.ration_optimizer.make_ration_from_solution(pen_available_feeds=pen_feeds, solution=solution)
+        if solution is None:
+            raise ValueError("A successful formulation must provide a solution.")
+        self.ration = self._optimizer_for_result(solution).make_ration_from_solution(
+            pen_available_feeds=pen_feeds, solution=solution
+        )
         self.set_animal_nutritional_supply(feeds_used=pen_feeds, ration_formulation=self.ration)
-        _, evaluation = NutritionEvaluator.evaluate_nutrition_supply(
+        adequate, evaluation = NutritionEvaluator.evaluate_nutrition_supply(
             self.average_nutrition_requirements,
             self.average_nutrition_supply,
             self.animal_combination is AnimalCombination.LAC_COW,
@@ -1300,6 +1401,11 @@ class Pen:
         self.average_nutrition_evaluation = (
             evaluation if self.is_populated else NutritionEvaluationResults.make_empty_evaluation_results()
         )
+        context = getattr(solution, "ration_attempt_context", None)
+        if isinstance(context, tuple):
+            day, attempt = context
+            applied_cost = sum(feed.purchase_cost * self.ration.get(feed.rufas_id, 0.0) for feed in pen_feeds)
+            self._record_ration_attempt(solution, day, attempt, adequate, applied_cost)
 
     def _apply_user_defined_ration(self, pen_feeds: list[Feed]) -> None:
         """

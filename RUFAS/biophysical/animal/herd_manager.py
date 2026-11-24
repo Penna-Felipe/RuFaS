@@ -33,6 +33,7 @@ from RUFAS.biophysical.animal.milk.milk_production import MilkProduction
 from RUFAS.biophysical.animal.nutrients.nutrition_supply_calculator import NutritionSupplyCalculator
 from RUFAS.biophysical.animal.pen import Pen
 from RUFAS.biophysical.animal.ration.calf_ration_manager import CalfMilkType, CalfRationManager, WHOLE_MILK_ID
+from RUFAS.biophysical.animal.ration.ration_backend_config import RationBackendConfig
 from RUFAS.biophysical.animal.ration.ration_manager import RationManager
 from RUFAS.current_day_conditions import CurrentDayConditions
 from RUFAS.biophysical.animal.data_types.animal_manure_excretions import AnimalManureExcretions
@@ -243,6 +244,7 @@ class HerdManager:
         Animal.set_nutrient_standard(nutrient_standard)
         NutritionSupplyCalculator.nutrient_standard = nutrient_standard
 
+        self.ration_backend_config = RationBackendConfig.from_mapping(animal_config_data["ration"])
         self.initialize_pens(animal_config_data["pen_information"])
 
         herd_population = HerdFactory.post_animal_population
@@ -1423,6 +1425,14 @@ class HerdManager:
                     pen_with_min_stocking_density.animal_combination
                 )
                 pen_available_feeds = self._find_pen_available_feeds(available_feeds, user_defined_ration_feed_ids)
+            elif (
+                pen_with_min_stocking_density.ration_backend_config.select(
+                    animal.nutrient_standard, pen_with_min_stocking_density.animal_combination, False
+                )[0]
+                == "pulp"
+            ):
+                ration_feed_ids = RationManager.get_ration_feeds(pen_with_min_stocking_density.animal_combination)
+                pen_available_feeds = self._find_pen_available_feeds(available_feeds, ration_feed_ids)
             else:
                 pen_available_feeds = self._find_pen_available_feeds(available_feeds, RationManager.ration_feeds)
             self._reformulate_ration_single_pen(
@@ -1474,6 +1484,7 @@ class HerdManager:
                 first_parlor_processor=first_parlor_processor,
                 parlor_stream_name=parlor_stream_name,
                 manure_streams=manure_streams,
+                ration_backend_config=self.ration_backend_config,
             )
 
             self.all_pens.append(pen)
@@ -2005,6 +2016,20 @@ class HerdManager:
                 RationManager.user_defined_rations[AnimalCombination.CALF] = {
                     feed_id.rufas_id: ration_fraction for feed_id in pen_available_feeds
                 }
+            if pen.ration_backend_config.backend == "pulp":
+                self.om.add_log(
+                    f"Ration backend for pen {pen.id}",
+                    "No optimizer used: calves take the direct ration path.",
+                    {
+                        "class": self.__class__.__name__,
+                        "function": self._reformulate_ration_single_pen.__name__,
+                        "simulation_day": simulation_day,
+                        "pen_id": pen.id,
+                        "animal_group": pen.animal_combination.value,
+                        "backend": "none",
+                        "backend_reason": "calf_direct_ration",
+                    },
+                )
             pen.use_user_defined_ration(pen_available_feeds, current_temperature)
         else:
             pen.formulate_optimized_ration(

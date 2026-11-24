@@ -1,0 +1,4945 @@
+{
+  "versions": {
+    "python": "3.12.10",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "numpy": "2.2.0",
+    "scipy": "1.18.1",
+    "pulp": "3.3.2"
+  },
+  "scenario": {
+    "cow_id": 114502,
+    "animal_inputs": {
+      "animal_type": "LacCow",
+      "body_weight": 555.1370637147082,
+      "mature_body_weight": 645.8495183080745,
+      "day_of_pregnancy": 54,
+      "body_condition_score_5": 3.0,
+      "days_in_milk": 220,
+      "average_daily_gain_heifer": null,
+      "parity": 2,
+      "calving_interval": 352,
+      "milk_fat": 4,
+      "milk_true_protein": 3.2,
+      "milk_lactose": 4.85,
+      "milk_production": 30.0,
+      "housing": "barn",
+      "distance": 500.0,
+      "previous_temperature": 15.0,
+      "net_energy_diet_concentration": 1.0,
+      "days_born": 1258,
+      "TDN_fraction": 0.7,
+      "process_based_phosphorus_requirement": 0.0
+    },
+    "requirements": {
+      "maintenance_energy": 9.149348177975098,
+      "growth_energy": 0.5894065164754299,
+      "pregnancy_energy": 0.0,
+      "lactation_energy": 22.541701612903225,
+      "metabolizable_protein": 2161.7624013419963,
+      "calcium": 55.745098254074385,
+      "phosphorus": 51.19418561009268,
+      "process_based_phosphorus": 0.0,
+      "dry_matter": 22.204391948530596,
+      "activity_energy": 0.12490583933580934,
+      "essential_amino_acids": {
+        "histidine": 0.0,
+        "isoleucine": 0.0,
+        "leucine": 0.0,
+        "lysine": 0.0,
+        "methionine": 0.0,
+        "phenylalanine": 0.0,
+        "threonine": 0.0,
+        "thryptophan": 0.0,
+        "valine": 0.0
+      }
+    },
+    "excluded_feed_ids": [
+      301,
+      302
+    ],
+    "feeds": {
+      "23": {
+        "category": "By-Product/Other",
+        "price": 0.1,
+        "lower": 0,
+        "upper": 100,
+        "original_reference_pct": 0.74
+      },
+      "44": {
+        "category": "Energy Source",
+        "price": 0.5,
+        "lower": 0,
+        "upper": 100,
+        "original_reference_pct": 15.31
+      },
+      "50": {
+        "category": "Grain Crop Forage",
+        "price": 0.01,
+        "lower": 0,
+        "upper": 100,
+        "original_reference_pct": 37.45
+      },
+      "104": {
+        "category": "Grass/Legume Forage",
+        "price": 0.01,
+        "lower": 0,
+        "upper": 100,
+        "original_reference_pct": 0.37
+      },
+      "110": {
+        "category": "Grass/Legume Forage",
+        "price": 0.01,
+        "lower": 0,
+        "upper": 100,
+        "original_reference_pct": 17.65
+      }
+    },
+    "reference": {
+      "23": 0.22974342899765998,
+      "44": 4.753205267505641,
+      "50": 11.626880291841037,
+      "104": 0.11487171449882999,
+      "110": 5.47969124568743
+    }
+  },
+  "shared_dmi_constraint_fraction": 0.3,
+  "runs": 5,
+  "slsqp": {
+    "success": true,
+    "status": 0,
+    "message": "Optimization terminated successfully",
+    "iterations": 17,
+    "quantities": {
+      "23": 0.0,
+      "44": 0.0,
+      "50": 2.08382913313985,
+      "104": 7.062459520267469,
+      "110": 18.382091194844012
+    },
+    "cost": 0.27528379848251333,
+    "rounded_cost": 0.2752838,
+    "validation_status": "approved",
+    "validation": {
+      "unrounded": {
+        "residuals": {
+          "NE_total_constraint": 5.276529958382355,
+          "NE_maintenance_and_activity_constraint": 27.98201137554362,
+          "NE_lactation_constraint": 15.140190492168692,
+          "NE_growth_constraint": 20.762148772631733,
+          "calcium_constraint": 45.22037672603559,
+          "phosphorus_constraint": 8.550372130962735,
+          "protein_constraint_lower": 6.288928489084356e-08,
+          "protein_constraint_upper": 1080.8812006081089,
+          "NDF_constraint_lower": 20.000000000050434,
+          "NDF_constraint_upper": -5.043432338425191e-11,
+          "forage_NDF_constraint": 30.00000000005044,
+          "fat_constraint": 4.802945949326906,
+          "DMI_constraint_upper": 1.3373296848384442,
+          "DMI_constraint_lower": 11.985305484279914
+        },
+        "violations": {}
+      },
+      "rounded": {
+        "residuals": {
+          "NE_total_constraint": 5.27653011221183,
+          "NE_maintenance_and_activity_constraint": 27.982011511191068,
+          "NE_lactation_constraint": 15.140190645998167,
+          "NE_growth_constraint": 20.76214882718486,
+          "calcium_constraint": 45.22037745592562,
+          "phosphorus_constraint": 8.550372533907328,
+          "protein_constraint_lower": 1.0925306469289353e-05,
+          "protein_constraint_upper": 1080.8811897456917,
+          "NDF_constraint_lower": 20.00000000363262,
+          "NDF_constraint_upper": -3.632621314864082e-09,
+          "forage_NDF_constraint": 30.000000003632614,
+          "fat_constraint": 4.802945952504288,
+          "DMI_constraint_upper": 1.3373295330897754,
+          "DMI_constraint_lower": 11.985305636028583
+        },
+        "violations": {}
+      },
+      "rounded_quantities": {
+        "23": 0.0,
+        "44": 0.0,
+        "50": 2.083829,
+        "104": 7.06246,
+        "110": 18.382091
+      },
+      "repair": null
+    },
+    "dry_matter_kg_per_cow_day": 27.52837984825133,
+    "timings_seconds": {
+      "slsqp_minimize": {
+        "median": 0.13186249998398125,
+        "samples": [
+          0.1559074000106193,
+          0.13949090003734455,
+          0.13118059997214004,
+          0.13186249998398125,
+          0.1259050000226125
+        ]
+      },
+      "slsqp_attempt_including_setup": {
+        "median": 0.1319544999860227,
+        "samples": [
+          0.15598610002780333,
+          0.13958029996138066,
+          0.13125090004177764,
+          0.1319544999860227,
+          0.12598090001847595
+        ]
+      },
+      "slsqp_validation": {
+        "median": 0.0013748000492341816,
+        "samples": [
+          0.24929300002986565,
+          0.0009973000269383192,
+          0.0005437000072561204,
+          0.0016077000182121992,
+          0.0013748000492341816
+        ]
+      }
+    },
+    "repeated_results_match": true
+  },
+  "references": {
+    "midwest_original": {
+      "cases": [
+        {
+          "case": [
+            "maintenance",
+            "tdn"
+          ],
+          "status": "optimal",
+          "quantities": {
+            "23": 0.019201544,
+            "44": 0.0,
+            "50": 4.8429159,
+            "104": 0.0,
+            "110": 24.003592
+          },
+          "cost": 0.2903852334,
+          "message": "",
+          "validation_status": "approved",
+          "validation": {
+            "unrounded": {
+              "residuals": {
+                "NE_total_constraint": 8.063241822190584,
+                "NE_maintenance_and_activity_constraint": 31.027064888178046,
+                "NE_lactation_constraint": 17.92690235597692,
+                "NE_growth_constraint": 22.917052050834172,
+                "calcium_constraint": 46.43745671812561,
+                "phosphorus_constraint": 10.052902534707322,
+                "protein_constraint_lower": 154.6253131480039,
+                "protein_constraint_upper": 926.2558875229943,
+                "NDF_constraint_lower": 19.999999986489158,
+                "NDF_constraint_upper": 1.3510842222785868e-08,
+                "forage_NDF_constraint": 29.99999998648915,
+                "fat_constraint": 4.750332998785934,
+                "DMI_constraint_upper": 8.908977022770159e-08,
+                "DMI_constraint_lower": 13.322635080028588
+              },
+              "violations": {}
+            },
+            "rounded": {
+              "residuals": {
+                "NE_total_constraint": 8.063242961827633,
+                "NE_maintenance_and_activity_constraint": 31.02706609933496,
+                "NE_lactation_constraint": 17.92690349561397,
+                "NE_growth_constraint": 22.917052881906514,
+                "calcium_constraint": 46.43745762592561,
+                "phosphorus_constraint": 10.052903645907314,
+                "protein_constraint_lower": 154.62563077901268,
+                "protein_constraint_upper": 926.2555698919855,
+                "NDF_constraint_lower": 19.99999930713639,
+                "NDF_constraint_upper": 6.928636082648154e-07,
+                "forage_NDF_constraint": 29.99999930713639,
+                "fat_constraint": 4.750333014500596,
+                "DMI_constraint_upper": -4.669102260379532e-07,
+                "DMI_constraint_lower": 13.322635636028584
+              },
+              "violations": {
+                "DMI_constraint_upper": "Residual -4.66910226e-07 is below -1e-07."
+              }
+            },
+            "rounded_quantities": {
+              "23": 0.019202,
+              "44": 0.0,
+              "50": 4.842916,
+              "104": 0.0,
+              "110": 24.003592
+            },
+            "repair": {
+              "triggers": [
+                "DMI_constraint_upper"
+              ],
+              "attempts": 1,
+              "quantities": {
+                "23": 0.019201,
+                "44": 0.0,
+                "50": 4.842916,
+                "104": 0.0,
+                "110": 24.003592
+              },
+              "validation": {
+                "residuals": {
+                  "NE_total_constraint": 8.063240798464832,
+                  "NE_maintenance_and_activity_constraint": 31.027063785706083,
+                  "NE_lactation_constraint": 17.92690133225117,
+                  "NE_growth_constraint": 22.917051270554097,
+                  "calcium_constraint": 46.43745582592562,
+                  "phosphorus_constraint": 10.052901545907318,
+                  "protein_constraint_lower": 154.6249532574734,
+                  "protein_constraint_upper": 926.2562474135248,
+                  "NDF_constraint_lower": 20.00000086607954,
+                  "NDF_constraint_upper": -8.660795387527287e-07,
+                  "forage_NDF_constraint": 30.00000086607954,
+                  "fat_constraint": 4.750332978136792,
+                  "DMI_constraint_upper": 5.330897714372895e-07,
+                  "DMI_constraint_lower": 13.322634636028587
+                },
+                "violations": {}
+              },
+              "cost_delta": -1.0000000000000001e-07
+            }
+          },
+          "raw_diet": {
+            "quantities": {
+              "23": 0.019201544,
+              "44": 0.0,
+              "50": 4.8429159,
+              "104": 0.0,
+              "110": 24.003592
+            },
+            "dry_matter_kg_per_cow_day": 28.865709444,
+            "cost_usd_per_cow_day": 0.2903852334,
+            "offers": {
+              "energy_maintenance": {
+                "unit": "Mcal/cow/day",
+                "predicted": 34.164235757497195,
+                "nrc": 40.301318905488955,
+                "signed_error": -6.13708314799176,
+                "absolute_error": 6.13708314799176,
+                "relative_error_percent": 15.227995794340869
+              },
+              "energy_growth": {
+                "unit": "Mcal/cow/day",
+                "predicted": 17.910096690013855,
+                "nrc": 23.506458567309604,
+                "signed_error": -5.596361877295749,
+                "absolute_error": 5.596361877295749,
+                "relative_error_percent": 23.80776271028168
+              },
+              "energy_lactation": {
+                "unit": "Mcal/cow/day",
+                "predicted": 35.79082965098078,
+                "nrc": 40.468603968880146,
+                "signed_error": -4.677774317899363,
+                "absolute_error": 4.677774317899363,
+                "relative_error_percent": 11.559020720103202
+              },
+              "microbial_tdn": {
+                "unit": "g/cow/day",
+                "predicted": 1999.9200317694465,
+                "nrc": 2185.512865546192,
+                "signed_error": -185.5928337767457,
+                "absolute_error": 185.5928337767457,
+                "relative_error_percent": 8.491957961105998
+              },
+              "microbial_rdp": {
+                "unit": "g/cow/day",
+                "predicted": 3920.8924372567526,
+                "nrc": 3874.311291236318,
+                "signed_error": 46.58114602043452,
+                "absolute_error": 46.58114602043452,
+                "relative_error_percent": 1.2023077785670178
+              },
+              "microbial_metabolizable": {
+                "unit": "g/cow/day",
+                "predicted": 1279.9488203324458,
+                "nrc": 1398.728233949563,
+                "signed_error": -118.77941361711714,
+                "absolute_error": 118.77941361711714,
+                "relative_error_percent": 8.49195796110599
+              },
+              "digestible_rup": {
+                "unit": "g/cow/day",
+                "predicted": 745.5674259090115,
+                "nrc": 781.4133319647577,
+                "signed_error": -35.84590605574624,
+                "absolute_error": 35.84590605574624,
+                "relative_error_percent": 4.5873169281123705
+              },
+              "endogenous": {
+                "unit": "g/cow/day",
+                "predicted": 136.24614857568002,
+                "nrc": 136.24614857568002,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "metabolizable_protein": {
+                "unit": "g/cow/day",
+                "predicted": 2161.7623948171376,
+                "nrc": 2316.3877144900002,
+                "signed_error": -154.6253196728626,
+                "absolute_error": 154.6253196728626,
+                "relative_error_percent": 6.67527800746027
+              }
+            },
+            "predicted_microbial_limiter": "tdn",
+            "nrc_microbial_limiter": "tdn",
+            "nrc_intake_discount": 1.0
+          },
+          "rounded_diet": {
+            "quantities": {
+              "23": 0.019202,
+              "44": 0.0,
+              "50": 4.842916,
+              "104": 0.0,
+              "110": 24.003592
+            },
+            "dry_matter_kg_per_cow_day": 28.86571,
+            "cost_usd_per_cow_day": 0.29038528,
+            "offers": {
+              "energy_maintenance": {
+                "unit": "Mcal/cow/day",
+                "predicted": 34.164236827321815,
+                "nrc": 40.30132011664587,
+                "signed_error": -6.137083289324053,
+                "absolute_error": 6.137083289324053,
+                "relative_error_percent": 15.227995687389953
+              },
+              "energy_growth": {
+                "unit": "Mcal/cow/day",
+                "predicted": 17.91009740072865,
+                "nrc": 23.506459398381942,
+                "signed_error": -5.596361997653293,
+                "absolute_error": 5.596361997653293,
+                "relative_error_percent": 23.80776238057577
+              },
+              "energy_lactation": {
+                "unit": "Mcal/cow/day",
+                "predicted": 35.79083066993287,
+                "nrc": 40.468605108517195,
+                "signed_error": -4.677774438584322,
+                "absolute_error": 4.677774438584322,
+                "relative_error_percent": 11.559020692808158
+              },
+              "microbial_tdn": {
+                "unit": "g/cow/day",
+                "predicted": 1999.9200752996464,
+                "nrc": 2185.512913116,
+                "signed_error": -185.59283781635372,
+                "absolute_error": 185.59283781635372,
+                "relative_error_percent": 8.491957961105994
+              },
+              "microbial_rdp": {
+                "unit": "g/cow/day",
+                "predicted": 3920.8925236918208,
+                "nrc": 3874.311366272841,
+                "signed_error": 46.58115741897973,
+                "absolute_error": 46.58115741897973,
+                "relative_error_percent": 1.202308049489364
+              },
+              "microbial_metabolizable": {
+                "unit": "g/cow/day",
+                "predicted": 1279.9488481917738,
+                "nrc": 1398.7282643942401,
+                "signed_error": -118.77941620246634,
+                "absolute_error": 118.77941620246634,
+                "relative_error_percent": 8.491957961105992
+              },
+              "digestible_rup": {
+                "unit": "g/cow/day",
+                "predicted": 745.5677003897141,
+                "nrc": 781.413616526769,
+                "signed_error": -35.84591613705493,
+                "absolute_error": 35.84591613705493,
+                "relative_error_percent": 4.5873165477181
+              },
+              "endogenous": {
+                "unit": "g/cow/day",
+                "predicted": 136.2461512,
+                "nrc": 136.2461512,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "metabolizable_protein": {
+                "unit": "g/cow/day",
+                "predicted": 2161.7626997814878,
+                "nrc": 2316.388032121009,
+                "signed_error": -154.62533233952126,
+                "absolute_error": 154.62533233952126,
+                "relative_error_percent": 6.675277638951451
+              }
+            },
+            "predicted_microbial_limiter": "tdn",
+            "nrc_microbial_limiter": "tdn",
+            "nrc_intake_discount": 1.0
+          },
+          "repaired_diet": {
+            "quantities": {
+              "23": 0.019201,
+              "44": 0.0,
+              "50": 4.842916,
+              "104": 0.0,
+              "110": 24.003592
+            },
+            "dry_matter_kg_per_cow_day": 28.865709000000003,
+            "cost_usd_per_cow_day": 0.29038518,
+            "offers": {
+              "energy_maintenance": {
+                "unit": "Mcal/cow/day",
+                "predicted": 34.16423477512126,
+                "nrc": 40.30131780301699,
+                "signed_error": -6.137083027895734,
+                "absolute_error": 6.137083027895734,
+                "relative_error_percent": 15.227995912918526
+              },
+              "energy_growth": {
+                "unit": "Mcal/cow/day",
+                "predicted": 17.91009600965676,
+                "nrc": 23.506457787029525,
+                "signed_error": -5.596361777372767,
+                "absolute_error": 5.596361777372767,
+                "relative_error_percent": 23.807763075475997
+              },
+              "energy_lactation": {
+                "unit": "Mcal/cow/day",
+                "predicted": 35.79082873328096,
+                "nrc": 40.468602945154394,
+                "signed_error": -4.677774211873434,
+                "absolute_error": 4.677774211873434,
+                "relative_error_percent": 11.559020750513797
+              },
+              "microbial_tdn": {
+                "unit": "g/cow/day",
+                "predicted": 1999.919996952291,
+                "nrc": 2185.512827498,
+                "signed_error": -185.59283054570915,
+                "absolute_error": 185.59283054570915,
+                "relative_error_percent": 8.491957961105994
+              },
+              "microbial_rdp": {
+                "unit": "g/cow/day",
+                "predicted": 3920.892346394565,
+                "nrc": 3874.31121237684,
+                "signed_error": 46.58113401772471,
+                "absolute_error": 46.58113401772471,
+                "relative_error_percent": 1.2023074932369149
+              },
+              "microbial_metabolizable": {
+                "unit": "g/cow/day",
+                "predicted": 1279.9487980494664,
+                "nrc": 1398.7282095987202,
+                "signed_error": -118.77941154925384,
+                "absolute_error": 118.77941154925384,
+                "relative_error_percent": 8.491957961105992
+              },
+              "digestible_rup": {
+                "unit": "g/cow/day",
+                "predicted": 745.5671032577201,
+                "nrc": 781.4129985207494,
+                "signed_error": -35.84589526302932,
+                "absolute_error": 35.84589526302932,
+                "relative_error_percent": 4.587317504429443
+              },
+              "endogenous": {
+                "unit": "g/cow/day",
+                "predicted": 136.24614648000002,
+                "nrc": 136.24614648000002,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "metabolizable_protein": {
+                "unit": "g/cow/day",
+                "predicted": 2161.7620477871865,
+                "nrc": 2316.3873545994697,
+                "signed_error": -154.62530681228327,
+                "absolute_error": 154.62530681228327,
+                "relative_error_percent": 6.675278489379415
+              }
+            },
+            "predicted_microbial_limiter": "tdn",
+            "nrc_microbial_limiter": "tdn",
+            "nrc_intake_discount": 1.0
+          }
+        },
+        {
+          "case": [
+            "maintenance",
+            "rdp"
+          ],
+          "status": "infeasible",
+          "quantities": null,
+          "cost": null,
+          "message": "Infeasible",
+          "validation_status": null,
+          "validation": null
+        },
+        {
+          "case": [
+            "growth",
+            "tdn"
+          ],
+          "status": "infeasible",
+          "quantities": null,
+          "cost": null,
+          "message": "Infeasible",
+          "validation_status": null,
+          "validation": null
+        },
+        {
+          "case": [
+            "growth",
+            "rdp"
+          ],
+          "status": "infeasible",
+          "quantities": null,
+          "cost": null,
+          "message": "Infeasible",
+          "validation_status": null,
+          "validation": null
+        },
+        {
+          "case": [
+            "lactation",
+            "tdn"
+          ],
+          "status": "optimal",
+          "quantities": {
+            "23": 0.019201544,
+            "44": 0.0,
+            "50": 4.8429159,
+            "104": 0.0,
+            "110": 24.003592
+          },
+          "cost": 0.2903852334,
+          "message": "",
+          "validation_status": "approved",
+          "validation": {
+            "unrounded": {
+              "residuals": {
+                "NE_total_constraint": 8.063241822190584,
+                "NE_maintenance_and_activity_constraint": 31.027064888178046,
+                "NE_lactation_constraint": 17.92690235597692,
+                "NE_growth_constraint": 22.917052050834172,
+                "calcium_constraint": 46.43745671812561,
+                "phosphorus_constraint": 10.052902534707322,
+                "protein_constraint_lower": 154.6253131480039,
+                "protein_constraint_upper": 926.2558875229943,
+                "NDF_constraint_lower": 19.999999986489158,
+                "NDF_constraint_upper": 1.3510842222785868e-08,
+                "forage_NDF_constraint": 29.99999998648915,
+                "fat_constraint": 4.750332998785934,
+                "DMI_constraint_upper": 8.908977022770159e-08,
+                "DMI_constraint_lower": 13.322635080028588
+              },
+              "violations": {}
+            },
+            "rounded": {
+              "residuals": {
+                "NE_total_constraint": 8.063242961827633,
+                "NE_maintenance_and_activity_constraint": 31.02706609933496,
+                "NE_lactation_constraint": 17.92690349561397,
+                "NE_growth_constraint": 22.917052881906514,
+                "calcium_constraint": 46.43745762592561,
+                "phosphorus_constraint": 10.052903645907314,
+                "protein_constraint_lower": 154.62563077901268,
+                "protein_constraint_upper": 926.2555698919855,
+                "NDF_constraint_lower": 19.99999930713639,
+                "NDF_constraint_upper": 6.928636082648154e-07,
+                "forage_NDF_constraint": 29.99999930713639,
+                "fat_constraint": 4.750333014500596,
+                "DMI_constraint_upper": -4.669102260379532e-07,
+                "DMI_constraint_lower": 13.322635636028584
+              },
+              "violations": {
+                "DMI_constraint_upper": "Residual -4.66910226e-07 is below -1e-07."
+              }
+            },
+            "rounded_quantities": {
+              "23": 0.019202,
+              "44": 0.0,
+              "50": 4.842916,
+              "104": 0.0,
+              "110": 24.003592
+            },
+            "repair": {
+              "triggers": [
+                "DMI_constraint_upper"
+              ],
+              "attempts": 1,
+              "quantities": {
+                "23": 0.019201,
+                "44": 0.0,
+                "50": 4.842916,
+                "104": 0.0,
+                "110": 24.003592
+              },
+              "validation": {
+                "residuals": {
+                  "NE_total_constraint": 8.063240798464832,
+                  "NE_maintenance_and_activity_constraint": 31.027063785706083,
+                  "NE_lactation_constraint": 17.92690133225117,
+                  "NE_growth_constraint": 22.917051270554097,
+                  "calcium_constraint": 46.43745582592562,
+                  "phosphorus_constraint": 10.052901545907318,
+                  "protein_constraint_lower": 154.6249532574734,
+                  "protein_constraint_upper": 926.2562474135248,
+                  "NDF_constraint_lower": 20.00000086607954,
+                  "NDF_constraint_upper": -8.660795387527287e-07,
+                  "forage_NDF_constraint": 30.00000086607954,
+                  "fat_constraint": 4.750332978136792,
+                  "DMI_constraint_upper": 5.330897714372895e-07,
+                  "DMI_constraint_lower": 13.322634636028587
+                },
+                "violations": {}
+              },
+              "cost_delta": -1.0000000000000001e-07
+            }
+          },
+          "raw_diet": {
+            "quantities": {
+              "23": 0.019201544,
+              "44": 0.0,
+              "50": 4.8429159,
+              "104": 0.0,
+              "110": 24.003592
+            },
+            "dry_matter_kg_per_cow_day": 28.865709444,
+            "cost_usd_per_cow_day": 0.2903852334,
+            "offers": {
+              "energy_maintenance": {
+                "unit": "Mcal/cow/day",
+                "predicted": 34.164235757497195,
+                "nrc": 40.301318905488955,
+                "signed_error": -6.13708314799176,
+                "absolute_error": 6.13708314799176,
+                "relative_error_percent": 15.227995794340869
+              },
+              "energy_growth": {
+                "unit": "Mcal/cow/day",
+                "predicted": 17.910096690013855,
+                "nrc": 23.506458567309604,
+                "signed_error": -5.596361877295749,
+                "absolute_error": 5.596361877295749,
+                "relative_error_percent": 23.80776271028168
+              },
+              "energy_lactation": {
+                "unit": "Mcal/cow/day",
+                "predicted": 35.79082965098078,
+                "nrc": 40.468603968880146,
+                "signed_error": -4.677774317899363,
+                "absolute_error": 4.677774317899363,
+                "relative_error_percent": 11.559020720103202
+              },
+              "microbial_tdn": {
+                "unit": "g/cow/day",
+                "predicted": 1999.9200317694465,
+                "nrc": 2185.512865546192,
+                "signed_error": -185.5928337767457,
+                "absolute_error": 185.5928337767457,
+                "relative_error_percent": 8.491957961105998
+              },
+              "microbial_rdp": {
+                "unit": "g/cow/day",
+                "predicted": 3920.8924372567526,
+                "nrc": 3874.311291236318,
+                "signed_error": 46.58114602043452,
+                "absolute_error": 46.58114602043452,
+                "relative_error_percent": 1.2023077785670178
+              },
+              "microbial_metabolizable": {
+                "unit": "g/cow/day",
+                "predicted": 1279.9488203324458,
+                "nrc": 1398.728233949563,
+                "signed_error": -118.77941361711714,
+                "absolute_error": 118.77941361711714,
+                "relative_error_percent": 8.49195796110599
+              },
+              "digestible_rup": {
+                "unit": "g/cow/day",
+                "predicted": 745.5674259090115,
+                "nrc": 781.4133319647577,
+                "signed_error": -35.84590605574624,
+                "absolute_error": 35.84590605574624,
+                "relative_error_percent": 4.5873169281123705
+              },
+              "endogenous": {
+                "unit": "g/cow/day",
+                "predicted": 136.24614857568002,
+                "nrc": 136.24614857568002,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "metabolizable_protein": {
+                "unit": "g/cow/day",
+                "predicted": 2161.7623948171376,
+                "nrc": 2316.3877144900002,
+                "signed_error": -154.6253196728626,
+                "absolute_error": 154.6253196728626,
+                "relative_error_percent": 6.67527800746027
+              }
+            },
+            "predicted_microbial_limiter": "tdn",
+            "nrc_microbial_limiter": "tdn",
+            "nrc_intake_discount": 1.0
+          },
+          "rounded_diet": {
+            "quantities": {
+              "23": 0.019202,
+              "44": 0.0,
+              "50": 4.842916,
+              "104": 0.0,
+              "110": 24.003592
+            },
+            "dry_matter_kg_per_cow_day": 28.86571,
+            "cost_usd_per_cow_day": 0.29038528,
+            "offers": {
+              "energy_maintenance": {
+                "unit": "Mcal/cow/day",
+                "predicted": 34.164236827321815,
+                "nrc": 40.30132011664587,
+                "signed_error": -6.137083289324053,
+                "absolute_error": 6.137083289324053,
+                "relative_error_percent": 15.227995687389953
+              },
+              "energy_growth": {
+                "unit": "Mcal/cow/day",
+                "predicted": 17.91009740072865,
+                "nrc": 23.506459398381942,
+                "signed_error": -5.596361997653293,
+                "absolute_error": 5.596361997653293,
+                "relative_error_percent": 23.80776238057577
+              },
+              "energy_lactation": {
+                "unit": "Mcal/cow/day",
+                "predicted": 35.79083066993287,
+                "nrc": 40.468605108517195,
+                "signed_error": -4.677774438584322,
+                "absolute_error": 4.677774438584322,
+                "relative_error_percent": 11.559020692808158
+              },
+              "microbial_tdn": {
+                "unit": "g/cow/day",
+                "predicted": 1999.9200752996464,
+                "nrc": 2185.512913116,
+                "signed_error": -185.59283781635372,
+                "absolute_error": 185.59283781635372,
+                "relative_error_percent": 8.491957961105994
+              },
+              "microbial_rdp": {
+                "unit": "g/cow/day",
+                "predicted": 3920.8925236918208,
+                "nrc": 3874.311366272841,
+                "signed_error": 46.58115741897973,
+                "absolute_error": 46.58115741897973,
+                "relative_error_percent": 1.202308049489364
+              },
+              "microbial_metabolizable": {
+                "unit": "g/cow/day",
+                "predicted": 1279.9488481917738,
+                "nrc": 1398.7282643942401,
+                "signed_error": -118.77941620246634,
+                "absolute_error": 118.77941620246634,
+                "relative_error_percent": 8.491957961105992
+              },
+              "digestible_rup": {
+                "unit": "g/cow/day",
+                "predicted": 745.5677003897141,
+                "nrc": 781.413616526769,
+                "signed_error": -35.84591613705493,
+                "absolute_error": 35.84591613705493,
+                "relative_error_percent": 4.5873165477181
+              },
+              "endogenous": {
+                "unit": "g/cow/day",
+                "predicted": 136.2461512,
+                "nrc": 136.2461512,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "metabolizable_protein": {
+                "unit": "g/cow/day",
+                "predicted": 2161.7626997814878,
+                "nrc": 2316.388032121009,
+                "signed_error": -154.62533233952126,
+                "absolute_error": 154.62533233952126,
+                "relative_error_percent": 6.675277638951451
+              }
+            },
+            "predicted_microbial_limiter": "tdn",
+            "nrc_microbial_limiter": "tdn",
+            "nrc_intake_discount": 1.0
+          },
+          "repaired_diet": {
+            "quantities": {
+              "23": 0.019201,
+              "44": 0.0,
+              "50": 4.842916,
+              "104": 0.0,
+              "110": 24.003592
+            },
+            "dry_matter_kg_per_cow_day": 28.865709000000003,
+            "cost_usd_per_cow_day": 0.29038518,
+            "offers": {
+              "energy_maintenance": {
+                "unit": "Mcal/cow/day",
+                "predicted": 34.16423477512126,
+                "nrc": 40.30131780301699,
+                "signed_error": -6.137083027895734,
+                "absolute_error": 6.137083027895734,
+                "relative_error_percent": 15.227995912918526
+              },
+              "energy_growth": {
+                "unit": "Mcal/cow/day",
+                "predicted": 17.91009600965676,
+                "nrc": 23.506457787029525,
+                "signed_error": -5.596361777372767,
+                "absolute_error": 5.596361777372767,
+                "relative_error_percent": 23.807763075475997
+              },
+              "energy_lactation": {
+                "unit": "Mcal/cow/day",
+                "predicted": 35.79082873328096,
+                "nrc": 40.468602945154394,
+                "signed_error": -4.677774211873434,
+                "absolute_error": 4.677774211873434,
+                "relative_error_percent": 11.559020750513797
+              },
+              "microbial_tdn": {
+                "unit": "g/cow/day",
+                "predicted": 1999.919996952291,
+                "nrc": 2185.512827498,
+                "signed_error": -185.59283054570915,
+                "absolute_error": 185.59283054570915,
+                "relative_error_percent": 8.491957961105994
+              },
+              "microbial_rdp": {
+                "unit": "g/cow/day",
+                "predicted": 3920.892346394565,
+                "nrc": 3874.31121237684,
+                "signed_error": 46.58113401772471,
+                "absolute_error": 46.58113401772471,
+                "relative_error_percent": 1.2023074932369149
+              },
+              "microbial_metabolizable": {
+                "unit": "g/cow/day",
+                "predicted": 1279.9487980494664,
+                "nrc": 1398.7282095987202,
+                "signed_error": -118.77941154925384,
+                "absolute_error": 118.77941154925384,
+                "relative_error_percent": 8.491957961105992
+              },
+              "digestible_rup": {
+                "unit": "g/cow/day",
+                "predicted": 745.5671032577201,
+                "nrc": 781.4129985207494,
+                "signed_error": -35.84589526302932,
+                "absolute_error": 35.84589526302932,
+                "relative_error_percent": 4.587317504429443
+              },
+              "endogenous": {
+                "unit": "g/cow/day",
+                "predicted": 136.24614648000002,
+                "nrc": 136.24614648000002,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "metabolizable_protein": {
+                "unit": "g/cow/day",
+                "predicted": 2161.7620477871865,
+                "nrc": 2316.3873545994697,
+                "signed_error": -154.62530681228327,
+                "absolute_error": 154.62530681228327,
+                "relative_error_percent": 6.675278489379415
+              }
+            },
+            "predicted_microbial_limiter": "tdn",
+            "nrc_microbial_limiter": "tdn",
+            "nrc_intake_discount": 1.0
+          }
+        },
+        {
+          "case": [
+            "lactation",
+            "rdp"
+          ],
+          "status": "infeasible",
+          "quantities": null,
+          "cost": null,
+          "message": "Infeasible",
+          "validation_status": null,
+          "validation": null
+        }
+      ],
+      "selected_case": [
+        "maintenance",
+        "tdn"
+      ],
+      "selected_cost": 0.29038518,
+      "message": "",
+      "coefficients": {
+        "energy_mcal_per_kg_dm": {
+          "23": {
+            "maintenance": 2.0522005536396453,
+            "growth": 1.3910718900942785,
+            "lactation": 1.936651911341734
+          },
+          "44": {
+            "maintenance": 2.1249023655923893,
+            "growth": 1.452868142641071,
+            "lactation": 2.0050956686432593
+          },
+          "50": {
+            "maintenance": 1.3402116243672992,
+            "growth": 0.7638601228309945,
+            "lactation": 1.3583881610507391
+          },
+          "104": {
+            "maintenance": 1.0633492875631143,
+            "growth": 0.5095840397235003,
+            "lactation": 1.1504731047663357
+          },
+          "110": {
+            "maintenance": 1.151256784953537,
+            "growth": 0.5909147109180521,
+            "lactation": 1.2154465598552118
+          }
+        },
+        "protein_g_per_kg_dm": {
+          "23": {
+            "microbial_tdn": 78.34735543286028,
+            "microbial_rdp": 177.29725629906974,
+            "digestible_rup": 597.1319940714636
+          },
+          "44": {
+            "microbial_tdn": 105.50602722958365,
+            "microbial_rdp": 41.17675823268257,
+            "digestible_rup": 41.001079518336105
+          },
+          "50": {
+            "microbial_tdn": 78.03805825076881,
+            "microbial_rdp": 55.8751947865349,
+            "digestible_rup": 21.885133705206545
+          },
+          "104": {
+            "microbial_tdn": 65.76133933083081,
+            "microbial_rdp": 129.93631176028833,
+            "digestible_rup": 24.136938065661855
+          },
+          "110": {
+            "microbial_tdn": 67.51005801419406,
+            "microbial_rdp": 151.93097711965524,
+            "digestible_rup": 26.167488084969527
+          }
+        },
+        "endogenous_g_per_kg_dm": 4.720000000000001
+      },
+      "reference": {
+        "quantities": {
+          "23": 0.22974342899765998,
+          "44": 4.753205267505641,
+          "50": 11.626880291841037,
+          "104": 0.11487171449882999,
+          "110": 5.47969124568743
+        },
+        "dry_matter_kg_per_cow_day": 22.204391948530596,
+        "cost_usd_per_cow_day": 2.5717914091728593,
+        "offers": {
+          "energy_maintenance": {
+            "unit": "Mcal/cow/day",
+            "predicted": 32.58473731332706,
+            "nrc": 32.58473731332706,
+            "signed_error": 0.0,
+            "absolute_error": 0.0,
+            "relative_error_percent": 0.0
+          },
+          "energy_growth": {
+            "unit": "Mcal/cow/day",
+            "predicted": 19.403247303162,
+            "nrc": 19.403247303162,
+            "signed_error": 0.0,
+            "absolute_error": 0.0,
+            "relative_error_percent": 0.0
+          },
+          "energy_lactation": {
+            "unit": "Mcal/cow/day",
+            "predicted": 32.56180957499424,
+            "nrc": 32.56180957499424,
+            "signed_error": 0.0,
+            "absolute_error": 0.0,
+            "relative_error_percent": 0.0
+          },
+          "microbial_tdn": {
+            "unit": "g/cow/day",
+            "predicted": 1804.3191476536026,
+            "nrc": 1804.3191476536026,
+            "signed_error": 0.0,
+            "absolute_error": 0.0,
+            "relative_error_percent": 0.0
+          },
+          "microbial_rdp": {
+            "unit": "g/cow/day",
+            "predicted": 1733.5695169896308,
+            "nrc": 1733.5695169896308,
+            "signed_error": 0.0,
+            "absolute_error": 0.0,
+            "relative_error_percent": 0.0
+          },
+          "microbial_metabolizable": {
+            "unit": "g/cow/day",
+            "predicted": 1109.4844908733637,
+            "nrc": 1109.4844908733637,
+            "signed_error": 0.0,
+            "absolute_error": 0.0,
+            "relative_error_percent": 0.0
+          },
+          "digestible_rup": {
+            "unit": "g/cow/day",
+            "predicted": 732.6919356227255,
+            "nrc": 732.6919356227255,
+            "signed_error": 0.0,
+            "absolute_error": 0.0,
+            "relative_error_percent": 0.0
+          },
+          "endogenous": {
+            "unit": "g/cow/day",
+            "predicted": 104.80472999706443,
+            "nrc": 104.80472999706443,
+            "signed_error": 0.0,
+            "absolute_error": 0.0,
+            "relative_error_percent": 0.0
+          },
+          "metabolizable_protein": {
+            "unit": "g/cow/day",
+            "predicted": 1946.9811564931538,
+            "nrc": 1946.9811564931538,
+            "signed_error": 0.0,
+            "absolute_error": 0.0,
+            "relative_error_percent": 0.0
+          }
+        },
+        "predicted_microbial_limiter": "rdp",
+        "nrc_microbial_limiter": "rdp",
+        "nrc_intake_discount": 0.9150804203889402
+      },
+      "slsqp_same_reference_coefficients": {
+        "raw": {
+          "quantities": {
+            "23": 0.0,
+            "44": 0.0,
+            "50": 2.08382913313985,
+            "104": 7.062459520267469,
+            "110": 18.382091194844012
+          },
+          "dry_matter_kg_per_cow_day": 27.52837984825133,
+          "cost_usd_per_cow_day": 0.27528379848251333,
+          "offers": {
+            "energy_maintenance": {
+              "unit": "Mcal/cow/day",
+              "predicted": 31.465140536447844,
+              "nrc": 37.25626539285453,
+              "signed_error": -5.791124856406686,
+              "absolute_error": 5.791124856406686,
+              "relative_error_percent": 15.544029427913031
+            },
+            "energy_growth": {
+              "unit": "Mcal/cow/day",
+              "predicted": 16.05291873479112,
+              "nrc": 21.351555289107164,
+              "signed_error": -5.298636554316044,
+              "absolute_error": 5.298636554316044,
+              "relative_error_percent": 24.81616201991256
+            },
+            "energy_lactation": {
+              "unit": "Mcal/cow/day",
+              "predicted": 33.29826806139641,
+              "nrc": 37.68189210507192,
+              "signed_error": -4.383624043675503,
+              "absolute_error": 4.383624043675503,
+              "relative_error_percent": 11.633237607740709
+            },
+            "microbial_tdn": {
+              "unit": "g/cow/day",
+              "predicted": 1868.0308192853072,
+              "nrc": 2041.3843173382847,
+              "signed_error": -173.35349805297756,
+              "absolute_error": 173.35349805297756,
+              "relative_error_percent": 8.491957961105985
+            },
+            "microbial_rdp": {
+              "unit": "g/cow/day",
+              "predicted": 3826.9133774711972,
+              "nrc": 3790.0370294643258,
+              "signed_error": 36.87634800687147,
+              "absolute_error": 36.87634800687147,
+              "relative_error_percent": 0.972981206257066
+            },
+            "microbial_metabolizable": {
+              "unit": "g/cow/day",
+              "predicted": 1195.5397243425966,
+              "nrc": 1306.4859630965022,
+              "signed_error": -110.94623875390562,
+              "absolute_error": 110.94623875390562,
+              "relative_error_percent": 8.491957961105985
+            },
+            "digestible_rup": {
+              "unit": "g/cow/day",
+              "predicted": 697.084179547414,
+              "nrc": 725.3424854246372,
+              "signed_error": -28.258305877223165,
+              "absolute_error": 28.258305877223165,
+              "relative_error_percent": 3.89585698412246
+            },
+            "endogenous": {
+              "unit": "g/cow/day",
+              "predicted": 129.9339528837463,
+              "nrc": 129.9339528837463,
+              "signed_error": 0.0,
+              "absolute_error": 0.0,
+              "relative_error_percent": 0.0
+            },
+            "metabolizable_protein": {
+              "unit": "g/cow/day",
+              "predicted": 2022.557856773757,
+              "nrc": 2161.7624014048856,
+              "signed_error": -139.20454463112856,
+              "absolute_error": 139.20454463112856,
+              "relative_error_percent": 6.439400765813224
+            }
+          },
+          "predicted_microbial_limiter": "tdn",
+          "nrc_microbial_limiter": "tdn",
+          "nrc_intake_discount": 1.0
+        },
+        "rounded": {
+          "quantities": {
+            "23": 0.0,
+            "44": 0.0,
+            "50": 2.083829,
+            "104": 7.06246,
+            "110": 18.382091
+          },
+          "dry_matter_kg_per_cow_day": 27.52838,
+          "cost_usd_per_cow_day": 0.2752838,
+          "offers": {
+            "energy_maintenance": {
+              "unit": "Mcal/cow/day",
+              "predicted": 31.46514064382002,
+              "nrc": 37.25626552850198,
+              "signed_error": -5.791124884681956,
+              "absolute_error": 5.791124884681956,
+              "relative_error_percent": 15.544029447212308
+            },
+            "energy_growth": {
+              "unit": "Mcal/cow/day",
+              "predicted": 16.05291876241875,
+              "nrc": 21.351555343660287,
+              "signed_error": -5.298636581241539,
+              "absolute_error": 5.298636581241539,
+              "relative_error_percent": 24.816162082612927
+            },
+            "energy_lactation": {
+              "unit": "Mcal/cow/day",
+              "predicted": 33.298268195637704,
+              "nrc": 37.68189225890139,
+              "signed_error": -4.383624063263689,
+              "absolute_error": 4.383624063263689,
+              "relative_error_percent": 11.633237612233149
+            },
+            "microbial_tdn": {
+              "unit": "g/cow/day",
+              "predicted": 1868.030827289255,
+              "nrc": 2041.384326085,
+              "signed_error": -173.35349879574505,
+              "absolute_error": 173.35349879574505,
+              "relative_error_percent": 8.49195796110599
+            },
+            "microbial_rdp": {
+              "unit": "g/cow/day",
+              "predicted": 3826.9134027638165,
+              "nrc": 3790.0370534707913,
+              "signed_error": 36.876349293025214,
+              "absolute_error": 36.876349293025214,
+              "relative_error_percent": 0.9729812340292311
+            },
+            "microbial_metabolizable": {
+              "unit": "g/cow/day",
+              "predicted": 1195.5397294651232,
+              "nrc": 1306.4859686944,
+              "signed_error": -110.9462392292769,
+              "absolute_error": 110.9462392292769,
+              "relative_error_percent": 8.491957961105996
+            },
+            "digestible_rup": {
+              "unit": "g/cow/day",
+              "predicted": 697.0841831143266,
+              "nrc": 725.3424899729025,
+              "signed_error": -28.258306858575907,
+              "absolute_error": 28.258306858575907,
+              "relative_error_percent": 3.8958570949885463
+            },
+            "endogenous": {
+              "unit": "g/cow/day",
+              "predicted": 129.93395360000002,
+              "nrc": 129.93395360000002,
+              "signed_error": 0.0,
+              "absolute_error": 0.0,
+              "relative_error_percent": 0.0
+            },
+            "metabolizable_protein": {
+              "unit": "g/cow/day",
+              "predicted": 2022.5578661794498,
+              "nrc": 2161.762412267303,
+              "signed_error": -139.20454608785303,
+              "absolute_error": 139.20454608785303,
+              "relative_error_percent": 6.439400800842509
+            }
+          },
+          "predicted_microbial_limiter": "tdn",
+          "nrc_microbial_limiter": "tdn",
+          "nrc_intake_discount": 1.0
+        }
+      },
+      "counts": {
+        "optimal": 2,
+        "infeasible": 4,
+        "solver_error": 0,
+        "approved": 2,
+        "rejected": 0
+      },
+      "description": "Retained Midwest proportions normalized to predicted DMI.",
+      "timings_seconds": {
+        "cbc_all_cases_solver_calls": {
+          "median": 0.1697965000057593,
+          "samples": [
+            0.3833949000108987,
+            0.17161940009100363,
+            0.1697965000057593,
+            0.16045110003324226,
+            0.16798229998676106
+          ]
+        },
+        "pulp_coefficients_model_and_solve": {
+          "median": 0.17855860001873225,
+          "samples": [
+            0.39072139997733757,
+            0.17902149999281392,
+            0.17855860001873225,
+            0.16984400001820177,
+            0.17561869998462498
+          ]
+        },
+        "pulp_validation_and_selection": {
+          "median": 0.0037699000095017254,
+          "samples": [
+            0.0034056000295095146,
+            0.002905900008045137,
+            0.0038358999299816787,
+            0.0038908999413251877,
+            0.0037699000095017254
+          ]
+        },
+        "pulp_full": {
+          "median": 0.18192740000085905,
+          "samples": [
+            0.3941270000068471,
+            0.18192740000085905,
+            0.18239449994871393,
+            0.17373489995952696,
+            0.1793885999941267
+          ]
+        }
+      },
+      "repeated_results_match": true
+    },
+    "forage_weighted": {
+      "cases": [
+        {
+          "case": [
+            "maintenance",
+            "tdn"
+          ],
+          "status": "optimal",
+          "quantities": {
+            "23": 0.0,
+            "44": 0.0,
+            "50": 4.7316626,
+            "104": 0.0,
+            "110": 23.921183
+          },
+          "cost": 0.286528456,
+          "message": "",
+          "validation_status": "approved",
+          "validation": {
+            "unrounded": {
+              "residuals": {
+                "NE_total_constraint": 7.737993308468795,
+                "NE_maintenance_and_activity_constraint": 30.69667784781857,
+                "NE_lactation_constraint": 17.601653842255132,
+                "NE_growth_constraint": 22.71439426353954,
+                "calcium_constraint": 45.96987484792562,
+                "phosphorus_constraint": 9.657098063507306,
+                "protein_constraint_lower": 124.99348442727523,
+                "protein_constraint_upper": 955.8877162437229,
+                "NDF_constraint_lower": 20.000000009074142,
+                "NDF_constraint_upper": -9.074142326426227e-09,
+                "forage_NDF_constraint": 30.00000000907415,
+                "fat_constraint": 4.750458715346583,
+                "DMI_constraint_upper": 0.2128639330897748,
+                "DMI_constraint_lower": 13.109771236028584
+              },
+              "violations": {}
+            },
+            "rounded": {
+              "residuals": {
+                "NE_total_constraint": 7.737993921043234,
+                "NE_maintenance_and_activity_constraint": 30.696678472387163,
+                "NE_lactation_constraint": 17.60165445482957,
+                "NE_growth_constraint": 22.714394648722084,
+                "calcium_constraint": 45.96987519592563,
+                "phosphorus_constraint": 9.657098677907307,
+                "protein_constraint_lower": 124.99351913034025,
+                "protein_constraint_upper": 955.8876815406579,
+                "NDF_constraint_lower": 20.000000136112135,
+                "NDF_constraint_upper": -1.361121348963934e-07,
+                "forage_NDF_constraint": 30.000000136112142,
+                "fat_constraint": 4.750458711850125,
+                "DMI_constraint_upper": 0.21286353308977368,
+                "DMI_constraint_lower": 13.109771636028585
+              },
+              "violations": {}
+            },
+            "rounded_quantities": {
+              "23": 0.0,
+              "44": 0.0,
+              "50": 4.731663,
+              "104": 0.0,
+              "110": 23.921183
+            },
+            "repair": null
+          },
+          "raw_diet": {
+            "quantities": {
+              "23": 0.0,
+              "44": 0.0,
+              "50": 4.7316626,
+              "104": 0.0,
+              "110": 23.921183
+            },
+            "dry_matter_kg_per_cow_day": 28.6528456,
+            "cost_usd_per_cow_day": 0.286528456,
+            "offers": {
+              "energy_maintenance": {
+                "unit": "Mcal/cow/day",
+                "predicted": 35.3026312299184,
+                "nrc": 39.97093186512948,
+                "signed_error": -4.668300635211082,
+                "absolute_error": 4.668300635211082,
+                "relative_error_percent": 11.679238930338009
+              },
+              "energy_growth": {
+                "unit": "Mcal/cow/day",
+                "predicted": 19.05481890018272,
+                "nrc": 23.30380078001497,
+                "signed_error": -4.24898187983225,
+                "absolute_error": 4.24898187983225,
+                "relative_error_percent": 18.232999500562677
+              },
+              "energy_lactation": {
+                "unit": "Mcal/cow/day",
+                "predicted": 36.571264033803324,
+                "nrc": 40.14335545515836,
+                "signed_error": -3.572091421355033,
+                "absolute_error": 3.572091421355033,
+                "relative_error_percent": 8.898337921316005
+              },
+              "microbial_tdn": {
+                "unit": "g/cow/day",
+                "predicted": 2026.5791064868972,
+                "nrc": 2168.3014623530003,
+                "signed_error": -141.72235586610304,
+                "absolute_error": 141.72235586610304,
+                "relative_error_percent": 6.536100183795873
+              },
+              "microbial_rdp": {
+                "unit": "g/cow/day",
+                "predicted": 3898.7512764872477,
+                "nrc": 3854.1176719712535,
+                "signed_error": 44.63360451599419,
+                "absolute_error": 44.63360451599419,
+                "relative_error_percent": 1.1580758117633079
+              },
+              "microbial_metabolizable": {
+                "unit": "g/cow/day",
+                "predicted": 1297.0106281516144,
+                "nrc": 1387.7129359059202,
+                "signed_error": -90.70230775430582,
+                "absolute_error": 90.70230775430582,
+                "relative_error_percent": 6.536100183795863
+              },
+              "digestible_rup": {
+                "unit": "g/cow/day",
+                "predicted": 729.5103397798008,
+                "nrc": 763.8015186313514,
+                "signed_error": -34.291178851550626,
+                "absolute_error": 34.291178851550626,
+                "relative_error_percent": 4.489540543595234
+              },
+              "endogenous": {
+                "unit": "g/cow/day",
+                "predicted": 135.24143123200002,
+                "nrc": 135.24143123200002,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "metabolizable_protein": {
+                "unit": "g/cow/day",
+                "predicted": 2161.7623991634155,
+                "nrc": 2286.7558857692716,
+                "signed_error": -124.9934866058561,
+                "absolute_error": 124.9934866058561,
+                "relative_error_percent": 5.46597419443431
+              }
+            },
+            "predicted_microbial_limiter": "tdn",
+            "nrc_microbial_limiter": "tdn",
+            "nrc_intake_discount": 1.0
+          },
+          "rounded_diet": {
+            "quantities": {
+              "23": 0.0,
+              "44": 0.0,
+              "50": 4.731663,
+              "104": 0.0,
+              "110": 23.921183
+            },
+            "dry_matter_kg_per_cow_day": 28.652846,
+            "cost_usd_per_cow_day": 0.28652846,
+            "offers": {
+              "energy_maintenance": {
+                "unit": "Mcal/cow/day",
+                "predicted": 35.30263178666373,
+                "nrc": 39.97093248969807,
+                "signed_error": -4.66830070303434,
+                "absolute_error": 4.66830070303434,
+                "relative_error_percent": 11.679238917524696
+              },
+              "energy_growth": {
+                "unit": "Mcal/cow/day",
+                "predicted": 19.054819224454384,
+                "nrc": 23.303801165197516,
+                "signed_error": -4.248981940743132,
+                "absolute_error": 4.248981940743132,
+                "relative_error_percent": 18.23299946057156
+              },
+              "energy_lactation": {
+                "unit": "Mcal/cow/day",
+                "predicted": 36.57126459310107,
+                "nrc": 40.143356067732796,
+                "signed_error": -3.5720914746317263,
+                "absolute_error": 3.5720914746317263,
+                "relative_error_percent": 8.898337918246378
+              },
+              "microbial_tdn": {
+                "unit": "g/cow/day",
+                "predicted": 2026.5791383693027,
+                "nrc": 2168.301496465,
+                "signed_error": -141.72235809569747,
+                "absolute_error": 141.72235809569747,
+                "relative_error_percent": 6.53610018379587
+              },
+              "microbial_rdp": {
+                "unit": "g/cow/day",
+                "predicted": 3898.7512988373255,
+                "nrc": 3854.1176914357384,
+                "signed_error": 44.63360740158714,
+                "absolute_error": 44.63360740158714,
+                "relative_error_percent": 1.1580758807850573
+              },
+              "microbial_metabolizable": {
+                "unit": "g/cow/day",
+                "predicted": 1297.0106485563538,
+                "nrc": 1387.7129577376002,
+                "signed_error": -90.70230918124639,
+                "absolute_error": 90.70230918124639,
+                "relative_error_percent": 6.536100183795869
+              },
+              "digestible_rup": {
+                "unit": "g/cow/day",
+                "predicted": 729.5103485338543,
+                "nrc": 763.8015296147368,
+                "signed_error": -34.29118108088244,
+                "absolute_error": 34.29118108088244,
+                "relative_error_percent": 4.4895407709092945
+              },
+              "endogenous": {
+                "unit": "g/cow/day",
+                "predicted": 135.24143312,
+                "nrc": 135.24143312,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "metabolizable_protein": {
+                "unit": "g/cow/day",
+                "predicted": 2161.762430210208,
+                "nrc": 2286.7559204723366,
+                "signed_error": -124.99349026212849,
+                "absolute_error": 124.99349026212849,
+                "relative_error_percent": 5.465974271373514
+              }
+            },
+            "predicted_microbial_limiter": "tdn",
+            "nrc_microbial_limiter": "tdn",
+            "nrc_intake_discount": 1.0
+          }
+        },
+        {
+          "case": [
+            "maintenance",
+            "rdp"
+          ],
+          "status": "optimal",
+          "quantities": {
+            "23": 0.0,
+            "44": 14.977655,
+            "50": 1.4058575,
+            "104": 0.0,
+            "110": 12.482197
+          },
+          "cost": 7.627708045,
+          "message": "",
+          "validation_status": "approved",
+          "validation": {
+            "unrounded": {
+              "residuals": {
+                "NE_total_constraint": 8.240996340397693,
+                "NE_maintenance_and_activity_constraint": 30.695225663378004,
+                "NE_lactation_constraint": 18.10465687418403,
+                "NE_growth_constraint": 22.408437266234557,
+                "calcium_constraint": -1.2690743815824135e-06,
+                "phosphorus_constraint": 10.37840828990732,
+                "protein_constraint_lower": 441.4639120715224,
+                "protein_constraint_upper": 639.4172885994758,
+                "NDF_constraint_lower": 1.2448260157956597,
+                "NDF_constraint_upper": 18.75517398420434,
+                "forage_NDF_constraint": 6.31552668573762,
+                "fat_constraint": 3.747641759853504,
+                "DMI_constraint_upper": 3.3089772699668174e-08,
+                "DMI_constraint_lower": 13.322635136028586
+              },
+              "violations": {}
+            },
+            "rounded": {
+              "residuals": {
+                "NE_total_constraint": 8.24099677293433,
+                "NE_maintenance_and_activity_constraint": 30.695226012713263,
+                "NE_lactation_constraint": 18.104657306720668,
+                "NE_growth_constraint": 22.408437357164864,
+                "calcium_constraint": -8.340743846702026e-07,
+                "phosphorus_constraint": 10.378409057907312,
+                "protein_constraint_lower": 441.46394864390004,
+                "protein_constraint_upper": 639.4172520270981,
+                "NDF_constraint_lower": 1.244826498291573,
+                "NDF_constraint_upper": 18.755173501708427,
+                "forage_NDF_constraint": 6.315527253616835,
+                "fat_constraint": 3.747641772885545,
+                "DMI_constraint_upper": -4.669102260379532e-07,
+                "DMI_constraint_lower": 13.322635636028584
+              },
+              "violations": {
+                "DMI_constraint_upper": "Residual -4.66910226e-07 is below -1e-07."
+              }
+            },
+            "rounded_quantities": {
+              "23": 0.0,
+              "44": 14.977655,
+              "50": 1.405858,
+              "104": 0.0,
+              "110": 12.482197
+            },
+            "repair": {
+              "triggers": [
+                "DMI_constraint_upper"
+              ],
+              "attempts": 1,
+              "quantities": {
+                "23": 0.0,
+                "44": 14.977655,
+                "50": 1.405857,
+                "104": 0.0,
+                "110": 12.482197
+              },
+              "validation": {
+                "residuals": {
+                  "NE_total_constraint": 8.240995907861034,
+                  "NE_maintenance_and_activity_constraint": 30.69522531404273,
+                  "NE_lactation_constraint": 18.10465644164737,
+                  "NE_growth_constraint": 22.408437175304222,
+                  "calcium_constraint": -1.7040743784946244e-06,
+                  "phosphorus_constraint": 10.378407521907306,
+                  "protein_constraint_lower": 441.4638754991447,
+                  "protein_constraint_upper": 639.4173251718535,
+                  "NDF_constraint_lower": 1.2448255332997356,
+                  "NDF_constraint_upper": 18.755174466700264,
+                  "forage_NDF_constraint": 6.31552611785839,
+                  "fat_constraint": 3.747641746821462,
+                  "DMI_constraint_upper": 5.330897749900032e-07,
+                  "DMI_constraint_lower": 13.322634636028583
+                },
+                "violations": {}
+              },
+              "cost_delta": -1e-08
+            }
+          },
+          "raw_diet": {
+            "quantities": {
+              "23": 0.0,
+              "44": 14.977655,
+              "50": 1.4058575,
+              "104": 0.0,
+              "110": 12.482197
+            },
+            "dry_matter_kg_per_cow_day": 28.8657095,
+            "cost_usd_per_cow_day": 7.627708045,
+            "offers": {
+              "energy_maintenance": {
+                "unit": "Mcal/cow/day",
+                "predicted": 49.69351979401264,
+                "nrc": 39.96947968068891,
+                "signed_error": 9.724040113323724,
+                "absolute_error": 9.724040113323724,
+                "relative_error_percent": 24.32866324757751
+              },
+              "energy_growth": {
+                "unit": "Mcal/cow/day",
+                "predicted": 31.623885585317904,
+                "nrc": 22.997843782709985,
+                "signed_error": 8.626041802607919,
+                "absolute_error": 8.626041802607919,
+                "relative_error_percent": 37.508045902516585
+              },
+              "energy_lactation": {
+                "unit": "Mcal/cow/day",
+                "predicted": 48.43032116278868,
+                "nrc": 40.646358487087255,
+                "signed_error": 7.783962675701424,
+                "absolute_error": 7.783962675701424,
+                "relative_error_percent": 19.150455207873723
+              },
+              "microbial_tdn": {
+                "unit": "g/cow/day",
+                "predicted": 2586.7482956433028,
+                "nrc": 2266.9454174467737,
+                "signed_error": 319.80287819652904,
+                "absolute_error": 319.80287819652904,
+                "relative_error_percent": 14.10721562748159
+              },
+              "microbial_rdp": {
+                "unit": "g/cow/day",
+                "predicted": 2586.748248346151,
+                "nrc": 2543.102885658443,
+                "signed_error": 43.6453626877078,
+                "absolute_error": 43.6453626877078,
+                "relative_error_percent": 1.7162248107947642
+              },
+              "microbial_metabolizable": {
+                "unit": "g/cow/day",
+                "predicted": 1655.5188789415365,
+                "nrc": 1450.8450671659352,
+                "signed_error": 204.67381177560128,
+                "absolute_error": 204.67381177560128,
+                "relative_error_percent": 14.107213541099108
+              },
+              "digestible_rup": {
+                "unit": "g/cow/day",
+                "predicted": 976.7553572845807,
+                "nrc": 1016.1350974075833,
+                "signed_error": -39.37974012300265,
+                "absolute_error": 39.37974012300265,
+                "relative_error_percent": 3.875443356249606
+              },
+              "endogenous": {
+                "unit": "g/cow/day",
+                "predicted": 136.24614884000002,
+                "nrc": 136.24614884000002,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "metabolizable_protein": {
+                "unit": "g/cow/day",
+                "predicted": 2768.5203850661173,
+                "nrc": 2603.2263134135187,
+                "signed_error": 165.29407165259863,
+                "absolute_error": 165.29407165259863,
+                "relative_error_percent": 6.349585159034997
+              }
+            },
+            "predicted_microbial_limiter": "rdp",
+            "nrc_microbial_limiter": "tdn",
+            "nrc_intake_discount": 0.81908842751303
+          },
+          "rounded_diet": {
+            "quantities": {
+              "23": 0.0,
+              "44": 14.977655,
+              "50": 1.405858,
+              "104": 0.0,
+              "110": 12.482197
+            },
+            "dry_matter_kg_per_cow_day": 28.86571,
+            "cost_usd_per_cow_day": 7.62770805,
+            "offers": {
+              "energy_maintenance": {
+                "unit": "Mcal/cow/day",
+                "predicted": 49.6935204899443,
+                "nrc": 39.96948003002417,
+                "signed_error": 9.724040459920126,
+                "absolute_error": 9.724040459920126,
+                "relative_error_percent": 24.328663902096416
+              },
+              "energy_growth": {
+                "unit": "Mcal/cow/day",
+                "predicted": 31.62388599065748,
+                "nrc": 22.997843873640292,
+                "signed_error": 8.626042117017189,
+                "absolute_error": 8.626042117017189,
+                "relative_error_percent": 37.50804712133993
+              },
+              "energy_lactation": {
+                "unit": "Mcal/cow/day",
+                "predicted": 48.43032186191086,
+                "nrc": 40.64635891962389,
+                "signed_error": 7.783962942286969,
+                "absolute_error": 7.783962942286969,
+                "relative_error_percent": 19.150455659950648
+              },
+              "microbial_tdn": {
+                "unit": "g/cow/day",
+                "predicted": 2586.7483354963097,
+                "nrc": 2266.945446257149,
+                "signed_error": 319.8028892391608,
+                "absolute_error": 319.8028892391608,
+                "relative_error_percent": 14.107215935309465
+              },
+              "microbial_rdp": {
+                "unit": "g/cow/day",
+                "predicted": 2586.7482762837485,
+                "nrc": 2543.102908503001,
+                "signed_error": 43.64536778074762,
+                "absolute_error": 43.64536778074762,
+                "relative_error_percent": 1.716224995646735
+              },
+              "microbial_metabolizable": {
+                "unit": "g/cow/day",
+                "predicted": 1655.5188968215991,
+                "nrc": 1450.8450856045754,
+                "signed_error": 204.67381121702374,
+                "absolute_error": 204.67381121702374,
+                "relative_error_percent": 14.107213323311843
+              },
+              "digestible_rup": {
+                "unit": "g/cow/day",
+                "predicted": 976.7553682271475,
+                "nrc": 1016.1351131813207,
+                "signed_error": -39.379744954173134,
+                "absolute_error": 39.379744954173134,
+                "relative_error_percent": 3.87544377153574
+              },
+              "endogenous": {
+                "unit": "g/cow/day",
+                "predicted": 136.2461512,
+                "nrc": 136.2461512,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "metabolizable_protein": {
+                "unit": "g/cow/day",
+                "predicted": 2768.5204162487466,
+                "nrc": 2603.2263499858964,
+                "signed_error": 165.29406626285027,
+                "absolute_error": 165.29406626285027,
+                "relative_error_percent": 6.349584862789429
+              }
+            },
+            "predicted_microbial_limiter": "rdp",
+            "nrc_microbial_limiter": "tdn",
+            "nrc_intake_discount": 0.8190884253033691
+          },
+          "repaired_diet": {
+            "quantities": {
+              "23": 0.0,
+              "44": 14.977655,
+              "50": 1.405857,
+              "104": 0.0,
+              "110": 12.482197
+            },
+            "dry_matter_kg_per_cow_day": 28.865709,
+            "cost_usd_per_cow_day": 7.62770804,
+            "offers": {
+              "energy_maintenance": {
+                "unit": "Mcal/cow/day",
+                "predicted": 49.69351909808097,
+                "nrc": 39.96947933135364,
+                "signed_error": 9.72403976672733,
+                "absolute_error": 9.72403976672733,
+                "relative_error_percent": 24.328662593058624
+              },
+              "energy_growth": {
+                "unit": "Mcal/cow/day",
+                "predicted": 31.623885179978323,
+                "nrc": 22.99784369177965,
+                "signed_error": 8.626041488198673,
+                "absolute_error": 8.626041488198673,
+                "relative_error_percent": 37.50804468369339
+              },
+              "energy_lactation": {
+                "unit": "Mcal/cow/day",
+                "predicted": 48.430320463666504,
+                "nrc": 40.646358054550596,
+                "signed_error": 7.783962409115908,
+                "absolute_error": 7.783962409115908,
+                "relative_error_percent": 19.15045475579687
+              },
+              "microbial_tdn": {
+                "unit": "g/cow/day",
+                "predicted": 2586.748255790296,
+                "nrc": 2266.945388636398,
+                "signed_error": 319.80286715389775,
+                "absolute_error": 319.80286715389775,
+                "relative_error_percent": 14.107215319653731
+              },
+              "microbial_rdp": {
+                "unit": "g/cow/day",
+                "predicted": 2586.7482204085536,
+                "nrc": 2543.1028628138843,
+                "signed_error": 43.64535759466935,
+                "absolute_error": 43.64535759466935,
+                "relative_error_percent": 1.7162246259428442
+              },
+              "microbial_metabolizable": {
+                "unit": "g/cow/day",
+                "predicted": 1655.5188610614744,
+                "nrc": 1450.8450487272949,
+                "signed_error": 204.6738123341795,
+                "absolute_error": 204.6738123341795,
+                "relative_error_percent": 14.10721375888643
+              },
+              "digestible_rup": {
+                "unit": "g/cow/day",
+                "predicted": 976.7553463420138,
+                "nrc": 1016.1350816338464,
+                "signed_error": -39.37973529183262,
+                "absolute_error": 39.37973529183262,
+                "relative_error_percent": 3.875442940963502
+              },
+              "endogenous": {
+                "unit": "g/cow/day",
+                "predicted": 136.24614648000002,
+                "nrc": 136.24614648000002,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "metabolizable_protein": {
+                "unit": "g/cow/day",
+                "predicted": 2768.5203538834885,
+                "nrc": 2603.226276841141,
+                "signed_error": 165.29407704234745,
+                "absolute_error": 165.29407704234745,
+                "relative_error_percent": 6.349585455280588
+              }
+            },
+            "predicted_microbial_limiter": "rdp",
+            "nrc_microbial_limiter": "tdn",
+            "nrc_intake_discount": 0.8190884297226907
+          }
+        },
+        {
+          "case": [
+            "growth",
+            "tdn"
+          ],
+          "status": "infeasible",
+          "quantities": null,
+          "cost": null,
+          "message": "Infeasible",
+          "validation_status": null,
+          "validation": null
+        },
+        {
+          "case": [
+            "growth",
+            "rdp"
+          ],
+          "status": "infeasible",
+          "quantities": null,
+          "cost": null,
+          "message": "Infeasible",
+          "validation_status": null,
+          "validation": null
+        },
+        {
+          "case": [
+            "lactation",
+            "tdn"
+          ],
+          "status": "optimal",
+          "quantities": {
+            "23": 0.0,
+            "44": 0.0,
+            "50": 4.7316626,
+            "104": 0.0,
+            "110": 23.921183
+          },
+          "cost": 0.286528456,
+          "message": "",
+          "validation_status": "approved",
+          "validation": {
+            "unrounded": {
+              "residuals": {
+                "NE_total_constraint": 7.737993308468795,
+                "NE_maintenance_and_activity_constraint": 30.69667784781857,
+                "NE_lactation_constraint": 17.601653842255132,
+                "NE_growth_constraint": 22.71439426353954,
+                "calcium_constraint": 45.96987484792562,
+                "phosphorus_constraint": 9.657098063507306,
+                "protein_constraint_lower": 124.99348442727523,
+                "protein_constraint_upper": 955.8877162437229,
+                "NDF_constraint_lower": 20.000000009074142,
+                "NDF_constraint_upper": -9.074142326426227e-09,
+                "forage_NDF_constraint": 30.00000000907415,
+                "fat_constraint": 4.750458715346583,
+                "DMI_constraint_upper": 0.2128639330897748,
+                "DMI_constraint_lower": 13.109771236028584
+              },
+              "violations": {}
+            },
+            "rounded": {
+              "residuals": {
+                "NE_total_constraint": 7.737993921043234,
+                "NE_maintenance_and_activity_constraint": 30.696678472387163,
+                "NE_lactation_constraint": 17.60165445482957,
+                "NE_growth_constraint": 22.714394648722084,
+                "calcium_constraint": 45.96987519592563,
+                "phosphorus_constraint": 9.657098677907307,
+                "protein_constraint_lower": 124.99351913034025,
+                "protein_constraint_upper": 955.8876815406579,
+                "NDF_constraint_lower": 20.000000136112135,
+                "NDF_constraint_upper": -1.361121348963934e-07,
+                "forage_NDF_constraint": 30.000000136112142,
+                "fat_constraint": 4.750458711850125,
+                "DMI_constraint_upper": 0.21286353308977368,
+                "DMI_constraint_lower": 13.109771636028585
+              },
+              "violations": {}
+            },
+            "rounded_quantities": {
+              "23": 0.0,
+              "44": 0.0,
+              "50": 4.731663,
+              "104": 0.0,
+              "110": 23.921183
+            },
+            "repair": null
+          },
+          "raw_diet": {
+            "quantities": {
+              "23": 0.0,
+              "44": 0.0,
+              "50": 4.7316626,
+              "104": 0.0,
+              "110": 23.921183
+            },
+            "dry_matter_kg_per_cow_day": 28.6528456,
+            "cost_usd_per_cow_day": 0.286528456,
+            "offers": {
+              "energy_maintenance": {
+                "unit": "Mcal/cow/day",
+                "predicted": 35.3026312299184,
+                "nrc": 39.97093186512948,
+                "signed_error": -4.668300635211082,
+                "absolute_error": 4.668300635211082,
+                "relative_error_percent": 11.679238930338009
+              },
+              "energy_growth": {
+                "unit": "Mcal/cow/day",
+                "predicted": 19.05481890018272,
+                "nrc": 23.30380078001497,
+                "signed_error": -4.24898187983225,
+                "absolute_error": 4.24898187983225,
+                "relative_error_percent": 18.232999500562677
+              },
+              "energy_lactation": {
+                "unit": "Mcal/cow/day",
+                "predicted": 36.571264033803324,
+                "nrc": 40.14335545515836,
+                "signed_error": -3.572091421355033,
+                "absolute_error": 3.572091421355033,
+                "relative_error_percent": 8.898337921316005
+              },
+              "microbial_tdn": {
+                "unit": "g/cow/day",
+                "predicted": 2026.5791064868972,
+                "nrc": 2168.3014623530003,
+                "signed_error": -141.72235586610304,
+                "absolute_error": 141.72235586610304,
+                "relative_error_percent": 6.536100183795873
+              },
+              "microbial_rdp": {
+                "unit": "g/cow/day",
+                "predicted": 3898.7512764872477,
+                "nrc": 3854.1176719712535,
+                "signed_error": 44.63360451599419,
+                "absolute_error": 44.63360451599419,
+                "relative_error_percent": 1.1580758117633079
+              },
+              "microbial_metabolizable": {
+                "unit": "g/cow/day",
+                "predicted": 1297.0106281516144,
+                "nrc": 1387.7129359059202,
+                "signed_error": -90.70230775430582,
+                "absolute_error": 90.70230775430582,
+                "relative_error_percent": 6.536100183795863
+              },
+              "digestible_rup": {
+                "unit": "g/cow/day",
+                "predicted": 729.5103397798008,
+                "nrc": 763.8015186313514,
+                "signed_error": -34.291178851550626,
+                "absolute_error": 34.291178851550626,
+                "relative_error_percent": 4.489540543595234
+              },
+              "endogenous": {
+                "unit": "g/cow/day",
+                "predicted": 135.24143123200002,
+                "nrc": 135.24143123200002,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "metabolizable_protein": {
+                "unit": "g/cow/day",
+                "predicted": 2161.7623991634155,
+                "nrc": 2286.7558857692716,
+                "signed_error": -124.9934866058561,
+                "absolute_error": 124.9934866058561,
+                "relative_error_percent": 5.46597419443431
+              }
+            },
+            "predicted_microbial_limiter": "tdn",
+            "nrc_microbial_limiter": "tdn",
+            "nrc_intake_discount": 1.0
+          },
+          "rounded_diet": {
+            "quantities": {
+              "23": 0.0,
+              "44": 0.0,
+              "50": 4.731663,
+              "104": 0.0,
+              "110": 23.921183
+            },
+            "dry_matter_kg_per_cow_day": 28.652846,
+            "cost_usd_per_cow_day": 0.28652846,
+            "offers": {
+              "energy_maintenance": {
+                "unit": "Mcal/cow/day",
+                "predicted": 35.30263178666373,
+                "nrc": 39.97093248969807,
+                "signed_error": -4.66830070303434,
+                "absolute_error": 4.66830070303434,
+                "relative_error_percent": 11.679238917524696
+              },
+              "energy_growth": {
+                "unit": "Mcal/cow/day",
+                "predicted": 19.054819224454384,
+                "nrc": 23.303801165197516,
+                "signed_error": -4.248981940743132,
+                "absolute_error": 4.248981940743132,
+                "relative_error_percent": 18.23299946057156
+              },
+              "energy_lactation": {
+                "unit": "Mcal/cow/day",
+                "predicted": 36.57126459310107,
+                "nrc": 40.143356067732796,
+                "signed_error": -3.5720914746317263,
+                "absolute_error": 3.5720914746317263,
+                "relative_error_percent": 8.898337918246378
+              },
+              "microbial_tdn": {
+                "unit": "g/cow/day",
+                "predicted": 2026.5791383693027,
+                "nrc": 2168.301496465,
+                "signed_error": -141.72235809569747,
+                "absolute_error": 141.72235809569747,
+                "relative_error_percent": 6.53610018379587
+              },
+              "microbial_rdp": {
+                "unit": "g/cow/day",
+                "predicted": 3898.7512988373255,
+                "nrc": 3854.1176914357384,
+                "signed_error": 44.63360740158714,
+                "absolute_error": 44.63360740158714,
+                "relative_error_percent": 1.1580758807850573
+              },
+              "microbial_metabolizable": {
+                "unit": "g/cow/day",
+                "predicted": 1297.0106485563538,
+                "nrc": 1387.7129577376002,
+                "signed_error": -90.70230918124639,
+                "absolute_error": 90.70230918124639,
+                "relative_error_percent": 6.536100183795869
+              },
+              "digestible_rup": {
+                "unit": "g/cow/day",
+                "predicted": 729.5103485338543,
+                "nrc": 763.8015296147368,
+                "signed_error": -34.29118108088244,
+                "absolute_error": 34.29118108088244,
+                "relative_error_percent": 4.4895407709092945
+              },
+              "endogenous": {
+                "unit": "g/cow/day",
+                "predicted": 135.24143312,
+                "nrc": 135.24143312,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "metabolizable_protein": {
+                "unit": "g/cow/day",
+                "predicted": 2161.762430210208,
+                "nrc": 2286.7559204723366,
+                "signed_error": -124.99349026212849,
+                "absolute_error": 124.99349026212849,
+                "relative_error_percent": 5.465974271373514
+              }
+            },
+            "predicted_microbial_limiter": "tdn",
+            "nrc_microbial_limiter": "tdn",
+            "nrc_intake_discount": 1.0
+          }
+        },
+        {
+          "case": [
+            "lactation",
+            "rdp"
+          ],
+          "status": "optimal",
+          "quantities": {
+            "23": 0.0,
+            "44": 14.977655,
+            "50": 1.4058575,
+            "104": 0.0,
+            "110": 12.482197
+          },
+          "cost": 7.627708045,
+          "message": "",
+          "validation_status": "approved",
+          "validation": {
+            "unrounded": {
+              "residuals": {
+                "NE_total_constraint": 8.240996340397693,
+                "NE_maintenance_and_activity_constraint": 30.695225663378004,
+                "NE_lactation_constraint": 18.10465687418403,
+                "NE_growth_constraint": 22.408437266234557,
+                "calcium_constraint": -1.2690743815824135e-06,
+                "phosphorus_constraint": 10.37840828990732,
+                "protein_constraint_lower": 441.4639120715224,
+                "protein_constraint_upper": 639.4172885994758,
+                "NDF_constraint_lower": 1.2448260157956597,
+                "NDF_constraint_upper": 18.75517398420434,
+                "forage_NDF_constraint": 6.31552668573762,
+                "fat_constraint": 3.747641759853504,
+                "DMI_constraint_upper": 3.3089772699668174e-08,
+                "DMI_constraint_lower": 13.322635136028586
+              },
+              "violations": {}
+            },
+            "rounded": {
+              "residuals": {
+                "NE_total_constraint": 8.24099677293433,
+                "NE_maintenance_and_activity_constraint": 30.695226012713263,
+                "NE_lactation_constraint": 18.104657306720668,
+                "NE_growth_constraint": 22.408437357164864,
+                "calcium_constraint": -8.340743846702026e-07,
+                "phosphorus_constraint": 10.378409057907312,
+                "protein_constraint_lower": 441.46394864390004,
+                "protein_constraint_upper": 639.4172520270981,
+                "NDF_constraint_lower": 1.244826498291573,
+                "NDF_constraint_upper": 18.755173501708427,
+                "forage_NDF_constraint": 6.315527253616835,
+                "fat_constraint": 3.747641772885545,
+                "DMI_constraint_upper": -4.669102260379532e-07,
+                "DMI_constraint_lower": 13.322635636028584
+              },
+              "violations": {
+                "DMI_constraint_upper": "Residual -4.66910226e-07 is below -1e-07."
+              }
+            },
+            "rounded_quantities": {
+              "23": 0.0,
+              "44": 14.977655,
+              "50": 1.405858,
+              "104": 0.0,
+              "110": 12.482197
+            },
+            "repair": {
+              "triggers": [
+                "DMI_constraint_upper"
+              ],
+              "attempts": 1,
+              "quantities": {
+                "23": 0.0,
+                "44": 14.977655,
+                "50": 1.405857,
+                "104": 0.0,
+                "110": 12.482197
+              },
+              "validation": {
+                "residuals": {
+                  "NE_total_constraint": 8.240995907861034,
+                  "NE_maintenance_and_activity_constraint": 30.69522531404273,
+                  "NE_lactation_constraint": 18.10465644164737,
+                  "NE_growth_constraint": 22.408437175304222,
+                  "calcium_constraint": -1.7040743784946244e-06,
+                  "phosphorus_constraint": 10.378407521907306,
+                  "protein_constraint_lower": 441.4638754991447,
+                  "protein_constraint_upper": 639.4173251718535,
+                  "NDF_constraint_lower": 1.2448255332997356,
+                  "NDF_constraint_upper": 18.755174466700264,
+                  "forage_NDF_constraint": 6.31552611785839,
+                  "fat_constraint": 3.747641746821462,
+                  "DMI_constraint_upper": 5.330897749900032e-07,
+                  "DMI_constraint_lower": 13.322634636028583
+                },
+                "violations": {}
+              },
+              "cost_delta": -1e-08
+            }
+          },
+          "raw_diet": {
+            "quantities": {
+              "23": 0.0,
+              "44": 14.977655,
+              "50": 1.4058575,
+              "104": 0.0,
+              "110": 12.482197
+            },
+            "dry_matter_kg_per_cow_day": 28.8657095,
+            "cost_usd_per_cow_day": 7.627708045,
+            "offers": {
+              "energy_maintenance": {
+                "unit": "Mcal/cow/day",
+                "predicted": 49.69351979401264,
+                "nrc": 39.96947968068891,
+                "signed_error": 9.724040113323724,
+                "absolute_error": 9.724040113323724,
+                "relative_error_percent": 24.32866324757751
+              },
+              "energy_growth": {
+                "unit": "Mcal/cow/day",
+                "predicted": 31.623885585317904,
+                "nrc": 22.997843782709985,
+                "signed_error": 8.626041802607919,
+                "absolute_error": 8.626041802607919,
+                "relative_error_percent": 37.508045902516585
+              },
+              "energy_lactation": {
+                "unit": "Mcal/cow/day",
+                "predicted": 48.43032116278868,
+                "nrc": 40.646358487087255,
+                "signed_error": 7.783962675701424,
+                "absolute_error": 7.783962675701424,
+                "relative_error_percent": 19.150455207873723
+              },
+              "microbial_tdn": {
+                "unit": "g/cow/day",
+                "predicted": 2586.7482956433028,
+                "nrc": 2266.9454174467737,
+                "signed_error": 319.80287819652904,
+                "absolute_error": 319.80287819652904,
+                "relative_error_percent": 14.10721562748159
+              },
+              "microbial_rdp": {
+                "unit": "g/cow/day",
+                "predicted": 2586.748248346151,
+                "nrc": 2543.102885658443,
+                "signed_error": 43.6453626877078,
+                "absolute_error": 43.6453626877078,
+                "relative_error_percent": 1.7162248107947642
+              },
+              "microbial_metabolizable": {
+                "unit": "g/cow/day",
+                "predicted": 1655.5188789415365,
+                "nrc": 1450.8450671659352,
+                "signed_error": 204.67381177560128,
+                "absolute_error": 204.67381177560128,
+                "relative_error_percent": 14.107213541099108
+              },
+              "digestible_rup": {
+                "unit": "g/cow/day",
+                "predicted": 976.7553572845807,
+                "nrc": 1016.1350974075833,
+                "signed_error": -39.37974012300265,
+                "absolute_error": 39.37974012300265,
+                "relative_error_percent": 3.875443356249606
+              },
+              "endogenous": {
+                "unit": "g/cow/day",
+                "predicted": 136.24614884000002,
+                "nrc": 136.24614884000002,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "metabolizable_protein": {
+                "unit": "g/cow/day",
+                "predicted": 2768.5203850661173,
+                "nrc": 2603.2263134135187,
+                "signed_error": 165.29407165259863,
+                "absolute_error": 165.29407165259863,
+                "relative_error_percent": 6.349585159034997
+              }
+            },
+            "predicted_microbial_limiter": "rdp",
+            "nrc_microbial_limiter": "tdn",
+            "nrc_intake_discount": 0.81908842751303
+          },
+          "rounded_diet": {
+            "quantities": {
+              "23": 0.0,
+              "44": 14.977655,
+              "50": 1.405858,
+              "104": 0.0,
+              "110": 12.482197
+            },
+            "dry_matter_kg_per_cow_day": 28.86571,
+            "cost_usd_per_cow_day": 7.62770805,
+            "offers": {
+              "energy_maintenance": {
+                "unit": "Mcal/cow/day",
+                "predicted": 49.6935204899443,
+                "nrc": 39.96948003002417,
+                "signed_error": 9.724040459920126,
+                "absolute_error": 9.724040459920126,
+                "relative_error_percent": 24.328663902096416
+              },
+              "energy_growth": {
+                "unit": "Mcal/cow/day",
+                "predicted": 31.62388599065748,
+                "nrc": 22.997843873640292,
+                "signed_error": 8.626042117017189,
+                "absolute_error": 8.626042117017189,
+                "relative_error_percent": 37.50804712133993
+              },
+              "energy_lactation": {
+                "unit": "Mcal/cow/day",
+                "predicted": 48.43032186191086,
+                "nrc": 40.64635891962389,
+                "signed_error": 7.783962942286969,
+                "absolute_error": 7.783962942286969,
+                "relative_error_percent": 19.150455659950648
+              },
+              "microbial_tdn": {
+                "unit": "g/cow/day",
+                "predicted": 2586.7483354963097,
+                "nrc": 2266.945446257149,
+                "signed_error": 319.8028892391608,
+                "absolute_error": 319.8028892391608,
+                "relative_error_percent": 14.107215935309465
+              },
+              "microbial_rdp": {
+                "unit": "g/cow/day",
+                "predicted": 2586.7482762837485,
+                "nrc": 2543.102908503001,
+                "signed_error": 43.64536778074762,
+                "absolute_error": 43.64536778074762,
+                "relative_error_percent": 1.716224995646735
+              },
+              "microbial_metabolizable": {
+                "unit": "g/cow/day",
+                "predicted": 1655.5188968215991,
+                "nrc": 1450.8450856045754,
+                "signed_error": 204.67381121702374,
+                "absolute_error": 204.67381121702374,
+                "relative_error_percent": 14.107213323311843
+              },
+              "digestible_rup": {
+                "unit": "g/cow/day",
+                "predicted": 976.7553682271475,
+                "nrc": 1016.1351131813207,
+                "signed_error": -39.379744954173134,
+                "absolute_error": 39.379744954173134,
+                "relative_error_percent": 3.87544377153574
+              },
+              "endogenous": {
+                "unit": "g/cow/day",
+                "predicted": 136.2461512,
+                "nrc": 136.2461512,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "metabolizable_protein": {
+                "unit": "g/cow/day",
+                "predicted": 2768.5204162487466,
+                "nrc": 2603.2263499858964,
+                "signed_error": 165.29406626285027,
+                "absolute_error": 165.29406626285027,
+                "relative_error_percent": 6.349584862789429
+              }
+            },
+            "predicted_microbial_limiter": "rdp",
+            "nrc_microbial_limiter": "tdn",
+            "nrc_intake_discount": 0.8190884253033691
+          },
+          "repaired_diet": {
+            "quantities": {
+              "23": 0.0,
+              "44": 14.977655,
+              "50": 1.405857,
+              "104": 0.0,
+              "110": 12.482197
+            },
+            "dry_matter_kg_per_cow_day": 28.865709,
+            "cost_usd_per_cow_day": 7.62770804,
+            "offers": {
+              "energy_maintenance": {
+                "unit": "Mcal/cow/day",
+                "predicted": 49.69351909808097,
+                "nrc": 39.96947933135364,
+                "signed_error": 9.72403976672733,
+                "absolute_error": 9.72403976672733,
+                "relative_error_percent": 24.328662593058624
+              },
+              "energy_growth": {
+                "unit": "Mcal/cow/day",
+                "predicted": 31.623885179978323,
+                "nrc": 22.99784369177965,
+                "signed_error": 8.626041488198673,
+                "absolute_error": 8.626041488198673,
+                "relative_error_percent": 37.50804468369339
+              },
+              "energy_lactation": {
+                "unit": "Mcal/cow/day",
+                "predicted": 48.430320463666504,
+                "nrc": 40.646358054550596,
+                "signed_error": 7.783962409115908,
+                "absolute_error": 7.783962409115908,
+                "relative_error_percent": 19.15045475579687
+              },
+              "microbial_tdn": {
+                "unit": "g/cow/day",
+                "predicted": 2586.748255790296,
+                "nrc": 2266.945388636398,
+                "signed_error": 319.80286715389775,
+                "absolute_error": 319.80286715389775,
+                "relative_error_percent": 14.107215319653731
+              },
+              "microbial_rdp": {
+                "unit": "g/cow/day",
+                "predicted": 2586.7482204085536,
+                "nrc": 2543.1028628138843,
+                "signed_error": 43.64535759466935,
+                "absolute_error": 43.64535759466935,
+                "relative_error_percent": 1.7162246259428442
+              },
+              "microbial_metabolizable": {
+                "unit": "g/cow/day",
+                "predicted": 1655.5188610614744,
+                "nrc": 1450.8450487272949,
+                "signed_error": 204.6738123341795,
+                "absolute_error": 204.6738123341795,
+                "relative_error_percent": 14.10721375888643
+              },
+              "digestible_rup": {
+                "unit": "g/cow/day",
+                "predicted": 976.7553463420138,
+                "nrc": 1016.1350816338464,
+                "signed_error": -39.37973529183262,
+                "absolute_error": 39.37973529183262,
+                "relative_error_percent": 3.875442940963502
+              },
+              "endogenous": {
+                "unit": "g/cow/day",
+                "predicted": 136.24614648000002,
+                "nrc": 136.24614648000002,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "metabolizable_protein": {
+                "unit": "g/cow/day",
+                "predicted": 2768.5203538834885,
+                "nrc": 2603.226276841141,
+                "signed_error": 165.29407704234745,
+                "absolute_error": 165.29407704234745,
+                "relative_error_percent": 6.349585455280588
+              }
+            },
+            "predicted_microbial_limiter": "rdp",
+            "nrc_microbial_limiter": "tdn",
+            "nrc_intake_discount": 0.8190884297226907
+          }
+        }
+      ],
+      "selected_case": [
+        "maintenance",
+        "tdn"
+      ],
+      "selected_cost": 0.28652846,
+      "message": "",
+      "coefficients": {
+        "energy_mcal_per_kg_dm": {
+          "23": {
+            "maintenance": 2.113123007567239,
+            "growth": 1.4428840687876243,
+            "lactation": 1.9888676967723775
+          },
+          "44": {
+            "maintenance": 2.186736287129701,
+            "growth": 1.505099088067463,
+            "lactation": 2.0586525642373688
+          },
+          "50": {
+            "maintenance": 1.3918633346374056,
+            "growth": 0.8106791575686785,
+            "lactation": 1.3982443589725329
+          },
+          "104": {
+            "maintenance": 1.1114231736438032,
+            "growth": 0.5541285185676204,
+            "lactation": 1.1858854060557347
+          },
+          "110": {
+            "maintenance": 1.200475893901372,
+            "growth": 0.6362126258436089,
+            "lactation": 1.2522475788422345
+          }
+        },
+        "protein_g_per_kg_dm": {
+          "23": {
+            "microbial_tdn": 80.02192174463764,
+            "microbial_rdp": 175.4381695398698,
+            "digestible_rup": 598.8817227860051
+          },
+          "44": {
+            "microbial_tdn": 107.76107257108886,
+            "microbial_rdp": 40.8450655247107,
+            "digestible_rup": 41.35228356207102
+          },
+          "50": {
+            "microbial_tdn": 79.70601376325888,
+            "microbial_rdp": 55.8751947865349,
+            "digestible_rup": 21.885133705206545
+          },
+          "104": {
+            "microbial_tdn": 67.16689696391693,
+            "microbial_rdp": 129.93631176028836,
+            "digestible_rup": 24.13693806566184
+          },
+          "110": {
+            "microbial_tdn": 68.9529920894046,
+            "microbial_rdp": 151.93097711965524,
+            "digestible_rup": 26.167488084969527
+          }
+        },
+        "endogenous_g_per_kg_dm": 4.720000000000001
+      },
+      "reference": {
+        "quantities": {
+          "23": 0.12939010978748436,
+          "44": 2.676976460603224,
+          "50": 13.096377328489972,
+          "104": 0.12939010978748436,
+          "110": 6.172257939862429
+        },
+        "dry_matter_kg_per_cow_day": 22.204391948530592,
+        "cost_usd_per_cow_day": 1.545407495061759,
+        "offers": {
+          "energy_maintenance": {
+            "unit": "Mcal/cow/day",
+            "predicted": 31.90908023844277,
+            "nrc": 31.90908023844277,
+            "signed_error": 0.0,
+            "absolute_error": 0.0,
+            "relative_error_percent": 0.0
+          },
+          "energy_growth": {
+            "unit": "Mcal/cow/day",
+            "predicted": 18.83133707872259,
+            "nrc": 18.83133707872259,
+            "signed_error": 0.0,
+            "absolute_error": 0.0,
+            "relative_error_percent": 0.0
+          },
+          "energy_lactation": {
+            "unit": "Mcal/cow/day",
+            "predicted": 31.962876891266347,
+            "nrc": 31.962876891266347,
+            "signed_error": 0.0,
+            "absolute_error": 0.0,
+            "relative_error_percent": 0.0
+          },
+          "microbial_tdn": {
+            "unit": "g/cow/day",
+            "predicted": 1776.9743165489026,
+            "nrc": 1776.9743165489026,
+            "signed_error": 0.0,
+            "absolute_error": 0.0,
+            "relative_error_percent": 0.0
+          },
+          "microbial_rdp": {
+            "unit": "g/cow/day",
+            "predicted": 1818.3735306683561,
+            "nrc": 1818.3735306683561,
+            "signed_error": 0.0,
+            "absolute_error": 0.0,
+            "relative_error_percent": 0.0
+          },
+          "microbial_metabolizable": {
+            "unit": "g/cow/day",
+            "predicted": 1137.2635625912976,
+            "nrc": 1137.2635625912976,
+            "signed_error": 0.0,
+            "absolute_error": 0.0,
+            "relative_error_percent": 0.0
+          },
+          "digestible_rup": {
+            "unit": "g/cow/day",
+            "predicted": 639.4399976016498,
+            "nrc": 639.4399976016498,
+            "signed_error": 0.0,
+            "absolute_error": 0.0,
+            "relative_error_percent": 0.0
+          },
+          "endogenous": {
+            "unit": "g/cow/day",
+            "predicted": 104.80472999706441,
+            "nrc": 104.80472999706441,
+            "signed_error": 0.0,
+            "absolute_error": 0.0,
+            "relative_error_percent": 0.0
+          },
+          "metabolizable_protein": {
+            "unit": "g/cow/day",
+            "predicted": 1881.5082901900118,
+            "nrc": 1881.5082901900118,
+            "signed_error": 0.0,
+            "absolute_error": 0.0,
+            "relative_error_percent": 0.0
+          }
+        },
+        "predicted_microbial_limiter": "tdn",
+        "nrc_microbial_limiter": "tdn",
+        "nrc_intake_discount": 0.9346389981620412
+      },
+      "slsqp_same_reference_coefficients": {
+        "raw": {
+          "quantities": {
+            "23": 0.0,
+            "44": 0.0,
+            "50": 2.08382913313985,
+            "104": 7.062459520267469,
+            "110": 18.382091194844012
+          },
+          "dry_matter_kg_per_cow_day": 27.52837984825133,
+          "cost_usd_per_cow_day": 0.27528379848251333,
+          "offers": {
+            "energy_maintenance": {
+              "unit": "Mcal/cow/day",
+              "predicted": 32.81704389872007,
+              "nrc": 37.25626539285453,
+              "signed_error": -4.439221494134458,
+              "absolute_error": 4.439221494134458,
+              "relative_error_percent": 11.915368991831013
+            },
+            "energy_growth": {
+              "unit": "Mcal/cow/day",
+              "predicted": 17.297745585148874,
+              "nrc": 21.351555289107164,
+              "signed_error": -4.05380970395829,
+              "absolute_error": 4.05380970395829,
+              "relative_error_percent": 18.98601600243335
+            },
+            "energy_lactation": {
+              "unit": "Mcal/cow/day",
+              "predicted": 34.307899199220564,
+              "nrc": 37.68189210507192,
+              "signed_error": -3.3739929058513525,
+              "absolute_error": 3.3739929058513525,
+              "relative_error_percent": 8.953883994050338
+            },
+            "microbial_tdn": {
+              "unit": "g/cow/day",
+              "predicted": 1907.957393220757,
+              "nrc": 2041.3843173382847,
+              "signed_error": -133.42692411752773,
+              "absolute_error": 133.42692411752773,
+              "relative_error_percent": 6.536100183795872
+            },
+            "microbial_rdp": {
+              "unit": "g/cow/day",
+              "predicted": 3826.9133774711972,
+              "nrc": 3790.0370294643258,
+              "signed_error": 36.87634800687147,
+              "absolute_error": 36.87634800687147,
+              "relative_error_percent": 0.972981206257066
+            },
+            "microbial_metabolizable": {
+              "unit": "g/cow/day",
+              "predicted": 1221.0927316612845,
+              "nrc": 1306.4859630965022,
+              "signed_error": -85.39323143521779,
+              "absolute_error": 85.39323143521779,
+              "relative_error_percent": 6.536100183795875
+            },
+            "digestible_rup": {
+              "unit": "g/cow/day",
+              "predicted": 697.0841795474139,
+              "nrc": 725.3424854246372,
+              "signed_error": -28.25830587722328,
+              "absolute_error": 28.25830587722328,
+              "relative_error_percent": 3.8958569841224757
+            },
+            "endogenous": {
+              "unit": "g/cow/day",
+              "predicted": 129.9339528837463,
+              "nrc": 129.9339528837463,
+              "signed_error": 0.0,
+              "absolute_error": 0.0,
+              "relative_error_percent": 0.0
+            },
+            "metabolizable_protein": {
+              "unit": "g/cow/day",
+              "predicted": 2048.110864092445,
+              "nrc": 2161.7624014048856,
+              "signed_error": -113.65153731244072,
+              "absolute_error": 113.65153731244072,
+              "relative_error_percent": 5.257355629766754
+            }
+          },
+          "predicted_microbial_limiter": "tdn",
+          "nrc_microbial_limiter": "tdn",
+          "nrc_intake_discount": 1.0
+        },
+        "rounded": {
+          "quantities": {
+            "23": 0.0,
+            "44": 0.0,
+            "50": 2.083829,
+            "104": 7.06246,
+            "110": 18.382091
+          },
+          "dry_matter_kg_per_cow_day": 27.52838,
+          "cost_usd_per_cow_day": 0.2752838,
+          "offers": {
+            "energy_maintenance": {
+              "unit": "Mcal/cow/day",
+              "predicted": 32.81704401268791,
+              "nrc": 37.25626552850198,
+              "signed_error": -4.439221515814069,
+              "absolute_error": 4.439221515814069,
+              "relative_error_percent": 11.915369006638501
+            },
+            "energy_growth": {
+              "unit": "Mcal/cow/day",
+              "predicted": 17.297745619086427,
+              "nrc": 21.351555343660287,
+              "signed_error": -4.05380972457386,
+              "absolute_error": 4.05380972457386,
+              "relative_error_percent": 18.986016050477176
+            },
+            "energy_lactation": {
+              "unit": "Mcal/cow/day",
+              "predicted": 34.30789933797338,
+              "nrc": 37.68189225890139,
+              "signed_error": -3.3739929209280106,
+              "absolute_error": 3.3739929209280106,
+              "relative_error_percent": 8.953883997508086
+            },
+            "microbial_tdn": {
+              "unit": "g/cow/day",
+              "predicted": 1907.9574013957783,
+              "nrc": 2041.384326085,
+              "signed_error": -133.42692468922178,
+              "absolute_error": 133.42692468922178,
+              "relative_error_percent": 6.53610018379587
+            },
+            "microbial_rdp": {
+              "unit": "g/cow/day",
+              "predicted": 3826.9134027638165,
+              "nrc": 3790.0370534707913,
+              "signed_error": 36.876349293025214,
+              "absolute_error": 36.876349293025214,
+              "relative_error_percent": 0.9729812340292311
+            },
+            "microbial_metabolizable": {
+              "unit": "g/cow/day",
+              "predicted": 1221.0927368932983,
+              "nrc": 1306.4859686944,
+              "signed_error": -85.39323180110182,
+              "absolute_error": 85.39323180110182,
+              "relative_error_percent": 6.536100183795861
+            },
+            "digestible_rup": {
+              "unit": "g/cow/day",
+              "predicted": 697.0841831143266,
+              "nrc": 725.3424899729025,
+              "signed_error": -28.258306858575907,
+              "absolute_error": 28.258306858575907,
+              "relative_error_percent": 3.8958570949885463
+            },
+            "endogenous": {
+              "unit": "g/cow/day",
+              "predicted": 129.93395360000002,
+              "nrc": 129.93395360000002,
+              "signed_error": 0.0,
+              "absolute_error": 0.0,
+              "relative_error_percent": 0.0
+            },
+            "metabolizable_protein": {
+              "unit": "g/cow/day",
+              "predicted": 2048.110873607625,
+              "nrc": 2161.762412267303,
+              "signed_error": -113.65153865967795,
+              "absolute_error": 113.65153865967795,
+              "relative_error_percent": 5.257355665670853
+            }
+          },
+          "predicted_microbial_limiter": "tdn",
+          "nrc_microbial_limiter": "tdn",
+          "nrc_intake_discount": 1.0
+        }
+      },
+      "counts": {
+        "optimal": 4,
+        "infeasible": 2,
+        "solver_error": 0,
+        "approved": 4,
+        "rejected": 0
+      },
+      "description": "Double forage proportions then normalize to the same DMI.",
+      "timings_seconds": {
+        "cbc_all_cases_solver_calls": {
+          "median": 0.1499796999269165,
+          "samples": [
+            0.3795473000500351,
+            0.1499796999269165,
+            0.14901059999829158,
+            0.15354850003495812,
+            0.1449215998291038
+          ]
+        },
+        "pulp_coefficients_model_and_solve": {
+          "median": 0.15844140003900975,
+          "samples": [
+            0.38989159994525835,
+            0.15844140003900975,
+            0.15771309996489435,
+            0.16122389998054132,
+            0.15336589998332784
+          ]
+        },
+        "pulp_validation_and_selection": {
+          "median": 0.005543400009628385,
+          "samples": [
+            0.004446900042239577,
+            0.007401499955449253,
+            0.005543400009628385,
+            0.007277900062035769,
+            0.0037475000135600567
+          ]
+        },
+        "pulp_full": {
+          "median": 0.165842899994459,
+          "samples": [
+            0.3943384999874979,
+            0.165842899994459,
+            0.16325649997452274,
+            0.1685018000425771,
+            0.1571133999968879
+          ]
+        }
+      },
+      "repeated_results_match": true
+    },
+    "slsqp_diagnostic": {
+      "cases": [
+        {
+          "case": [
+            "maintenance",
+            "tdn"
+          ],
+          "status": "optimal",
+          "quantities": {
+            "23": 0.0,
+            "44": 0.0,
+            "50": 4.4843599,
+            "104": 0.0,
+            "110": 22.670931
+          },
+          "cost": 0.271552909,
+          "message": "",
+          "validation_status": "rejected",
+          "validation": {
+            "unrounded": {
+              "residuals": {
+                "NE_total_constraint": 5.639881593227322,
+                "NE_maintenance_and_activity_constraint": 28.607577930316957,
+                "NE_lactation_constraint": 15.50354212701366,
+                "NE_growth_constraint": 21.496409937521797,
+                "calcium_constraint": 40.65369333892563,
+                "phosphorus_constraint": 6.47667663630731,
+                "protein_constraint_lower": -1.83389772509463,
+                "protein_constraint_upper": 1082.7150983960928,
+                "NDF_constraint_lower": 19.99999997385408,
+                "NDF_constraint_upper": 2.614591920746534e-08,
+                "forage_NDF_constraint": 29.999999973854088,
+                "fat_constraint": 4.750458716315943,
+                "DMI_constraint_upper": 1.7104186330897733,
+                "DMI_constraint_lower": 11.612216536028585
+              },
+              "violations": {
+                "protein_constraint_lower": "Residual -1.83389773 is below -1e-05."
+              }
+            },
+            "rounded": {
+              "residuals": {
+                "NE_total_constraint": 5.639881746370925,
+                "NE_maintenance_and_activity_constraint": 28.607578086459107,
+                "NE_lactation_constraint": 15.503542280157262,
+                "NE_growth_constraint": 21.496410033817433,
+                "calcium_constraint": 40.65369342592563,
+                "phosphorus_constraint": 6.476676789907316,
+                "protein_constraint_lower": -1.8338890770892249,
+                "protein_constraint_upper": 1082.7150897480874,
+                "NDF_constraint_lower": 20.000000007365053,
+                "NDF_constraint_upper": -7.365052567820385e-09,
+                "forage_NDF_constraint": 30.000000007365053,
+                "fat_constraint": 4.750458715393623,
+                "DMI_constraint_upper": 1.7104185330897757,
+                "DMI_constraint_lower": 11.612216636028583
+              },
+              "violations": {
+                "protein_constraint_lower": "Residual -1.83388908 is below -1e-05."
+              }
+            },
+            "rounded_quantities": {
+              "23": 0.0,
+              "44": 0.0,
+              "50": 4.48436,
+              "104": 0.0,
+              "110": 22.670931
+            },
+            "repair": null
+          },
+          "raw_diet": {
+            "quantities": {
+              "23": 0.0,
+              "44": 0.0,
+              "50": 4.4843599,
+              "104": 0.0,
+              "110": 22.670931
+            },
+            "dry_matter_kg_per_cow_day": 27.1552909,
+            "cost_usd_per_cow_day": 0.271552909,
+            "offers": {
+              "energy_maintenance": {
+                "unit": "Mcal/cow/day",
+                "predicted": 37.881831947627866,
+                "nrc": 37.881831947627866,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "energy_growth": {
+                "unit": "Mcal/cow/day",
+                "predicted": 22.08581645399723,
+                "nrc": 22.08581645399723,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "energy_lactation": {
+                "unit": "Mcal/cow/day",
+                "predicted": 38.045243739916884,
+                "nrc": 38.045243739916884,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "microbial_tdn": {
+                "unit": "g/cow/day",
+                "predicted": 2054.9741467970002,
+                "nrc": 2054.9741467970002,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "microbial_rdp": {
+                "unit": "g/cow/day",
+                "predicted": 3659.8076016371583,
+                "nrc": 3662.194849752998,
+                "signed_error": -2.3872481158396113,
+                "absolute_error": 2.3872481158396113,
+                "relative_error_percent": 0.0651862670824471
+              },
+              "microbial_metabolizable": {
+                "unit": "g/cow/day",
+                "predicted": 1315.18345395008,
+                "nrc": 1315.18345395008,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "digestible_rup": {
+                "unit": "g/cow/day",
+                "predicted": 718.4059960496785,
+                "nrc": 716.5720766188219,
+                "signed_error": 1.8339194308565538,
+                "absolute_error": 1.8339194308565538,
+                "relative_error_percent": 0.2559295136799059
+              },
+              "endogenous": {
+                "unit": "g/cow/day",
+                "predicted": 128.17297304800002,
+                "nrc": 128.17297304800002,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "metabolizable_protein": {
+                "unit": "g/cow/day",
+                "predicted": 2161.7624230477586,
+                "nrc": 2159.9285036169017,
+                "signed_error": 1.833919430856895,
+                "absolute_error": 1.833919430856895,
+                "relative_error_percent": 0.08490648777429025
+              }
+            },
+            "predicted_microbial_limiter": "tdn",
+            "nrc_microbial_limiter": "tdn",
+            "nrc_intake_discount": 1.0
+          },
+          "rounded_diet": {
+            "quantities": {
+              "23": 0.0,
+              "44": 0.0,
+              "50": 4.48436,
+              "104": 0.0,
+              "110": 22.670931
+            },
+            "dry_matter_kg_per_cow_day": 27.155291,
+            "cost_usd_per_cow_day": 0.27155291,
+            "offers": {
+              "energy_maintenance": {
+                "unit": "Mcal/cow/day",
+                "predicted": 37.881832103770016,
+                "nrc": 37.881832103770016,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "energy_growth": {
+                "unit": "Mcal/cow/day",
+                "predicted": 22.08581655029286,
+                "nrc": 22.08581655029286,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "energy_lactation": {
+                "unit": "Mcal/cow/day",
+                "predicted": 38.04524389306049,
+                "nrc": 38.04524389306049,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "microbial_tdn": {
+                "unit": "g/cow/day",
+                "predicted": 2054.974155325,
+                "nrc": 2054.974155325,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "microbial_rdp": {
+                "unit": "g/cow/day",
+                "predicted": 3659.8076071767528,
+                "nrc": 3662.1948546543904,
+                "signed_error": -2.3872474776376293,
+                "absolute_error": 2.3872474776376293,
+                "relative_error_percent": 0.06518624956844137
+              },
+              "microbial_metabolizable": {
+                "unit": "g/cow/day",
+                "predicted": 1315.183459408,
+                "nrc": 1315.183459408,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "digestible_rup": {
+                "unit": "g/cow/day",
+                "predicted": 718.4059982776596,
+                "nrc": 716.5720793369072,
+                "signed_error": 1.833918940752369,
+                "absolute_error": 1.833918940752369,
+                "relative_error_percent": 0.2559294443134623
+              },
+              "endogenous": {
+                "unit": "g/cow/day",
+                "predicted": 128.17297352,
+                "nrc": 128.17297352,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "metabolizable_protein": {
+                "unit": "g/cow/day",
+                "predicted": 2161.7624312056596,
+                "nrc": 2159.928512264907,
+                "signed_error": 1.8339189407524827,
+                "absolute_error": 1.8339189407524827,
+                "relative_error_percent": 0.0849064647435683
+              }
+            },
+            "predicted_microbial_limiter": "tdn",
+            "nrc_microbial_limiter": "tdn",
+            "nrc_intake_discount": 1.0
+          }
+        },
+        {
+          "case": [
+            "maintenance",
+            "rdp"
+          ],
+          "status": "optimal",
+          "quantities": {
+            "23": 0.0,
+            "44": 5.9438933,
+            "50": 12.2126,
+            "104": 0.0,
+            "110": 10.709216
+          },
+          "cost": 3.20116481,
+          "message": "",
+          "validation_status": "approved",
+          "validation": {
+            "unrounded": {
+              "residuals": {
+                "NE_total_constraint": 7.863769574387057,
+                "NE_maintenance_and_activity_constraint": 30.442775152239925,
+                "NE_lactation_constraint": 17.727430108173394,
+                "NE_growth_constraint": 22.25379415373589,
+                "calcium_constraint": -5.820743780304838e-07,
+                "phosphorus_constraint": 4.035187759907309,
+                "protein_constraint_lower": 243.6123552105828,
+                "protein_constraint_upper": 837.2688454604154,
+                "NDF_constraint_lower": 15.872260067761445,
+                "NDF_constraint_upper": 4.127739932238555,
+                "forage_NDF_constraint": 23.916064023412034,
+                "fat_constraint": 4.261244259118206,
+                "DMI_constraint_upper": 2.3308977503688766e-07,
+                "DMI_constraint_lower": 13.322634936028583
+              },
+              "violations": {}
+            },
+            "rounded": {
+              "residuals": {
+                "NE_total_constraint": 7.8637692265036065,
+                "NE_maintenance_and_activity_constraint": 30.442774839449918,
+                "NE_lactation_constraint": 17.727429760289944,
+                "NE_growth_constraint": 22.253794009878163,
+                "calcium_constraint": -6.540743839877905e-07,
+                "phosphorus_constraint": 4.035187129907307,
+                "protein_constraint_lower": 243.61232572164226,
+                "protein_constraint_upper": 837.2688749493559,
+                "NDF_constraint_lower": 15.872260393811906,
+                "NDF_constraint_upper": 4.1277396061880935,
+                "forage_NDF_constraint": 23.91606442786491,
+                "fat_constraint": 4.26124427430485,
+                "DMI_constraint_upper": 5.330897714372895e-07,
+                "DMI_constraint_lower": 13.322634636028587
+              },
+              "violations": {}
+            },
+            "rounded_quantities": {
+              "23": 0.0,
+              "44": 5.943893,
+              "50": 12.2126,
+              "104": 0.0,
+              "110": 10.709216
+            },
+            "repair": null
+          },
+          "raw_diet": {
+            "quantities": {
+              "23": 0.0,
+              "44": 5.9438933,
+              "50": 12.2126,
+              "104": 0.0,
+              "110": 10.709216
+            },
+            "dry_matter_kg_per_cow_day": 28.8657093,
+            "cost_usd_per_cow_day": 3.20116481,
+            "offers": {
+              "energy_maintenance": {
+                "unit": "Mcal/cow/day",
+                "predicted": 47.86410802764685,
+                "nrc": 39.717029169550834,
+                "signed_error": 8.147078858096016,
+                "absolute_error": 8.147078858096016,
+                "relative_error_percent": 20.512810319514017
+              },
+              "energy_growth": {
+                "unit": "Mcal/cow/day",
+                "predicted": 30.10934042951206,
+                "nrc": 22.843200670211317,
+                "signed_error": 7.266139759300742,
+                "absolute_error": 7.266139759300742,
+                "relative_error_percent": 31.80876386020701
+              },
+              "energy_lactation": {
+                "unit": "Mcal/cow/day",
+                "predicted": 46.7306766752886,
+                "nrc": 40.26913172107662,
+                "signed_error": 6.4615449542119805,
+                "absolute_error": 6.4615449542119805,
+                "relative_error_percent": 16.045900862645237
+              },
+              "microbial_tdn": {
+                "unit": "g/cow/day",
+                "predicted": 2516.8760042101003,
+                "nrc": 2251.6318062699947,
+                "signed_error": 265.24419794010555,
+                "absolute_error": 265.24419794010555,
+                "relative_error_percent": 11.78008754368697
+              },
+              "microbial_rdp": {
+                "unit": "g/cow/day",
+                "predicted": 2516.875998166144,
+                "nrc": 2512.3889339564275,
+                "signed_error": 4.487064209716664,
+                "absolute_error": 4.487064209716664,
+                "relative_error_percent": 0.17859751526013062
+              },
+              "microbial_metabolizable": {
+                "unit": "g/cow/day",
+                "predicted": 1610.8006388263323,
+                "nrc": 1441.0443560127967,
+                "signed_error": 169.75628281353556,
+                "absolute_error": 169.75628281353556,
+                "relative_error_percent": 11.780087275261367
+              },
+              "digestible_rup": {
+                "unit": "g/cow/day",
+                "predicted": 824.7607788377177,
+                "nrc": 828.0842526437829,
+                "signed_error": -3.3234738060651807,
+                "absolute_error": 3.3234738060651807,
+                "relative_error_percent": 0.4013448867617629
+              },
+              "endogenous": {
+                "unit": "g/cow/day",
+                "predicted": 136.24614789600002,
+                "nrc": 136.24614789600002,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "metabolizable_protein": {
+                "unit": "g/cow/day",
+                "predicted": 2571.80756556005,
+                "nrc": 2405.374756552579,
+                "signed_error": 166.43280900747095,
+                "absolute_error": 166.43280900747095,
+                "relative_error_percent": 6.919204941104689
+              }
+            },
+            "predicted_microbial_limiter": "rdp",
+            "nrc_microbial_limiter": "tdn",
+            "nrc_intake_discount": 0.8946137205422839
+          },
+          "rounded_diet": {
+            "quantities": {
+              "23": 0.0,
+              "44": 5.943893,
+              "50": 12.2126,
+              "104": 0.0,
+              "110": 10.709216
+            },
+            "dry_matter_kg_per_cow_day": 28.865709,
+            "cost_usd_per_cow_day": 3.20116466,
+            "offers": {
+              "energy_maintenance": {
+                "unit": "Mcal/cow/day",
+                "predicted": 47.864107310532404,
+                "nrc": 39.71702885676083,
+                "signed_error": 8.147078453771577,
+                "absolute_error": 8.147078453771577,
+                "relative_error_percent": 20.512809463049102
+              },
+              "energy_growth": {
+                "unit": "Mcal/cow/day",
+                "predicted": 30.10933992700533,
+                "nrc": 22.84320052635359,
+                "signed_error": 7.266139400651738,
+                "absolute_error": 7.266139400651738,
+                "relative_error_percent": 31.808762490479335
+              },
+              "energy_lactation": {
+                "unit": "Mcal/cow/day",
+                "predicted": 46.730676003999776,
+                "nrc": 40.26913137319317,
+                "signed_error": 6.461544630806607,
+                "absolute_error": 6.461544630806607,
+                "relative_error_percent": 16.045900198155266
+              },
+              "microbial_tdn": {
+                "unit": "g/cow/day",
+                "predicted": 2516.875969621,
+                "nrc": 2251.6317850479904,
+                "signed_error": 265.24418457300953,
+                "absolute_error": 265.24418457300953,
+                "relative_error_percent": 11.780087061053646
+              },
+              "microbial_rdp": {
+                "unit": "g/cow/day",
+                "predicted": 2516.8759866138266,
+                "nrc": 2512.388923971821,
+                "signed_error": 4.48706264200564,
+                "absolute_error": 4.48706264200564,
+                "relative_error_percent": 0.17859745357068635
+              },
+              "microbial_metabolizable": {
+                "unit": "g/cow/day",
+                "predicted": 1610.80062055744,
+                "nrc": 1441.0443424307139,
+                "signed_error": 169.7562781267261,
+                "absolute_error": 169.7562781267261,
+                "relative_error_percent": 11.780087061053644
+              },
+              "digestible_rup": {
+                "unit": "g/cow/day",
+                "predicted": 824.7607656895834,
+                "nrc": 828.0842381529251,
+                "signed_error": -3.323472463341659,
+                "absolute_error": 3.323472463341659,
+                "relative_error_percent": 0.40134473163681955
+              },
+              "endogenous": {
+                "unit": "g/cow/day",
+                "predicted": 136.24614648000002,
+                "nrc": 136.24614648000002,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "metabolizable_protein": {
+                "unit": "g/cow/day",
+                "predicted": 2571.8075327270235,
+                "nrc": 2405.3747270636386,
+                "signed_error": 166.4328056633849,
+                "absolute_error": 166.4328056633849,
+                "relative_error_percent": 6.919204886905823
+              }
+            },
+            "predicted_microbial_limiter": "tdn",
+            "nrc_microbial_limiter": "tdn",
+            "nrc_intake_discount": 0.894613724404961
+          }
+        },
+        {
+          "case": [
+            "growth",
+            "tdn"
+          ],
+          "status": "optimal",
+          "quantities": {
+            "23": 0.97526156,
+            "44": 8.3268885,
+            "50": 8.6692052,
+            "104": 0.0,
+            "110": 10.894354
+          },
+          "cost": 4.456605998000001,
+          "message": "",
+          "validation_status": "approved",
+          "validation": {
+            "unrounded": {
+              "residuals": {
+                "NE_total_constraint": 8.578369618926125,
+                "NE_maintenance_and_activity_constraint": 31.257700713996826,
+                "NE_lactation_constraint": 18.442030152712462,
+                "NE_growth_constraint": 22.949406162753263,
+                "calcium_constraint": -1.3620743928299817e-06,
+                "phosphorus_constraint": 6.059581663107323,
+                "protein_constraint_lower": 870.0269163688781,
+                "protein_constraint_upper": 210.85428430212005,
+                "NDF_constraint_lower": 10.292586289632716,
+                "NDF_constraint_upper": 9.707413710367284,
+                "forage_NDF_constraint": 17.552122161851223,
+                "fat_constraint": 4.166747692379412,
+                "DMI_constraint_upper": 2.7308977124107514e-07,
+                "DMI_constraint_lower": 13.322634896028587
+              },
+              "violations": {}
+            },
+            "rounded": {
+              "residuals": {
+                "NE_total_constraint": 8.578370631428598,
+                "NE_maintenance_and_activity_constraint": 31.2577016925531,
+                "NE_lactation_constraint": 18.442031165214935,
+                "NE_growth_constraint": 22.94940670769614,
+                "calcium_constraint": -6.240743886110067e-07,
+                "phosphorus_constraint": 6.059583329907319,
+                "protein_constraint_lower": 870.0272406924128,
+                "protein_constraint_upper": 210.8539599785854,
+                "NDF_constraint_lower": 10.292585174589505,
+                "NDF_constraint_upper": 9.707414825410495,
+                "forage_NDF_constraint": 17.552120952507323,
+                "fat_constraint": 4.166747691291848,
+                "DMI_constraint_upper": -4.669102260379532e-07,
+                "DMI_constraint_lower": 13.322635636028584
+              },
+              "violations": {
+                "DMI_constraint_upper": "Residual -4.66910226e-07 is below -1e-07."
+              }
+            },
+            "rounded_quantities": {
+              "23": 0.975262,
+              "44": 8.326889,
+              "50": 8.669205,
+              "104": 0.0,
+              "110": 10.894354
+            },
+            "repair": {
+              "triggers": [
+                "DMI_constraint_upper"
+              ],
+              "attempts": 1,
+              "quantities": {
+                "23": 0.975262,
+                "44": 8.326888,
+                "50": 8.669205,
+                "104": 0.0,
+                "110": 10.894354
+              },
+              "validation": {
+                "residuals": {
+                  "NE_total_constraint": 8.578369572307395,
+                  "NE_maintenance_and_activity_constraint": 31.257700766304033,
+                  "NE_lactation_constraint": 18.442030106093732,
+                  "NE_growth_constraint": 22.94940632675692,
+                  "calcium_constraint": -8.640743871524137e-07,
+                  "phosphorus_constraint": 6.059581229907316,
+                  "protein_constraint_lower": 870.0271432427699,
+                  "protein_constraint_upper": 210.85405742822832,
+                  "NDF_constraint_lower": 10.29258606812671,
+                  "NDF_constraint_upper": 9.70741393187329,
+                  "forage_NDF_constraint": 17.552122080216357,
+                  "fat_constraint": 4.1667477386403355,
+                  "DMI_constraint_upper": 5.330897714372895e-07,
+                  "DMI_constraint_lower": 13.322634636028587
+                },
+                "violations": {}
+              },
+              "cost_delta": -5e-07
+            }
+          },
+          "raw_diet": {
+            "quantities": {
+              "23": 0.97526156,
+              "44": 8.3268885,
+              "50": 8.6692052,
+              "104": 0.0,
+              "110": 10.894354
+            },
+            "dry_matter_kg_per_cow_day": 28.865709260000003,
+            "cost_usd_per_cow_day": 4.456605998000001,
+            "offers": {
+              "energy_maintenance": {
+                "unit": "Mcal/cow/day",
+                "predicted": 50.53621092718451,
+                "nrc": 40.531954731307735,
+                "signed_error": 10.004256195876778,
+                "absolute_error": 10.004256195876778,
+                "relative_error_percent": 24.682392601581785
+              },
+              "energy_growth": {
+                "unit": "Mcal/cow/day",
+                "predicted": 32.40536196240939,
+                "nrc": 23.53881267922869,
+                "signed_error": 8.866549283180696,
+                "absolute_error": 8.866549283180696,
+                "relative_error_percent": 37.667784709484465
+              },
+              "energy_lactation": {
+                "unit": "Mcal/cow/day",
+                "predicted": 49.00090589866269,
+                "nrc": 40.98373176561569,
+                "signed_error": 8.017174133047,
+                "absolute_error": 8.017174133047,
+                "relative_error_percent": 19.56184512161288
+              },
+              "microbial_tdn": {
+                "unit": "g/cow/day",
+                "predicted": 2586.6059934345803,
+                "nrc": 2260.392422762452,
+                "signed_error": 326.2135706721283,
+                "absolute_error": 326.2135706721283,
+                "relative_error_percent": 14.431722889667931
+              },
+              "microbial_rdp": {
+                "unit": "g/cow/day",
+                "predicted": 2598.9837291963836,
+                "nrc": 2599.910156060909,
+                "signed_error": -0.9264268645251832,
+                "absolute_error": 0.9264268645251832,
+                "relative_error_percent": 0.03563303379409083
+              },
+              "microbial_metabolizable": {
+                "unit": "g/cow/day",
+                "predicted": 1655.4278357981314,
+                "nrc": 1446.6511505679694,
+                "signed_error": 208.776685230162,
+                "absolute_error": 208.776685230162,
+                "relative_error_percent": 14.431722889667922
+              },
+              "digestible_rup": {
+                "unit": "g/cow/day",
+                "predicted": 1450.9695965803623,
+                "nrc": 1448.8920194357052,
+                "signed_error": 2.077577144657198,
+                "absolute_error": 2.077577144657198,
+                "relative_error_percent": 0.1433907507797817
+              },
+              "endogenous": {
+                "unit": "g/cow/day",
+                "predicted": 136.24614770720004,
+                "nrc": 136.24614770720004,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "metabolizable_protein": {
+                "unit": "g/cow/day",
+                "predicted": 3242.6435800856934,
+                "nrc": 3031.7893177108745,
+                "signed_error": 210.85426237481897,
+                "absolute_error": 210.85426237481897,
+                "relative_error_percent": 6.954779513967765
+              }
+            },
+            "predicted_microbial_limiter": "tdn",
+            "nrc_microbial_limiter": "tdn",
+            "nrc_intake_discount": 0.8738835479774903
+          },
+          "rounded_diet": {
+            "quantities": {
+              "23": 0.975262,
+              "44": 8.326889,
+              "50": 8.669205,
+              "104": 0.0,
+              "110": 10.894354
+            },
+            "dry_matter_kg_per_cow_day": 28.86571,
+            "cost_usd_per_cow_day": 4.45660629,
+            "offers": {
+              "energy_maintenance": {
+                "unit": "Mcal/cow/day",
+                "predicted": 50.53621282808766,
+                "nrc": 40.53195570986401,
+                "signed_error": 10.004257118223656,
+                "absolute_error": 10.004257118223656,
+                "relative_error_percent": 24.682394281283056
+              },
+              "energy_growth": {
+                "unit": "Mcal/cow/day",
+                "predicted": 32.40536331632438,
+                "nrc": 23.53881322417157,
+                "signed_error": 8.866550092152814,
+                "absolute_error": 8.866550092152814,
+                "relative_error_percent": 37.66778727420258
+              },
+              "energy_lactation": {
+                "unit": "Mcal/cow/day",
+                "predicted": 49.000907663069796,
+                "nrc": 40.98373277811816,
+                "signed_error": 8.017174884951636,
+                "absolute_error": 8.017174884951636,
+                "relative_error_percent": 19.561846472979465
+              },
+              "microbial_tdn": {
+                "unit": "g/cow/day",
+                "predicted": 2586.606071699,
+                "nrc": 2260.392471524342,
+                "signed_error": 326.21360017465804,
+                "absolute_error": 326.21360017465804,
+                "relative_error_percent": 14.431723883537323
+              },
+              "microbial_rdp": {
+                "unit": "g/cow/day",
+                "predicted": 2598.983809004238,
+                "nrc": 2599.9102319403664,
+                "signed_error": -0.9264229361283469,
+                "absolute_error": 0.9264229361283469,
+                "relative_error_percent": 0.03563288165672314
+              },
+              "microbial_metabolizable": {
+                "unit": "g/cow/day",
+                "predicted": 1655.4278858873602,
+                "nrc": 1446.6511817755788,
+                "signed_error": 208.77670411178133,
+                "absolute_error": 208.77670411178133,
+                "relative_error_percent": 14.431723883537336
+              },
+              "digestible_rup": {
+                "unit": "g/cow/day",
+                "predicted": 1450.9698827784935,
+                "nrc": 1448.8923090588305,
+                "signed_error": 2.0775737196629507,
+                "absolute_error": 2.0775737196629507,
+                "relative_error_percent": 0.14339048572992275
+              },
+              "endogenous": {
+                "unit": "g/cow/day",
+                "predicted": 136.2461512,
+                "nrc": 136.2461512,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "metabolizable_protein": {
+                "unit": "g/cow/day",
+                "predicted": 3242.6439198658536,
+                "nrc": 3031.789642034409,
+                "signed_error": 210.8542778314445,
+                "absolute_error": 210.8542778314445,
+                "relative_error_percent": 6.954779279803721
+              }
+            },
+            "predicted_microbial_limiter": "tdn",
+            "nrc_microbial_limiter": "tdn",
+            "nrc_intake_discount": 0.8738835403875836
+          },
+          "repaired_diet": {
+            "quantities": {
+              "23": 0.975262,
+              "44": 8.326888,
+              "50": 8.669205,
+              "104": 0.0,
+              "110": 10.894354
+            },
+            "dry_matter_kg_per_cow_day": 28.865709,
+            "cost_usd_per_cow_day": 4.45660579,
+            "offers": {
+              "energy_maintenance": {
+                "unit": "Mcal/cow/day",
+                "predicted": 50.536210437706174,
+                "nrc": 40.53195478361494,
+                "signed_error": 10.004255654091232,
+                "absolute_error": 10.004255654091232,
+                "relative_error_percent": 24.682391233041283
+              },
+              "energy_growth": {
+                "unit": "Mcal/cow/day",
+                "predicted": 32.40536164130196,
+                "nrc": 23.538812843232353,
+                "signed_error": 8.866548798069605,
+                "absolute_error": 8.866548798069605,
+                "relative_error_percent": 37.66778238614029
+              },
+              "energy_lactation": {
+                "unit": "Mcal/cow/day",
+                "predicted": 49.00090542544039,
+                "nrc": 40.98373171899696,
+                "signed_error": 8.017173706443437,
+                "absolute_error": 8.017173706443437,
+                "relative_error_percent": 19.561844102954836
+              },
+              "microbial_tdn": {
+                "unit": "g/cow/day",
+                "predicted": 2586.605956402,
+                "nrc": 2260.3924046691627,
+                "signed_error": 326.21355173283746,
+                "absolute_error": 326.21355173283746,
+                "relative_error_percent": 14.43172216731028
+              },
+              "microbial_rdp": {
+                "unit": "g/cow/day",
+                "predicted": 2598.9837704965125,
+                "nrc": 2599.91020031504,
+                "signed_error": -0.9264298185275948,
+                "absolute_error": 0.9264298185275948,
+                "relative_error_percent": 0.035633146806968025
+              },
+              "microbial_metabolizable": {
+                "unit": "g/cow/day",
+                "predicted": 1655.4278120972801,
+                "nrc": 1446.6511389882642,
+                "signed_error": 208.77667310901597,
+                "absolute_error": 208.77667310901597,
+                "relative_error_percent": 14.43172216731028
+              },
+              "digestible_rup": {
+                "unit": "g/cow/day",
+                "predicted": 1450.9698389513792,
+                "nrc": 1448.8922591165017,
+                "signed_error": 2.077579834877497,
+                "absolute_error": 2.077579834877497,
+                "relative_error_percent": 0.143390912733867
+              },
+              "endogenous": {
+                "unit": "g/cow/day",
+                "predicted": 136.24614648000002,
+                "nrc": 136.24614648000002,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "metabolizable_protein": {
+                "unit": "g/cow/day",
+                "predicted": 3242.6437975286594,
+                "nrc": 3031.789544584766,
+                "signed_error": 210.85425294389324,
+                "absolute_error": 210.85425294389324,
+                "relative_error_percent": 6.954778682462005
+              }
+            },
+            "predicted_microbial_limiter": "tdn",
+            "nrc_microbial_limiter": "tdn",
+            "nrc_intake_discount": 0.8738835534939369
+          }
+        },
+        {
+          "case": [
+            "growth",
+            "rdp"
+          ],
+          "status": "optimal",
+          "quantities": {
+            "23": 0.85517798,
+            "44": 8.45113,
+            "50": 8.6058728,
+            "104": 0.0,
+            "110": 10.953529
+          },
+          "cost": 4.506676816,
+          "message": "",
+          "validation_status": "rejected",
+          "validation": {
+            "unrounded": {
+              "residuals": {
+                "NE_total_constraint": 8.523573852222746,
+                "NE_maintenance_and_activity_constraint": 31.185290610036446,
+                "NE_lactation_constraint": 18.387234386009084,
+                "NE_growth_constraint": 22.88364393803534,
+                "calcium_constraint": 9.659256150484907e-07,
+                "phosphorus_constraint": 6.103586728707313,
+                "protein_constraint_lower": 802.7253330324297,
+                "protein_constraint_upper": 278.15586763856845,
+                "NDF_constraint_lower": 10.303337906697408,
+                "NDF_constraint_upper": 9.696662093302592,
+                "forage_NDF_constraint": 17.521984681299607,
+                "fat_constraint": 4.154637595888696,
+                "DMI_constraint_upper": -2.4691022559863995e-07,
+                "DMI_constraint_lower": 13.322635416028584
+              },
+              "violations": {
+                "DMI_constraint_upper": "Residual -2.46910226e-07 is below -1e-07."
+              }
+            },
+            "rounded": {
+              "residuals": {
+                "NE_total_constraint": 8.5235740852008,
+                "NE_maintenance_and_activity_constraint": 31.185290819599203,
+                "NE_lactation_constraint": 18.387234618987137,
+                "NE_growth_constraint": 22.883644028914105,
+                "calcium_constraint": 1.175925618213114e-06,
+                "phosphorus_constraint": 6.103587077907321,
+                "protein_constraint_lower": 802.725361363011,
+                "protein_constraint_upper": 278.1558393079872,
+                "NDF_constraint_lower": 10.303338012472238,
+                "NDF_constraint_upper": 9.696661987527762,
+                "forage_NDF_constraint": 17.521984808272514,
+                "fat_constraint": 4.154637599421597,
+                "DMI_constraint_upper": -4.669102260379532e-07,
+                "DMI_constraint_lower": 13.322635636028584
+              },
+              "violations": {
+                "DMI_constraint_upper": "Residual -4.66910226e-07 is below -1e-07."
+              }
+            },
+            "rounded_quantities": {
+              "23": 0.855178,
+              "44": 8.45113,
+              "50": 8.605873,
+              "104": 0.0,
+              "110": 10.953529
+            },
+            "repair": null
+          },
+          "raw_diet": {
+            "quantities": {
+              "23": 0.85517798,
+              "44": 8.45113,
+              "50": 8.6058728,
+              "104": 0.0,
+              "110": 10.953529
+            },
+            "dry_matter_kg_per_cow_day": 28.86570978,
+            "cost_usd_per_cow_day": 4.506676816,
+            "offers": {
+              "energy_maintenance": {
+                "unit": "Mcal/cow/day",
+                "predicted": 50.53707979909406,
+                "nrc": 40.459544627347356,
+                "signed_error": 10.077535171746703,
+                "absolute_error": 10.077535171746703,
+                "relative_error_percent": 24.907683130311632
+              },
+              "energy_growth": {
+                "unit": "Mcal/cow/day",
+                "predicted": 32.405362357156314,
+                "nrc": 23.47305045451077,
+                "signed_error": 8.932311902645544,
+                "absolute_error": 8.932311902645544,
+                "relative_error_percent": 38.05347719912152
+              },
+              "energy_lactation": {
+                "unit": "Mcal/cow/day",
+                "predicted": 49.00351766383621,
+                "nrc": 40.92893599891231,
+                "signed_error": 8.074581664923905,
+                "absolute_error": 8.074581664923905,
+                "relative_error_percent": 19.728296052305115
+              },
+              "microbial_tdn": {
+                "unit": "g/cow/day",
+                "predicted": 2589.61399826064,
+                "nrc": 2260.6923297329145,
+                "signed_error": 328.9216685277256,
+                "absolute_error": 328.9216685277256,
+                "relative_error_percent": 14.549598996807562
+              },
+              "microbial_rdp": {
+                "unit": "g/cow/day",
+                "predicted": 2589.6140157724963,
+                "nrc": 2590.315883498897,
+                "signed_error": -0.7018677264009057,
+                "absolute_error": 0.7018677264009057,
+                "relative_error_percent": 0.027095835333135133
+              },
+              "microbial_metabolizable": {
+                "unit": "g/cow/day",
+                "predicted": 1657.3529588868096,
+                "nrc": 1446.8430910290654,
+                "signed_error": 210.5098678577442,
+                "absolute_error": 210.5098678577442,
+                "relative_error_percent": 14.549598996807548
+              },
+              "digestible_rup": {
+                "unit": "g/cow/day",
+                "predicted": 1383.2741655200307,
+                "nrc": 1381.3984931837606,
+                "signed_error": 1.8756723362700995,
+                "absolute_error": 1.8756723362700995,
+                "relative_error_percent": 0.1357806849743384
+              },
+              "endogenous": {
+                "unit": "g/cow/day",
+                "predicted": 136.2461501616,
+                "nrc": 136.2461501616,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "metabolizable_protein": {
+                "unit": "g/cow/day",
+                "predicted": 3176.87327456844,
+                "nrc": 2964.487734374426,
+                "signed_error": 212.38554019401408,
+                "absolute_error": 212.38554019401408,
+                "relative_error_percent": 7.164325145667444
+              }
+            },
+            "predicted_microbial_limiter": "tdn",
+            "nrc_microbial_limiter": "tdn",
+            "nrc_intake_discount": 0.8729842869444436
+          },
+          "rounded_diet": {
+            "quantities": {
+              "23": 0.855178,
+              "44": 8.45113,
+              "50": 8.605873,
+              "104": 0.0,
+              "110": 10.953529
+            },
+            "dry_matter_kg_per_cow_day": 28.86571,
+            "cost_usd_per_cow_day": 4.506676819999999,
+            "offers": {
+              "energy_maintenance": {
+                "unit": "Mcal/cow/day",
+                "predicted": 50.537080157650934,
+                "nrc": 40.45954483691011,
+                "signed_error": 10.077535320740822,
+                "absolute_error": 10.077535320740822,
+                "relative_error_percent": 24.90768336955528
+              },
+              "energy_growth": {
+                "unit": "Mcal/cow/day",
+                "predicted": 32.40536258197463,
+                "nrc": 23.473050545389533,
+                "signed_error": 8.932312036585095,
+                "absolute_error": 8.932312036585095,
+                "relative_error_percent": 38.05347762240276
+              },
+              "energy_lactation": {
+                "unit": "Mcal/cow/day",
+                "predicted": 49.00351801339069,
+                "nrc": 40.92893623189036,
+                "signed_error": 8.074581781500328,
+                "absolute_error": 8.074581781500328,
+                "relative_error_percent": 19.72829622483299
+              },
+              "microbial_tdn": {
+                "unit": "g/cow/day",
+                "predicted": 2589.614017029,
+                "nrc": 2260.6923437535875,
+                "signed_error": 328.92167327541256,
+                "absolute_error": 328.92167327541256,
+                "relative_error_percent": 14.549599116582161
+              },
+              "microbial_rdp": {
+                "unit": "g/cow/day",
+                "predicted": 2589.614030107739,
+                "nrc": 2590.3158960286164,
+                "signed_error": -0.7018659208774807,
+                "absolute_error": 0.7018659208774807,
+                "relative_error_percent": 0.027095765499241132
+              },
+              "microbial_metabolizable": {
+                "unit": "g/cow/day",
+                "predicted": 1657.35297089856,
+                "nrc": 1446.843100002296,
+                "signed_error": 210.50987089626392,
+                "absolute_error": 210.50987089626392,
+                "relative_error_percent": 14.549599116582154
+              },
+              "digestible_rup": {
+                "unit": "g/cow/day",
+                "predicted": 1383.2741821914717,
+                "nrc": 1381.3985115027108,
+                "signed_error": 1.8756706887609198,
+                "absolute_error": 1.8756706887609198,
+                "relative_error_percent": 0.13578056390986917
+              },
+              "endogenous": {
+                "unit": "g/cow/day",
+                "predicted": 136.2461512,
+                "nrc": 136.2461512,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "metabolizable_protein": {
+                "unit": "g/cow/day",
+                "predicted": 3176.8733042900317,
+                "nrc": 2964.4877627050073,
+                "signed_error": 212.38554158502438,
+                "absolute_error": 212.38554158502438,
+                "relative_error_percent": 7.164325124122924
+              }
+            },
+            "predicted_microbial_limiter": "tdn",
+            "nrc_microbial_limiter": "tdn",
+            "nrc_intake_discount": 0.8729842860316396
+          }
+        },
+        {
+          "case": [
+            "lactation",
+            "tdn"
+          ],
+          "status": "optimal",
+          "quantities": {
+            "23": 0.0,
+            "44": 0.0,
+            "50": 4.4843599,
+            "104": 0.0,
+            "110": 22.670931
+          },
+          "cost": 0.271552909,
+          "message": "",
+          "validation_status": "rejected",
+          "validation": {
+            "unrounded": {
+              "residuals": {
+                "NE_total_constraint": 5.639881593227322,
+                "NE_maintenance_and_activity_constraint": 28.607577930316957,
+                "NE_lactation_constraint": 15.50354212701366,
+                "NE_growth_constraint": 21.496409937521797,
+                "calcium_constraint": 40.65369333892563,
+                "phosphorus_constraint": 6.47667663630731,
+                "protein_constraint_lower": -1.83389772509463,
+                "protein_constraint_upper": 1082.7150983960928,
+                "NDF_constraint_lower": 19.99999997385408,
+                "NDF_constraint_upper": 2.614591920746534e-08,
+                "forage_NDF_constraint": 29.999999973854088,
+                "fat_constraint": 4.750458716315943,
+                "DMI_constraint_upper": 1.7104186330897733,
+                "DMI_constraint_lower": 11.612216536028585
+              },
+              "violations": {
+                "protein_constraint_lower": "Residual -1.83389773 is below -1e-05."
+              }
+            },
+            "rounded": {
+              "residuals": {
+                "NE_total_constraint": 5.639881746370925,
+                "NE_maintenance_and_activity_constraint": 28.607578086459107,
+                "NE_lactation_constraint": 15.503542280157262,
+                "NE_growth_constraint": 21.496410033817433,
+                "calcium_constraint": 40.65369342592563,
+                "phosphorus_constraint": 6.476676789907316,
+                "protein_constraint_lower": -1.8338890770892249,
+                "protein_constraint_upper": 1082.7150897480874,
+                "NDF_constraint_lower": 20.000000007365053,
+                "NDF_constraint_upper": -7.365052567820385e-09,
+                "forage_NDF_constraint": 30.000000007365053,
+                "fat_constraint": 4.750458715393623,
+                "DMI_constraint_upper": 1.7104185330897757,
+                "DMI_constraint_lower": 11.612216636028583
+              },
+              "violations": {
+                "protein_constraint_lower": "Residual -1.83388908 is below -1e-05."
+              }
+            },
+            "rounded_quantities": {
+              "23": 0.0,
+              "44": 0.0,
+              "50": 4.48436,
+              "104": 0.0,
+              "110": 22.670931
+            },
+            "repair": null
+          },
+          "raw_diet": {
+            "quantities": {
+              "23": 0.0,
+              "44": 0.0,
+              "50": 4.4843599,
+              "104": 0.0,
+              "110": 22.670931
+            },
+            "dry_matter_kg_per_cow_day": 27.1552909,
+            "cost_usd_per_cow_day": 0.271552909,
+            "offers": {
+              "energy_maintenance": {
+                "unit": "Mcal/cow/day",
+                "predicted": 37.881831947627866,
+                "nrc": 37.881831947627866,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "energy_growth": {
+                "unit": "Mcal/cow/day",
+                "predicted": 22.08581645399723,
+                "nrc": 22.08581645399723,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "energy_lactation": {
+                "unit": "Mcal/cow/day",
+                "predicted": 38.045243739916884,
+                "nrc": 38.045243739916884,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "microbial_tdn": {
+                "unit": "g/cow/day",
+                "predicted": 2054.9741467970002,
+                "nrc": 2054.9741467970002,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "microbial_rdp": {
+                "unit": "g/cow/day",
+                "predicted": 3659.8076016371583,
+                "nrc": 3662.194849752998,
+                "signed_error": -2.3872481158396113,
+                "absolute_error": 2.3872481158396113,
+                "relative_error_percent": 0.0651862670824471
+              },
+              "microbial_metabolizable": {
+                "unit": "g/cow/day",
+                "predicted": 1315.18345395008,
+                "nrc": 1315.18345395008,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "digestible_rup": {
+                "unit": "g/cow/day",
+                "predicted": 718.4059960496785,
+                "nrc": 716.5720766188219,
+                "signed_error": 1.8339194308565538,
+                "absolute_error": 1.8339194308565538,
+                "relative_error_percent": 0.2559295136799059
+              },
+              "endogenous": {
+                "unit": "g/cow/day",
+                "predicted": 128.17297304800002,
+                "nrc": 128.17297304800002,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "metabolizable_protein": {
+                "unit": "g/cow/day",
+                "predicted": 2161.7624230477586,
+                "nrc": 2159.9285036169017,
+                "signed_error": 1.833919430856895,
+                "absolute_error": 1.833919430856895,
+                "relative_error_percent": 0.08490648777429025
+              }
+            },
+            "predicted_microbial_limiter": "tdn",
+            "nrc_microbial_limiter": "tdn",
+            "nrc_intake_discount": 1.0
+          },
+          "rounded_diet": {
+            "quantities": {
+              "23": 0.0,
+              "44": 0.0,
+              "50": 4.48436,
+              "104": 0.0,
+              "110": 22.670931
+            },
+            "dry_matter_kg_per_cow_day": 27.155291,
+            "cost_usd_per_cow_day": 0.27155291,
+            "offers": {
+              "energy_maintenance": {
+                "unit": "Mcal/cow/day",
+                "predicted": 37.881832103770016,
+                "nrc": 37.881832103770016,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "energy_growth": {
+                "unit": "Mcal/cow/day",
+                "predicted": 22.08581655029286,
+                "nrc": 22.08581655029286,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "energy_lactation": {
+                "unit": "Mcal/cow/day",
+                "predicted": 38.04524389306049,
+                "nrc": 38.04524389306049,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "microbial_tdn": {
+                "unit": "g/cow/day",
+                "predicted": 2054.974155325,
+                "nrc": 2054.974155325,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "microbial_rdp": {
+                "unit": "g/cow/day",
+                "predicted": 3659.8076071767528,
+                "nrc": 3662.1948546543904,
+                "signed_error": -2.3872474776376293,
+                "absolute_error": 2.3872474776376293,
+                "relative_error_percent": 0.06518624956844137
+              },
+              "microbial_metabolizable": {
+                "unit": "g/cow/day",
+                "predicted": 1315.183459408,
+                "nrc": 1315.183459408,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "digestible_rup": {
+                "unit": "g/cow/day",
+                "predicted": 718.4059982776596,
+                "nrc": 716.5720793369072,
+                "signed_error": 1.833918940752369,
+                "absolute_error": 1.833918940752369,
+                "relative_error_percent": 0.2559294443134623
+              },
+              "endogenous": {
+                "unit": "g/cow/day",
+                "predicted": 128.17297352,
+                "nrc": 128.17297352,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "metabolizable_protein": {
+                "unit": "g/cow/day",
+                "predicted": 2161.7624312056596,
+                "nrc": 2159.928512264907,
+                "signed_error": 1.8339189407524827,
+                "absolute_error": 1.8339189407524827,
+                "relative_error_percent": 0.0849064647435683
+              }
+            },
+            "predicted_microbial_limiter": "tdn",
+            "nrc_microbial_limiter": "tdn",
+            "nrc_intake_discount": 1.0
+          }
+        },
+        {
+          "case": [
+            "lactation",
+            "rdp"
+          ],
+          "status": "optimal",
+          "quantities": {
+            "23": 0.0,
+            "44": 5.9438933,
+            "50": 12.2126,
+            "104": 0.0,
+            "110": 10.709216
+          },
+          "cost": 3.20116481,
+          "message": "",
+          "validation_status": "approved",
+          "validation": {
+            "unrounded": {
+              "residuals": {
+                "NE_total_constraint": 7.863769574387057,
+                "NE_maintenance_and_activity_constraint": 30.442775152239925,
+                "NE_lactation_constraint": 17.727430108173394,
+                "NE_growth_constraint": 22.25379415373589,
+                "calcium_constraint": -5.820743780304838e-07,
+                "phosphorus_constraint": 4.035187759907309,
+                "protein_constraint_lower": 243.6123552105828,
+                "protein_constraint_upper": 837.2688454604154,
+                "NDF_constraint_lower": 15.872260067761445,
+                "NDF_constraint_upper": 4.127739932238555,
+                "forage_NDF_constraint": 23.916064023412034,
+                "fat_constraint": 4.261244259118206,
+                "DMI_constraint_upper": 2.3308977503688766e-07,
+                "DMI_constraint_lower": 13.322634936028583
+              },
+              "violations": {}
+            },
+            "rounded": {
+              "residuals": {
+                "NE_total_constraint": 7.8637692265036065,
+                "NE_maintenance_and_activity_constraint": 30.442774839449918,
+                "NE_lactation_constraint": 17.727429760289944,
+                "NE_growth_constraint": 22.253794009878163,
+                "calcium_constraint": -6.540743839877905e-07,
+                "phosphorus_constraint": 4.035187129907307,
+                "protein_constraint_lower": 243.61232572164226,
+                "protein_constraint_upper": 837.2688749493559,
+                "NDF_constraint_lower": 15.872260393811906,
+                "NDF_constraint_upper": 4.1277396061880935,
+                "forage_NDF_constraint": 23.91606442786491,
+                "fat_constraint": 4.26124427430485,
+                "DMI_constraint_upper": 5.330897714372895e-07,
+                "DMI_constraint_lower": 13.322634636028587
+              },
+              "violations": {}
+            },
+            "rounded_quantities": {
+              "23": 0.0,
+              "44": 5.943893,
+              "50": 12.2126,
+              "104": 0.0,
+              "110": 10.709216
+            },
+            "repair": null
+          },
+          "raw_diet": {
+            "quantities": {
+              "23": 0.0,
+              "44": 5.9438933,
+              "50": 12.2126,
+              "104": 0.0,
+              "110": 10.709216
+            },
+            "dry_matter_kg_per_cow_day": 28.8657093,
+            "cost_usd_per_cow_day": 3.20116481,
+            "offers": {
+              "energy_maintenance": {
+                "unit": "Mcal/cow/day",
+                "predicted": 47.86410802764685,
+                "nrc": 39.717029169550834,
+                "signed_error": 8.147078858096016,
+                "absolute_error": 8.147078858096016,
+                "relative_error_percent": 20.512810319514017
+              },
+              "energy_growth": {
+                "unit": "Mcal/cow/day",
+                "predicted": 30.10934042951206,
+                "nrc": 22.843200670211317,
+                "signed_error": 7.266139759300742,
+                "absolute_error": 7.266139759300742,
+                "relative_error_percent": 31.80876386020701
+              },
+              "energy_lactation": {
+                "unit": "Mcal/cow/day",
+                "predicted": 46.7306766752886,
+                "nrc": 40.26913172107662,
+                "signed_error": 6.4615449542119805,
+                "absolute_error": 6.4615449542119805,
+                "relative_error_percent": 16.045900862645237
+              },
+              "microbial_tdn": {
+                "unit": "g/cow/day",
+                "predicted": 2516.8760042101003,
+                "nrc": 2251.6318062699947,
+                "signed_error": 265.24419794010555,
+                "absolute_error": 265.24419794010555,
+                "relative_error_percent": 11.78008754368697
+              },
+              "microbial_rdp": {
+                "unit": "g/cow/day",
+                "predicted": 2516.875998166144,
+                "nrc": 2512.3889339564275,
+                "signed_error": 4.487064209716664,
+                "absolute_error": 4.487064209716664,
+                "relative_error_percent": 0.17859751526013062
+              },
+              "microbial_metabolizable": {
+                "unit": "g/cow/day",
+                "predicted": 1610.8006388263323,
+                "nrc": 1441.0443560127967,
+                "signed_error": 169.75628281353556,
+                "absolute_error": 169.75628281353556,
+                "relative_error_percent": 11.780087275261367
+              },
+              "digestible_rup": {
+                "unit": "g/cow/day",
+                "predicted": 824.7607788377177,
+                "nrc": 828.0842526437829,
+                "signed_error": -3.3234738060651807,
+                "absolute_error": 3.3234738060651807,
+                "relative_error_percent": 0.4013448867617629
+              },
+              "endogenous": {
+                "unit": "g/cow/day",
+                "predicted": 136.24614789600002,
+                "nrc": 136.24614789600002,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "metabolizable_protein": {
+                "unit": "g/cow/day",
+                "predicted": 2571.80756556005,
+                "nrc": 2405.374756552579,
+                "signed_error": 166.43280900747095,
+                "absolute_error": 166.43280900747095,
+                "relative_error_percent": 6.919204941104689
+              }
+            },
+            "predicted_microbial_limiter": "rdp",
+            "nrc_microbial_limiter": "tdn",
+            "nrc_intake_discount": 0.8946137205422839
+          },
+          "rounded_diet": {
+            "quantities": {
+              "23": 0.0,
+              "44": 5.943893,
+              "50": 12.2126,
+              "104": 0.0,
+              "110": 10.709216
+            },
+            "dry_matter_kg_per_cow_day": 28.865709,
+            "cost_usd_per_cow_day": 3.20116466,
+            "offers": {
+              "energy_maintenance": {
+                "unit": "Mcal/cow/day",
+                "predicted": 47.864107310532404,
+                "nrc": 39.71702885676083,
+                "signed_error": 8.147078453771577,
+                "absolute_error": 8.147078453771577,
+                "relative_error_percent": 20.512809463049102
+              },
+              "energy_growth": {
+                "unit": "Mcal/cow/day",
+                "predicted": 30.10933992700533,
+                "nrc": 22.84320052635359,
+                "signed_error": 7.266139400651738,
+                "absolute_error": 7.266139400651738,
+                "relative_error_percent": 31.808762490479335
+              },
+              "energy_lactation": {
+                "unit": "Mcal/cow/day",
+                "predicted": 46.730676003999776,
+                "nrc": 40.26913137319317,
+                "signed_error": 6.461544630806607,
+                "absolute_error": 6.461544630806607,
+                "relative_error_percent": 16.045900198155266
+              },
+              "microbial_tdn": {
+                "unit": "g/cow/day",
+                "predicted": 2516.875969621,
+                "nrc": 2251.6317850479904,
+                "signed_error": 265.24418457300953,
+                "absolute_error": 265.24418457300953,
+                "relative_error_percent": 11.780087061053646
+              },
+              "microbial_rdp": {
+                "unit": "g/cow/day",
+                "predicted": 2516.8759866138266,
+                "nrc": 2512.388923971821,
+                "signed_error": 4.48706264200564,
+                "absolute_error": 4.48706264200564,
+                "relative_error_percent": 0.17859745357068635
+              },
+              "microbial_metabolizable": {
+                "unit": "g/cow/day",
+                "predicted": 1610.80062055744,
+                "nrc": 1441.0443424307139,
+                "signed_error": 169.7562781267261,
+                "absolute_error": 169.7562781267261,
+                "relative_error_percent": 11.780087061053644
+              },
+              "digestible_rup": {
+                "unit": "g/cow/day",
+                "predicted": 824.7607656895834,
+                "nrc": 828.0842381529251,
+                "signed_error": -3.323472463341659,
+                "absolute_error": 3.323472463341659,
+                "relative_error_percent": 0.40134473163681955
+              },
+              "endogenous": {
+                "unit": "g/cow/day",
+                "predicted": 136.24614648000002,
+                "nrc": 136.24614648000002,
+                "signed_error": 0.0,
+                "absolute_error": 0.0,
+                "relative_error_percent": 0.0
+              },
+              "metabolizable_protein": {
+                "unit": "g/cow/day",
+                "predicted": 2571.8075327270235,
+                "nrc": 2405.3747270636386,
+                "signed_error": 166.4328056633849,
+                "absolute_error": 166.4328056633849,
+                "relative_error_percent": 6.919204886905823
+              }
+            },
+            "predicted_microbial_limiter": "tdn",
+            "nrc_microbial_limiter": "tdn",
+            "nrc_intake_discount": 0.894613724404961
+          }
+        }
+      ],
+      "selected_case": [
+        "maintenance",
+        "rdp"
+      ],
+      "selected_cost": 3.20116466,
+      "message": "",
+      "coefficients": {
+        "energy_mcal_per_kg_dm": {
+          "23": {
+            "maintenance": 2.313628869298848,
+            "growth": 1.6113524144249474,
+            "lactation": 2.1633627999999994
+          },
+          "44": {
+            "maintenance": 2.3903814936558745,
+            "growth": 1.675022427177172,
+            "lactation": 2.2376293994639176
+          },
+          "50": {
+            "maintenance": 1.5614214673076812,
+            "growth": 0.9629563635054965,
+            "lactation": 1.5314361
+          },
+          "104": {
+            "maintenance": 1.2693114861419375,
+            "growth": 0.6992716900077749,
+            "lactation": 1.3042264999999997
+          },
+          "110": {
+            "maintenance": 1.3620903408260623,
+            "growth": 0.7837160967074248,
+            "lactation": 1.3752294999999997
+          }
+        },
+        "protein_g_per_kg_dm": {
+          "23": {
+            "microbial_tdn": 85.618,
+            "microbial_rdp": 162.8026829400752,
+            "digestible_rup": 610.7739454681646
+          },
+          "44": {
+            "microbial_tdn": 115.29700000000001,
+            "microbial_rdp": 38.507725423949026,
+            "digestible_rup": 43.82711425699515
+          },
+          "50": {
+            "microbial_tdn": 85.28,
+            "microbial_rdp": 55.39594444513601,
+            "digestible_rup": 22.27981045694682
+          },
+          "104": {
+            "microbial_tdn": 71.864,
+            "microbial_rdp": 128.64770687299105,
+            "digestible_rup": 25.122341803006854
+          },
+          "110": {
+            "microbial_tdn": 73.775,
+            "microbial_rdp": 150.47429017117835,
+            "digestible_rup": 27.281425163216525
+          }
+        },
+        "endogenous_g_per_kg_dm": 4.720000000000001
+      },
+      "reference": {
+        "quantities": {
+          "23": 0.0,
+          "44": 0.0,
+          "50": 2.08382913313985,
+          "104": 7.062459520267469,
+          "110": 18.382091194844012
+        },
+        "dry_matter_kg_per_cow_day": 27.52837984825133,
+        "cost_usd_per_cow_day": 0.27528379848251333,
+        "offers": {
+          "energy_maintenance": {
+            "unit": "Mcal/cow/day",
+            "predicted": 37.25626539285453,
+            "nrc": 37.25626539285453,
+            "signed_error": 0.0,
+            "absolute_error": 0.0,
+            "relative_error_percent": 0.0
+          },
+          "energy_growth": {
+            "unit": "Mcal/cow/day",
+            "predicted": 21.351555289107164,
+            "nrc": 21.351555289107164,
+            "signed_error": 0.0,
+            "absolute_error": 0.0,
+            "relative_error_percent": 0.0
+          },
+          "energy_lactation": {
+            "unit": "Mcal/cow/day",
+            "predicted": 37.68189210507192,
+            "nrc": 37.68189210507192,
+            "signed_error": 0.0,
+            "absolute_error": 0.0,
+            "relative_error_percent": 0.0
+          },
+          "microbial_tdn": {
+            "unit": "g/cow/day",
+            "predicted": 2041.3843173382847,
+            "nrc": 2041.3843173382847,
+            "signed_error": 0.0,
+            "absolute_error": 0.0,
+            "relative_error_percent": 0.0
+          },
+          "microbial_rdp": {
+            "unit": "g/cow/day",
+            "predicted": 3790.0370294643258,
+            "nrc": 3790.0370294643258,
+            "signed_error": 0.0,
+            "absolute_error": 0.0,
+            "relative_error_percent": 0.0
+          },
+          "microbial_metabolizable": {
+            "unit": "g/cow/day",
+            "predicted": 1306.4859630965022,
+            "nrc": 1306.4859630965022,
+            "signed_error": 0.0,
+            "absolute_error": 0.0,
+            "relative_error_percent": 0.0
+          },
+          "digestible_rup": {
+            "unit": "g/cow/day",
+            "predicted": 725.3424854246372,
+            "nrc": 725.3424854246372,
+            "signed_error": 0.0,
+            "absolute_error": 0.0,
+            "relative_error_percent": 0.0
+          },
+          "endogenous": {
+            "unit": "g/cow/day",
+            "predicted": 129.9339528837463,
+            "nrc": 129.9339528837463,
+            "signed_error": 0.0,
+            "absolute_error": 0.0,
+            "relative_error_percent": 0.0
+          },
+          "metabolizable_protein": {
+            "unit": "g/cow/day",
+            "predicted": 2161.7624014048856,
+            "nrc": 2161.7624014048856,
+            "signed_error": 0.0,
+            "absolute_error": 0.0,
+            "relative_error_percent": 0.0
+          }
+        },
+        "predicted_microbial_limiter": "tdn",
+        "nrc_microbial_limiter": "tdn",
+        "nrc_intake_discount": 1.0
+      },
+      "slsqp_same_reference_coefficients": {
+        "raw": {
+          "quantities": {
+            "23": 0.0,
+            "44": 0.0,
+            "50": 2.08382913313985,
+            "104": 7.062459520267469,
+            "110": 18.382091194844012
+          },
+          "dry_matter_kg_per_cow_day": 27.52837984825133,
+          "cost_usd_per_cow_day": 0.27528379848251333,
+          "offers": {
+            "energy_maintenance": {
+              "unit": "Mcal/cow/day",
+              "predicted": 37.25626539285453,
+              "nrc": 37.25626539285453,
+              "signed_error": 0.0,
+              "absolute_error": 0.0,
+              "relative_error_percent": 0.0
+            },
+            "energy_growth": {
+              "unit": "Mcal/cow/day",
+              "predicted": 21.351555289107164,
+              "nrc": 21.351555289107164,
+              "signed_error": 0.0,
+              "absolute_error": 0.0,
+              "relative_error_percent": 0.0
+            },
+            "energy_lactation": {
+              "unit": "Mcal/cow/day",
+              "predicted": 37.68189210507192,
+              "nrc": 37.68189210507192,
+              "signed_error": 0.0,
+              "absolute_error": 0.0,
+              "relative_error_percent": 0.0
+            },
+            "microbial_tdn": {
+              "unit": "g/cow/day",
+              "predicted": 2041.3843173382847,
+              "nrc": 2041.3843173382847,
+              "signed_error": 0.0,
+              "absolute_error": 0.0,
+              "relative_error_percent": 0.0
+            },
+            "microbial_rdp": {
+              "unit": "g/cow/day",
+              "predicted": 3790.0370294643258,
+              "nrc": 3790.0370294643258,
+              "signed_error": 0.0,
+              "absolute_error": 0.0,
+              "relative_error_percent": 0.0
+            },
+            "microbial_metabolizable": {
+              "unit": "g/cow/day",
+              "predicted": 1306.4859630965022,
+              "nrc": 1306.4859630965022,
+              "signed_error": 0.0,
+              "absolute_error": 0.0,
+              "relative_error_percent": 0.0
+            },
+            "digestible_rup": {
+              "unit": "g/cow/day",
+              "predicted": 725.3424854246372,
+              "nrc": 725.3424854246372,
+              "signed_error": 0.0,
+              "absolute_error": 0.0,
+              "relative_error_percent": 0.0
+            },
+            "endogenous": {
+              "unit": "g/cow/day",
+              "predicted": 129.9339528837463,
+              "nrc": 129.9339528837463,
+              "signed_error": 0.0,
+              "absolute_error": 0.0,
+              "relative_error_percent": 0.0
+            },
+            "metabolizable_protein": {
+              "unit": "g/cow/day",
+              "predicted": 2161.7624014048856,
+              "nrc": 2161.7624014048856,
+              "signed_error": 0.0,
+              "absolute_error": 0.0,
+              "relative_error_percent": 0.0
+            }
+          },
+          "predicted_microbial_limiter": "tdn",
+          "nrc_microbial_limiter": "tdn",
+          "nrc_intake_discount": 1.0
+        },
+        "rounded": {
+          "quantities": {
+            "23": 0.0,
+            "44": 0.0,
+            "50": 2.083829,
+            "104": 7.06246,
+            "110": 18.382091
+          },
+          "dry_matter_kg_per_cow_day": 27.52838,
+          "cost_usd_per_cow_day": 0.2752838,
+          "offers": {
+            "energy_maintenance": {
+              "unit": "Mcal/cow/day",
+              "predicted": 37.25626552850198,
+              "nrc": 37.25626552850198,
+              "signed_error": 0.0,
+              "absolute_error": 0.0,
+              "relative_error_percent": 0.0
+            },
+            "energy_growth": {
+              "unit": "Mcal/cow/day",
+              "predicted": 21.351555343660287,
+              "nrc": 21.351555343660287,
+              "signed_error": 0.0,
+              "absolute_error": 0.0,
+              "relative_error_percent": 0.0
+            },
+            "energy_lactation": {
+              "unit": "Mcal/cow/day",
+              "predicted": 37.68189225890139,
+              "nrc": 37.68189225890139,
+              "signed_error": 0.0,
+              "absolute_error": 0.0,
+              "relative_error_percent": 0.0
+            },
+            "microbial_tdn": {
+              "unit": "g/cow/day",
+              "predicted": 2041.384326085,
+              "nrc": 2041.384326085,
+              "signed_error": 0.0,
+              "absolute_error": 0.0,
+              "relative_error_percent": 0.0
+            },
+            "microbial_rdp": {
+              "unit": "g/cow/day",
+              "predicted": 3790.0370544863936,
+              "nrc": 3790.0370534707913,
+              "signed_error": 1.0156022653973196e-06,
+              "absolute_error": 1.0156022653973196e-06,
+              "relative_error_percent": 2.679663156504669e-08
+            },
+            "microbial_metabolizable": {
+              "unit": "g/cow/day",
+              "predicted": 1306.4859686944,
+              "nrc": 1306.4859686944,
+              "signed_error": 0.0,
+              "absolute_error": 0.0,
+              "relative_error_percent": 0.0
+            },
+            "digestible_rup": {
+              "unit": "g/cow/day",
+              "predicted": 725.3424891946888,
+              "nrc": 725.3424899729025,
+              "signed_error": -7.782136890455149e-07,
+              "absolute_error": 7.782136890455149e-07,
+              "relative_error_percent": 1.072891357949522e-07
+            },
+            "endogenous": {
+              "unit": "g/cow/day",
+              "predicted": 129.93395360000002,
+              "nrc": 129.93395360000002,
+              "signed_error": 0.0,
+              "absolute_error": 0.0,
+              "relative_error_percent": 0.0
+            },
+            "metabolizable_protein": {
+              "unit": "g/cow/day",
+              "predicted": 2161.7624114890887,
+              "nrc": 2161.762412267303,
+              "signed_error": -7.782141437928658e-07,
+              "absolute_error": 7.782141437928658e-07,
+              "relative_error_percent": 3.599905981234349e-08
+            }
+          },
+          "predicted_microbial_limiter": "tdn",
+          "nrc_microbial_limiter": "tdn",
+          "nrc_intake_discount": 1.0
+        }
+      },
+      "counts": {
+        "optimal": 6,
+        "infeasible": 0,
+        "solver_error": 0,
+        "approved": 3,
+        "rejected": 3
+      },
+      "description": "Raw SLSQP optimum as reference; not an independent comparison.",
+      "timings_seconds": {
+        "cbc_all_cases_solver_calls": {
+          "median": 0.15391559997806326,
+          "samples": [
+            0.2717108000651933,
+            0.15391559997806326,
+            0.25031989999115467,
+            0.14750579989049584,
+            0.15272880002157763
+          ]
+        },
+        "pulp_coefficients_model_and_solve": {
+          "median": 0.16222250001737848,
+          "samples": [
+            0.2811094999779016,
+            0.16222250001737848,
+            0.26454499998362735,
+            0.15447289997246116,
+            0.1613379999762401
+          ]
+        },
+        "pulp_validation_and_selection": {
+          "median": 0.007415699947159737,
+          "samples": [
+            0.00854160002199933,
+            0.007415699947159737,
+            0.006330900068860501,
+            0.006835600011982024,
+            0.007872600050177425
+          ]
+        },
+        "pulp_full": {
+          "median": 0.16963819996453822,
+          "samples": [
+            0.2896510999999009,
+            0.16963819996453822,
+            0.27087590005248785,
+            0.1613084999844432,
+            0.16921060002641752
+          ]
+        }
+      },
+      "repeated_results_match": true
+    }
+  }
+}

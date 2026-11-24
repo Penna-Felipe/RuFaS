@@ -1,0 +1,430 @@
+{
+  "versions": {
+    "python": "3.12.10",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "numpy": "2.2.0",
+    "scipy": "1.18.1",
+    "pulp": "3.3.2"
+  },
+  "scenario": {
+    "cow_id": 114502,
+    "animal_inputs": {
+      "animal_type": "LacCow",
+      "body_weight": 555.1370637147082,
+      "mature_body_weight": 645.8495183080745,
+      "day_of_pregnancy": 54,
+      "body_condition_score_5": 3.0,
+      "days_in_milk": 220,
+      "average_daily_gain_heifer": null,
+      "parity": 2,
+      "calving_interval": 352,
+      "milk_fat": 4,
+      "milk_true_protein": 3.2,
+      "milk_lactose": 4.85,
+      "milk_production": 30.0,
+      "housing": "barn",
+      "distance": 500.0,
+      "previous_temperature": 15.0,
+      "net_energy_diet_concentration": 1.0,
+      "days_born": 1258,
+      "TDN_fraction": 0.7,
+      "process_based_phosphorus_requirement": 0.0
+    },
+    "requirements": {
+      "maintenance_energy": 9.149348177975098,
+      "growth_energy": 0.5894065164754299,
+      "pregnancy_energy": 0.0,
+      "lactation_energy": 22.541701612903225,
+      "metabolizable_protein": 2161.7624013419963,
+      "calcium": 55.745098254074385,
+      "phosphorus": 51.19418561009268,
+      "process_based_phosphorus": 0.0,
+      "dry_matter": 22.204391948530596,
+      "activity_energy": 0.12490583933580934,
+      "essential_amino_acids": {
+        "histidine": 0.0,
+        "isoleucine": 0.0,
+        "leucine": 0.0,
+        "lysine": 0.0,
+        "methionine": 0.0,
+        "phenylalanine": 0.0,
+        "threonine": 0.0,
+        "thryptophan": 0.0,
+        "valine": 0.0
+      }
+    },
+    "excluded_feed_ids": [
+      301,
+      302
+    ],
+    "feeds": {
+      "23": {
+        "category": "By-Product/Other",
+        "price": 0.1,
+        "lower": 0,
+        "upper": 100,
+        "original_reference_pct": 0.74
+      },
+      "44": {
+        "category": "Energy Source",
+        "price": 0.5,
+        "lower": 0,
+        "upper": 100,
+        "original_reference_pct": 15.31
+      },
+      "50": {
+        "category": "Grain Crop Forage",
+        "price": 0.01,
+        "lower": 0,
+        "upper": 100,
+        "original_reference_pct": 37.45
+      },
+      "104": {
+        "category": "Grass/Legume Forage",
+        "price": 0.01,
+        "lower": 0,
+        "upper": 100,
+        "original_reference_pct": 0.37
+      },
+      "110": {
+        "category": "Grass/Legume Forage",
+        "price": 0.01,
+        "lower": 0,
+        "upper": 100,
+        "original_reference_pct": 17.65
+      }
+    },
+    "reference": {
+      "23": 0.22974342899765998,
+      "44": 4.753205267505641,
+      "50": 11.626880291841037,
+      "104": 0.11487171449882999,
+      "110": 5.47969124568743
+    }
+  },
+  "timings_seconds": {
+    "slsqp_minimize": {
+      "median": 0.2598096000147052,
+      "samples": [
+        0.29917799995746464,
+        0.18223380000563338,
+        0.15519489999860525,
+        0.38607190002221614,
+        0.2598096000147052
+      ]
+    },
+    "slsqp_attempt_including_setup": {
+      "median": 0.26010029995813966,
+      "samples": [
+        0.2992962999851443,
+        0.18233919999329373,
+        0.15527739998651668,
+        0.3862931000185199,
+        0.26010029995813966
+      ]
+    },
+    "slsqp_validation": {
+      "median": 0.001509399968199432,
+      "samples": [
+        0.003660399990621954,
+        0.0010444999788887799,
+        0.0010362000321038067,
+        0.0016852000262588263,
+        0.001509399968199432
+      ]
+    },
+    "cbc_all_cases_solver_calls": {
+      "median": 0.290829700010363,
+      "samples": [
+        3.086014599946793,
+        0.290829700010363,
+        0.20689019991550595,
+        0.2940075999358669,
+        0.2470493000582792
+      ]
+    },
+    "pulp_coefficients_model_and_solve": {
+      "median": 0.3051246000104584,
+      "samples": [
+        3.0987261999980547,
+        0.30708350002532825,
+        0.21605450002243742,
+        0.3051246000104584,
+        0.25678330002119765
+      ]
+    },
+    "pulp_validation_and_selection": {
+      "median": 0.002864799986127764,
+      "samples": [
+        0.002864799986127764,
+        0.0025369999348185956,
+        0.0030917999683879316,
+        0.0030768000287935138,
+        0.002689199987798929
+      ]
+    },
+    "pulp_full": {
+      "median": 0.3082014000392519,
+      "samples": [
+        3.1015909999841824,
+        0.30962049996014684,
+        0.21914629999082536,
+        0.3082014000392519,
+        0.2594725000089966
+      ]
+    }
+  },
+  "results": {
+    "dmi_constraint_fraction": 0.3,
+    "slsqp": {
+      "success": true,
+      "status": 0,
+      "message": "Optimization terminated successfully",
+      "iterations": 17,
+      "quantities": {
+        "23": 0.0,
+        "44": 0.0,
+        "50": 2.08382913313985,
+        "104": 7.062459520267469,
+        "110": 18.382091194844012
+      },
+      "cost": 0.27528379848251333,
+      "rounded_cost": 0.2752838,
+      "validation_status": "approved",
+      "validation": {
+        "unrounded": {
+          "residuals": {
+            "NE_total_constraint": 5.276529958382355,
+            "NE_maintenance_and_activity_constraint": 27.98201137554362,
+            "NE_lactation_constraint": 15.140190492168692,
+            "NE_growth_constraint": 20.762148772631733,
+            "calcium_constraint": 45.22037672603559,
+            "phosphorus_constraint": 8.550372130962735,
+            "protein_constraint_lower": 6.288928489084356e-08,
+            "protein_constraint_upper": 1080.8812006081089,
+            "NDF_constraint_lower": 20.000000000050434,
+            "NDF_constraint_upper": -5.043432338425191e-11,
+            "forage_NDF_constraint": 30.00000000005044,
+            "fat_constraint": 4.802945949326906,
+            "DMI_constraint_upper": 1.3373296848384442,
+            "DMI_constraint_lower": 11.985305484279914
+          },
+          "violations": {}
+        },
+        "rounded": {
+          "residuals": {
+            "NE_total_constraint": 5.27653011221183,
+            "NE_maintenance_and_activity_constraint": 27.982011511191068,
+            "NE_lactation_constraint": 15.140190645998167,
+            "NE_growth_constraint": 20.76214882718486,
+            "calcium_constraint": 45.22037745592562,
+            "phosphorus_constraint": 8.550372533907328,
+            "protein_constraint_lower": 1.0925306469289353e-05,
+            "protein_constraint_upper": 1080.8811897456917,
+            "NDF_constraint_lower": 20.00000000363262,
+            "NDF_constraint_upper": -3.632621314864082e-09,
+            "forage_NDF_constraint": 30.000000003632614,
+            "fat_constraint": 4.802945952504288,
+            "DMI_constraint_upper": 1.3373295330897754,
+            "DMI_constraint_lower": 11.985305636028583
+          },
+          "violations": {}
+        },
+        "rounded_quantities": {
+          "23": 0.0,
+          "44": 0.0,
+          "50": 2.083829,
+          "104": 7.06246,
+          "110": 18.382091
+        }
+      }
+    },
+    "pulp": {
+      "cases": [
+        {
+          "case": [
+            "maintenance",
+            "tdn"
+          ],
+          "status": "optimal",
+          "quantities": {
+            "23": 0.019201544,
+            "44": 0.0,
+            "50": 4.8429159,
+            "104": 0.0,
+            "110": 24.003592
+          },
+          "cost": 0.2903852334,
+          "message": "",
+          "validation_status": "rejected",
+          "validation": {
+            "unrounded": {
+              "residuals": {
+                "NE_total_constraint": 8.063241822190584,
+                "NE_maintenance_and_activity_constraint": 31.027064888178046,
+                "NE_lactation_constraint": 17.92690235597692,
+                "NE_growth_constraint": 22.917052050834172,
+                "calcium_constraint": 46.43745671812561,
+                "phosphorus_constraint": 10.052902534707322,
+                "protein_constraint_lower": 154.6253131480039,
+                "protein_constraint_upper": 926.2558875229943,
+                "NDF_constraint_lower": 19.999999986489158,
+                "NDF_constraint_upper": 1.3510842222785868e-08,
+                "forage_NDF_constraint": 29.99999998648915,
+                "fat_constraint": 4.750332998785934,
+                "DMI_constraint_upper": 8.908977022770159e-08,
+                "DMI_constraint_lower": 13.322635080028588
+              },
+              "violations": {}
+            },
+            "rounded": {
+              "residuals": {
+                "NE_total_constraint": 8.063242961827633,
+                "NE_maintenance_and_activity_constraint": 31.02706609933496,
+                "NE_lactation_constraint": 17.92690349561397,
+                "NE_growth_constraint": 22.917052881906514,
+                "calcium_constraint": 46.43745762592561,
+                "phosphorus_constraint": 10.052903645907314,
+                "protein_constraint_lower": 154.62563077901268,
+                "protein_constraint_upper": 926.2555698919855,
+                "NDF_constraint_lower": 19.99999930713639,
+                "NDF_constraint_upper": 6.928636082648154e-07,
+                "forage_NDF_constraint": 29.99999930713639,
+                "fat_constraint": 4.750333014500596,
+                "DMI_constraint_upper": -4.669102260379532e-07,
+                "DMI_constraint_lower": 13.322635636028584
+              },
+              "violations": {
+                "DMI_constraint_upper": "Residual -4.66910226e-07 is below -1e-07."
+              }
+            },
+            "rounded_quantities": {
+              "23": 0.019202,
+              "44": 0.0,
+              "50": 4.842916,
+              "104": 0.0,
+              "110": 24.003592
+            }
+          }
+        },
+        {
+          "case": [
+            "maintenance",
+            "rdp"
+          ],
+          "status": "infeasible",
+          "quantities": null,
+          "cost": null,
+          "message": "Infeasible",
+          "validation_status": null,
+          "validation": null
+        },
+        {
+          "case": [
+            "growth",
+            "tdn"
+          ],
+          "status": "infeasible",
+          "quantities": null,
+          "cost": null,
+          "message": "Infeasible",
+          "validation_status": null,
+          "validation": null
+        },
+        {
+          "case": [
+            "growth",
+            "rdp"
+          ],
+          "status": "infeasible",
+          "quantities": null,
+          "cost": null,
+          "message": "Infeasible",
+          "validation_status": null,
+          "validation": null
+        },
+        {
+          "case": [
+            "lactation",
+            "tdn"
+          ],
+          "status": "optimal",
+          "quantities": {
+            "23": 0.019201544,
+            "44": 0.0,
+            "50": 4.8429159,
+            "104": 0.0,
+            "110": 24.003592
+          },
+          "cost": 0.2903852334,
+          "message": "",
+          "validation_status": "rejected",
+          "validation": {
+            "unrounded": {
+              "residuals": {
+                "NE_total_constraint": 8.063241822190584,
+                "NE_maintenance_and_activity_constraint": 31.027064888178046,
+                "NE_lactation_constraint": 17.92690235597692,
+                "NE_growth_constraint": 22.917052050834172,
+                "calcium_constraint": 46.43745671812561,
+                "phosphorus_constraint": 10.052902534707322,
+                "protein_constraint_lower": 154.6253131480039,
+                "protein_constraint_upper": 926.2558875229943,
+                "NDF_constraint_lower": 19.999999986489158,
+                "NDF_constraint_upper": 1.3510842222785868e-08,
+                "forage_NDF_constraint": 29.99999998648915,
+                "fat_constraint": 4.750332998785934,
+                "DMI_constraint_upper": 8.908977022770159e-08,
+                "DMI_constraint_lower": 13.322635080028588
+              },
+              "violations": {}
+            },
+            "rounded": {
+              "residuals": {
+                "NE_total_constraint": 8.063242961827633,
+                "NE_maintenance_and_activity_constraint": 31.02706609933496,
+                "NE_lactation_constraint": 17.92690349561397,
+                "NE_growth_constraint": 22.917052881906514,
+                "calcium_constraint": 46.43745762592561,
+                "phosphorus_constraint": 10.052903645907314,
+                "protein_constraint_lower": 154.62563077901268,
+                "protein_constraint_upper": 926.2555698919855,
+                "NDF_constraint_lower": 19.99999930713639,
+                "NDF_constraint_upper": 6.928636082648154e-07,
+                "forage_NDF_constraint": 29.99999930713639,
+                "fat_constraint": 4.750333014500596,
+                "DMI_constraint_upper": -4.669102260379532e-07,
+                "DMI_constraint_lower": 13.322635636028584
+              },
+              "violations": {
+                "DMI_constraint_upper": "Residual -4.66910226e-07 is below -1e-07."
+              }
+            },
+            "rounded_quantities": {
+              "23": 0.019202,
+              "44": 0.0,
+              "50": 4.842916,
+              "104": 0.0,
+              "110": 24.003592
+            }
+          }
+        },
+        {
+          "case": [
+            "lactation",
+            "rdp"
+          ],
+          "status": "infeasible",
+          "quantities": null,
+          "cost": null,
+          "message": "Infeasible",
+          "validation_status": null,
+          "validation": null
+        }
+      ],
+      "selected_case": null,
+      "selected_cost": null,
+      "message": "No candidate passed NRC validation. Rejected LP optima: 2. Infeasible LP cases: 4. Solver errors: 0."
+    }
+  }
+}

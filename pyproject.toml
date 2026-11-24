@@ -26,6 +26,10 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+linear_ration = [
+    "PuLP>=3.0,<4",
+]
+
 build_docs = [
     "sphinx==9.1.0",
     "sphinxawesome-theme>=5.3.2",

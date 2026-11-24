@@ -923,6 +923,31 @@
         "minimum": 0,
         "default": 75
       },
+      "optimizer_backend": {
+        "description": "Ration optimizer backend. PuLP applies to automatic NRC formulation for lactating cows.",
+        "type": "string",
+        "pattern": "^(slsqp|pulp)$",
+        "default": "slsqp"
+      },
+      "linear_strategy": {
+        "description": "PuLP reference search strategy.",
+        "type": "string",
+        "pattern": "^(single|full|adaptive_gap)$",
+        "default": "adaptive_gap"
+      },
+      "linear_gap_target": {
+        "description": "Relative gap target for adaptive PuLP search as a fraction in [0, 1).",
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.05
+      },
+      "linear_max_references": {
+        "description": "Maximum number of distinct references resolved in the PuLP search. Must be a positive integer.",
+        "type": "number",
+        "minimum": 1,
+        "default": 5
+      },
       "maximum_ration_reformulation_attempts": {
         "description": "The maximum number of attempts the ration formulation logic will make before stopping. Meant only to catch edge cases that could cause infinite loops. In normal operation, this value should never be reached.",
         "type": "number",
