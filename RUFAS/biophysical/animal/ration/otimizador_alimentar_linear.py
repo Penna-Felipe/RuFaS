@@ -11,6 +11,14 @@ from RUFAS.biophysical.animal.ration.ration_optimizer import (
     RationConfig,
 )
 
+from RUFAS.biophysical.animal.animal_module_constants import (
+    AnimalModuleConstants,
+)
+
+from RUFAS.data_structures.feed_storage_to_animal_connection import (
+    FeedComponentType,
+)
+
 
 class LinearRationOptimizer:
     """
@@ -172,6 +180,182 @@ class LinearRationOptimizer:
             "DMI_Maximum",
         )
 
+    @staticmethod
+    def _add_ndf_constraints(
+        model: pulp.LpProblem,
+        variables: list[pulp.LpVariable],
+        ration_config: RationConfig,
+    ) -> None:
+        """
+        Adiciona as restrições de FDN mínima e máxima.
+
+        As restrições fracionárias do otimizador original
+        são reformuladas algebricamente para programação
+        linear, considerando matéria seca total positiva.
+        """
+
+        # Quantidade total de matéria seca.
+        # Representação: somatório(x_i).
+        total_dmi = pulp.lpSum(variables)
+
+        # Soma ponderada das concentrações de FDN.
+        #
+        # Os valores de NDF_list estão em percentual.
+        # Representação: somatório(f_i * x_i).
+        #
+        # Dividir esta expressão por 100 forneceria
+        # a quantidade de FDN em kg.
+        weighted_ndf = pulp.lpSum(
+            ration_config.NDF_list[i] * variables[i]
+            for i in range(len(variables))
+        )
+
+        # Limites nutricionais definidos pelo RuFaS.
+        minimum_ndf = AnimalModuleConstants.MINIMUM_RATION_NDF
+        maximum_ndf = AnimalModuleConstants.MAXIMUM_RATION_NDF
+
+        # RESTRIÇÃO DE FDN MÍNIMA
+        #
+        # Origem:
+        # ration_optimizer.py ->
+        # RationOptimizer.NDF_constraint_lower()
+        #
+        # Equação original:
+        # somatório(f_i * x_i) / somatório(x_i) >= F_min
+        #
+        # Reformulação linear exata para DMI > 0:
+        # somatório(f_i * x_i) >= F_min * somatório(x_i)
+
+        model += (
+            weighted_ndf >= minimum_ndf * total_dmi,
+            "NDF_Minimum",
+        )
+
+        # RESTRIÇÃO DE FDN MÁXIMA
+        #
+        # Origem:
+        # ration_optimizer.py ->
+        # RationOptimizer.NDF_constraint_upper()
+        #
+        # Equação original:
+        # somatório(f_i * x_i) / somatório(x_i) <= F_max
+        #
+        # Reformulação linear exata para DMI > 0:
+        # somatório(f_i * x_i) <= F_max * somatório(x_i)
+
+        model += (
+            weighted_ndf <= maximum_ndf * total_dmi,
+            "NDF_Maximum",
+        )
+
+    @staticmethod
+    def _add_forage_ndf_constraint(
+        model: pulp.LpProblem,
+        variables: list[pulp.LpVariable],
+        ration_config: RationConfig,
+    ) -> None:
+        """
+        Adiciona a restrição mínima de FDN proveniente
+        de forragens na dieta.
+
+        A reformulação linear preserva a restrição
+        original para dietas com matéria seca positiva.
+        """
+
+        # Matéria seca total fornecida pela dieta.
+        # Representação: somatório(x_i).
+        total_dmi = pulp.lpSum(variables)
+
+        # Soma ponderada da FDN proveniente de forragens.
+        #
+        # Origem no código original:
+        # nutrition_supply_calculator.py ->
+        # NutritionSupplyCalculator.
+        # calculate_forage_neutral_detergent_fiber_content()
+        #
+        # Considera exclusivamente os ingredientes
+        # classificados como FeedComponentType.FORAGE.
+        #
+        # Os valores de NDF estão em escala percentual.
+
+        forage_ndf = pulp.lpSum(
+            feed.NDF * variables[i]
+            for i, feed in enumerate(ration_config.feeds_used)
+            if feed.feed_type == FeedComponentType.FORAGE
+        )
+
+        # Limite mínimo estabelecido pelo RuFaS.
+        minimum_forage_ndf = (
+            AnimalModuleConstants.MINIMUM_RATION_FORAGE_NDF
+        )
+
+        # RESTRIÇÃO DE FDN DE FORRAGENS
+        #
+        # Origem no código original:
+        # ration_optimizer.py ->
+        # RationOptimizer.forage_NDF_constraint()
+        #
+        # Equação original:
+        # somatório(f_i * v_i * x_i) / somatório(x_i) >= F_min
+        #
+        # Reformulação linear exata para DMI > 0:
+        # somatório(f_i * v_i * x_i) >= F_min * somatório(x_i)
+
+        model += (
+            forage_ndf >= minimum_forage_ndf * total_dmi,
+            "Forage_NDF_Minimum",
+        )
+
+    @staticmethod
+    def _add_fat_constraint(
+        model: pulp.LpProblem,
+        variables: list[pulp.LpVariable],
+        ration_config: RationConfig,
+    ) -> None:
+        """
+        Adiciona a restrição de gordura máxima da dieta.
+
+        A reformulação linear é equivalente à restrição
+        original para dietas com matéria seca positiva.
+        """
+
+        # Quantidade total de matéria seca da dieta.
+        # Representação: somatório(x_i).
+        total_dmi = pulp.lpSum(variables)
+
+        # Soma ponderada dos percentuais de extrato etéreo.
+        # Representação: somatório(e_i * x_i).
+        #
+        # Os valores de EE_list estão em escala percentual.
+        weighted_fat = pulp.lpSum(
+            ration_config.EE_list[i] * variables[i]
+            for i in range(len(variables))
+        )
+
+        # Limite máximo de gordura estabelecido pelo RuFaS.
+        #
+        # Origem:
+        # animal_module_constants.py ->
+        # AnimalModuleConstants.MAXIMUM_RATION_FAT
+        maximum_fat = AnimalModuleConstants.MAXIMUM_RATION_FAT
+
+        # RESTRIÇÃO DE GORDURA MÁXIMA
+        #
+        # Origem no código original:
+        # ration_optimizer.py ->
+        # RationOptimizer.fat_constraint()
+        #
+        # Equação original:
+        # E_max - somatório(e_i * x_i) / somatório(x_i) >= 0
+        #
+        # Reformulação linear exata para DMI > 0:
+        # somatório(e_i * x_i) <= E_max * somatório(x_i)
+
+        model += (
+            weighted_fat <= maximum_fat * total_dmi,
+            "Fat_Maximum",
+        )
+
     def optimize(
         self,
         ration_config: RationConfig,
@@ -195,14 +379,27 @@ class LinearRationOptimizer:
         # Constrói o modelo matemático.
         model, variables = self._build_model(ration_config)
 
-        # Adiciona as restrições de matéria seca.
+        # Restrições de matéria seca.
         self._add_dmi_constraints(
-            model,
-            variables,
-            ration_config,
+            model, variables, ration_config
         )
 
-        # Executa a otimização utilizando HiGHS.
+        # Restrições de FDN mínima e máxima.
+        self._add_ndf_constraints(
+            model, variables, ration_config
+        )
+
+        # Restrição de FDN proveniente de forragens.
+        self._add_forage_ndf_constraint(
+            model, variables, ration_config
+        )
+
+        # Restrição de gordura máxima.
+        self._add_fat_constraint(
+            model, variables, ration_config
+        )
+
+        # Executa o HiGHS.
         status = model.solve(self.solver)
 
         # Verifica se uma solução ótima foi encontrada.

@@ -139,3 +139,116 @@ Não são realizadas aproximações matemáticas.
 O limite inferior utiliza a exigência atual, enquanto o limite superior utiliza a exigência inicial. Essa distinção foi preservada para garantir equivalência com a implementação original.
 
 A tolerância é obtida diretamente do RuFaS, sem adoção de um percentual fixo no novo otimizador.
+
+## 9. Restrições de fibra em detergente neutro (FDN)
+
+O RuFaS estabelece três restrições relacionadas à concentração de FDN na dieta: limite inferior, limite superior e quantidade mínima de FDN proveniente de forragens.
+
+### Parâmetros
+
+- fᵢ: percentual de FDN do ingrediente i.
+- Fmín: concentração mínima de FDN.
+- Fmáx: concentração máxima de FDN.
+- Fvol: concentração mínima de FDN proveniente de forragens.
+- vᵢ: indicador de classificação do ingrediente como forragem, igual a 1 para forragens e 0 para os demais ingredientes.
+
+O indicador vᵢ é um parâmetro constante, e não uma variável de decisão.
+
+### Equações reformuladas
+
+FDN mínima:
+
+Σ (fᵢ − Fmín)xᵢ ≥ 0
+
+FDN máxima:
+
+Σ (fᵢ − Fmáx)xᵢ ≤ 0
+
+FDN de forragens:
+
+Σ (fᵢvᵢ − Fvol)xᵢ ≥ 0
+
+### Análise de linearidade
+
+As equações originais possuem uma divisão pela quantidade total de matéria seca, caracterizando expressões fracionárias dependentes das variáveis de decisão.
+
+A multiplicação de ambos os lados das desigualdades pela matéria seca total permite eliminar o denominador, resultando em restrições lineares equivalentes.
+
+Essa transformação é exata para dietas com matéria seca total estritamente positiva. Não são utilizadas aproximações nutricionais.
+
+### Referências ao código original
+
+Arquivo `ration_optimizer.py`:
+
+- `RationOptimizer.NDF_constraint_lower()`
+- `RationOptimizer.NDF_constraint_upper()`
+- `RationOptimizer.forage_NDF_constraint()`
+
+Arquivo `nutrition_supply_calculator.py`:
+
+- `NutritionSupplyCalculator.calculate_forage_neutral_detergent_fiber_content()`
+
+Arquivo `animal_module_constants.py`:
+
+- `MINIMUM_RATION_NDF`
+- `MAXIMUM_RATION_NDF`
+- `MINIMUM_RATION_FORAGE_NDF`
+
+### Implementação desenvolvida
+
+Arquivo `otimizador_alimentar_linear.py`:
+
+- `LinearRationOptimizer._add_ndf_constraints()`
+- `LinearRationOptimizer._add_forage_ndf_constraint()`
+
+Os valores nutricionais e os limites são obtidos diretamente das estruturas e constantes originais do RuFaS.
+
+## 10. Restrição de gordura máxima
+
+A restrição de gordura máxima controla a concentração de extrato etéreo da dieta em relação à matéria seca total.
+
+### Parâmetros
+
+- eᵢ: percentual de extrato etéreo do ingrediente i.
+- xᵢ: quantidade de matéria seca do ingrediente i.
+- Emáx: percentual máximo de gordura permitido pelo RuFaS, correspondente a 7%.
+
+### Equação original
+
+Emáx − (Σ eᵢxᵢ / Σ xᵢ) ≥ 0
+
+### Reformulação linear
+
+Σ eᵢxᵢ ≤ Emáx × Σ xᵢ
+
+Equivalentemente:
+
+Σ (eᵢ − Emáx)xᵢ ≤ 0
+
+### Análise de linearidade
+
+A expressão original apresenta uma divisão pela matéria seca total, que depende das variáveis de decisão.
+
+A multiplicação da desigualdade pela matéria seca total elimina o denominador e produz uma restrição linear equivalente, desde que a matéria seca total seja estritamente positiva.
+
+Não são utilizadas aproximações matemáticas.
+
+### Rastreabilidade
+
+**Código original:**
+
+- `ration_optimizer.py`: `RationOptimizer.fat_constraint()`
+- `ration_optimizer.py`: `RationConfig.EE_list`
+- `animal_module_constants.py`: `AnimalModuleConstants.MAXIMUM_RATION_FAT`
+
+**Implementação desenvolvida:**
+
+- Arquivo: `otimizador_alimentar_linear.py`
+- Método: `LinearRationOptimizer._add_fat_constraint()`
+- Identificador da restrição: `Fat_Maximum`
+
+### Validação proposta
+
+Avaliar um cenário convencional, no qual a restrição apresenta folga, e um cenário artificial com elevado teor de gordura, no qual a restrição se torna ativa.
+
+As soluções devem ser verificadas utilizando a função de restrição original do RuFaS.
